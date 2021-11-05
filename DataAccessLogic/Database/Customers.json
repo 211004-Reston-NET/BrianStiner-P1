@@ -1,0 +1,37 @@
+[
+  {
+    "Name": "Chris J. Baird-Rose",
+    "Address": "15214 PilletStick Dr",
+    "Email": "Jerrrrreeee@gmail.com",
+    "PhoneNumber": "703-884-5127",
+    "CustomerOrders": []
+  },
+  {
+    "Name": "Neil Smith",
+    "Address": "141 Firstcut st",
+    "Email": "BBQueen141@gmail.com",
+    "PhoneNumber": "713-851-6566",
+    "CustomerOrders": []
+  },
+  {
+    "Name": "Philip Kaulfuss",
+    "Address": "The big statue",
+    "Email": "peekay@email.com",
+    "PhoneNumber": "221-568-8542",
+    "CustomerOrders": []
+  },
+  {
+    "Name": "Meindert de Jong",
+    "Address": "The big statue",
+    "Email": "Steven@email.com",
+    "PhoneNumber": "221-568-8542",
+    "CustomerOrders": []
+  },
+  {
+    "Name": "Brian Odom",
+    "Address": "3 Bikini Bottom way",
+    "Email": "EssPapas@aol.net",
+    "PhoneNumber": "202-854-6959",
+    "CustomerOrders": []
+  }
+]

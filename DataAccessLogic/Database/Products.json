@@ -1,0 +1,74 @@
+[
+  {
+    "Name": "Canola Oil",
+    "Category": "Food",
+    "Description": "Oil 128Floz liquid",
+    "Price": 3.88
+  },
+  {
+    "Name": "Coconut oil",
+    "Category": "food",
+    "Description": "Oil 64Floz",
+    "Price": 8.99
+  },
+  {
+    "Name": "Fish oil",
+    "Category": "food",
+    "Description": "oil 6Floz",
+    "Price": 12.20
+  },
+  {
+    "Name": "Grapeseed Oil",
+    "Category": "Food",
+    "Description": "Oil 128Floz liquid",
+    "Price": 6.88
+  },
+  {
+    "Name": "Mixed nuts and fruit",
+    "Category": "food",
+    "Description": "48oz snack healthy natural",
+    "Price": 8.99
+  },
+  {
+    "Name": "Almonds",
+    "Category": "food",
+    "Description": "24oz snack healthy natural",
+    "Price": 10.20
+  },
+  {
+    "Name": "Cashews",
+    "Category": "Food",
+    "Description": "24oz snack healthy natural",
+    "Price": 13.88
+  },
+  {
+    "Name": "Peanuts",
+    "Category": "food",
+    "Description": "36oz snack healthy natural",
+    "Price": 7.99
+  },
+  {
+    "Name": "Carrot",
+    "Category": "food",
+    "Description": "fresh healthy natural",
+    "Price": 12.20
+  },
+  {
+    "Name": "Squash",
+    "Category": "food",
+    "Description": "fresh healthy natural",
+    "Price": 3.88
+  },
+  {
+    "Name": "Tomato",
+    "Category": "food",
+    "Description": "fresh healthy natural",
+    "Price": 8.99
+  },
+  {
+    "Name": "Apple",
+    "Category": "food",
+    "Description": "fresh healthy natural",
+    "Price": 12.20
+  }
+]
