@@ -1,6 +1,8 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\WebInterface"
   ],
+  "SelectedNode": "\\WebInterface\\Controllers",
   "PreviewInSolutionExplorer": false
 }

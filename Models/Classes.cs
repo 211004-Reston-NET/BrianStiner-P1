@@ -25,6 +25,7 @@ namespace Models
 
         //Constructors ---------------------------------------------------------------------------
         public Customer(){}
+        public Customer(int p_Id){ Id = p_Id; }
         public Customer( string p_name):this(){this.Name = p_name;}
         public Customer( string p_name, string p_address):this( p_name){this.Address = p_address;}
         public Customer( string p_name, string p_address, string p_email):this( p_name, p_address){this.Email = p_email;}
