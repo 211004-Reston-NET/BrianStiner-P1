@@ -1,0 +1,6 @@
+obj
+bin
+.vscode
+appsetting.json
+textStorage.txt
+UserInterface/appsetting.json
