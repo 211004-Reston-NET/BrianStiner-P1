@@ -3,7 +3,7 @@ using Models;
 
 #nullable disable
 
-namespace DataAccessLogic.Entity
+namespace DataAccessLogic
 {
     public partial class revaturedatabaseContext : DbContext
     {

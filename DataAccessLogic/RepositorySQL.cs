@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Models;
-using DataAccessLogic.Entity;
+using DataAccessLogic;
 
 namespace DataAccessLogic
 {
