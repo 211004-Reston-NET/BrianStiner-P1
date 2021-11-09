@@ -1,0 +1,31 @@
+@{
+}
+@model IEnumerable<WebInterface.Models.CustomerVM>
+
+<h1 class="text-center"> List of Customers</h1>
+<table border="2", class="table table-hover">
+<tr>
+    <th scope="col">ID</th>
+    <th scope="col">Name</th>
+    <th scope="col">Phone</th>
+    <th scope="col">Email</th>
+    <th scope="col">Address</th> 
+    <th scope="col">Spent</th>
+    <th scope="col">Delete</th> 
+    <th scope="col">Select</th>   
+</tr>
+    @foreach(var customer in Model){
+        <tr class="table-active">
+            <td>@customer.Id</td>
+            <td>@customer.Name</td>
+            <td>@customer.Phone</td>
+            <td>@customer.Email</td> 
+            <td>@customer.Address</td>
+            <td>@customer.TotalSpent</td>
+            <td><form class="text-center" method="POST" action="/Customer/Delete/" ><button type="submit" class="btn btn-outline-danger btn-lg"></button></form></td>
+            <td><form class="text-center" method="POST" action="/Customer/Select/" ><button type="submit" class="btn btn-outline-info btn-lg"></button></form></td>
+
+        </tr>
+    }
+</table>
+<form class="text-center" method="GET" action="/Customer/Create"><button type="submit" class="btn btn-success">Add Customer</button></form>

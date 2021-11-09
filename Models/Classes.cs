@@ -81,10 +81,11 @@ namespace Models
         [Required]
         public virtual List<LineItem> Inventory { get; set; }
         public virtual List<Order> Orders { get; set; }
-        public decimal Profit {get => Revenue-Expenses;}
-
+        public decimal Profit {get => Revenue-Expenses; set => Profit = value;}
+        
         //Constructors ---------------------------------------------------------------------------
         public Store(){}
+        public Store(int p_Id){this.Id = p_Id;}
         public Store(string p_name, string p_address){this.Name = p_name;this.Address = p_address; }
         public Store(string p_name, string p_address, decimal p_expenses):this(p_name, p_address){this.Expenses = p_expenses;}
         public Store(string p_name, string p_address, decimal p_expenses, decimal p_revenue):this(p_name, p_address, p_expenses){this.Revenue = p_revenue;}
@@ -136,7 +137,7 @@ namespace Models
         public string Address { get; set; }
         [Required]
         public bool Active { get; set; }
-        public decimal Total { get => CalculateTotalPrice(); }
+        public decimal Total { get => CalculateTotalPrice(); set => Total = CalculateTotalPrice(); }
 
 
         public virtual List<LineItem> LineItems { get; set; }
@@ -229,6 +230,7 @@ namespace Models
 
         //Constructors ---------------------------------------------------------------------------
         public Product(){}
+        public Product(int p_Id){this.Id = p_Id;}
         public Product(string p_name):this(){this.Name = p_name;}
         public Product(string p_name, string p_description):this(p_name){this.Description = p_description;}
         public Product(string p_name, string p_description, string p_category):this(p_name, p_description){this.Category = p_category;}

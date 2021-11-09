@@ -1,0 +1,28 @@
+@{
+}
+@model IEnumerable<WebInterface.Models.StoreVM>
+
+<h1 class="text-center"> List of Stores</h1>
+<table border="2", class="table table-hover">
+<tr>
+    <th scope="col">ID</th>
+    <th scope="col">Name</th>
+    <th scope="col">Address</th> 
+    <th scope="col">Expenses</th>
+    <th scope="col">Revenue</th>
+    <th scope="col">Profit</th>  
+</tr>
+    @foreach(var store in Model){
+        <tr class="table-active">
+            <td>@store.Id</td>
+            <td>@store.Name</td>
+            <td>@store.Address</td>
+            <td>@store.Expenses</td>
+            <td>@store.Revenue</td>
+            <td>@store.Profit</td>
+            <td><form class="text-center" method="POST" action="/Store/Delete/" ><button type="submit" class="btn btn-outline-danger btn-lg"></button></form></td>
+            <td><form class="text-center" method="POST" action="/Store/Select/" ><button type="submit" class="btn btn-outline-info btn-lg"></button></form></td>
+        </tr>
+    }
+</table>
+<form class="text-center" method="GET" action="/Store/Create"><button type="submit" class="btn btn-success">Add Store</button></form>

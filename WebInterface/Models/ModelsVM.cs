@@ -8,6 +8,7 @@ namespace WebInterface.Models{
         public string Address { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
+        public decimal TotalSpent { get; set; }
         
         public CustomerVM(Customer customer){
             Id = customer.Id;
@@ -15,6 +16,7 @@ namespace WebInterface.Models{
             Address = customer.Address;
             Phone = customer.Phone;
             Email = customer.Email;
+            TotalSpent = customer.TotalSpent;
         }
 
         public Customer MapToModel(){
@@ -23,7 +25,8 @@ namespace WebInterface.Models{
                 Name = Name,
                 Address = Address,
                 Phone = Phone,
-                Email = Email
+                Email = Email,
+                TotalSpent = TotalSpent
             };
         }
     }
@@ -32,18 +35,27 @@ namespace WebInterface.Models{
         public int Id { get; set; }
         public string Name { get; set; }
         public string Address { get; set; }
+        public decimal Expenses { get; set; }
+        public decimal Revenue { get; set; }
+        public decimal Profit { get; set; }
         
-        public StoreVM(Store store){
-            Id = store.Id;
-            Name = store.Name;
-            Address = store.Address;
+        public StoreVM(Store p_store){
+            this.Id = p_store.Id;
+            this.Name = p_store.Name;
+            this.Address = p_store.Address;
+            this.Expenses = p_store.Expenses;
+            this.Revenue = p_store.Revenue;
+            this.Profit = p_store.Profit;
         }
 
         public Store MapToModel(){
             return new Store{
-                Id = Id,
-                Name = Name,
-                Address = Address
+                Id = this.Id,
+                Name = this.Name,
+                Address = this.Address,
+                Expenses = this.Expenses,
+                Revenue = this.Revenue,
+                Profit = this.Profit
             };
         }
     }

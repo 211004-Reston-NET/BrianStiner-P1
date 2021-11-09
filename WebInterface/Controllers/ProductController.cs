@@ -8,15 +8,15 @@ using System.Linq;
 
 namespace WebInterface.Controllers
 {
-    public class CustomerController : Controller
+    public class ProductController : Controller
     {
-        private readonly ILogger<CustomerController> _logger;
+        private readonly ILogger<ProductController> _logger;
         private IBusiness _BL; 
             
         //     DbContextOptionsBuilder<revaturedatabaseContext> options = new DbContextOptionsBuilder<revaturedatabaseContext>()
         //         .UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
 
-        public CustomerController(IBusiness p_BL, ILogger<CustomerController> p_logger)
+        public ProductController(IBusiness p_BL, ILogger<ProductController> p_logger)
         {
             _logger = p_logger;
             _BL = p_BL;
@@ -24,37 +24,12 @@ namespace WebInterface.Controllers
 
         public IActionResult Index()
         {
-            return View(_BL.GetAll(new Customer()) //Map to view model
-            .Select(x => new CustomerVM(x))
+            return View(_BL.GetAll(new Product()) //Map to view model
+            .Select(x => new ProductVM(x))
             .ToList()
             );
         }
 
-        [HttpPost]
-        public IActionResult Delete(int? p_Id)
-        {
-            if (p_Id == null)
-            {
-                return NotFound();
-            }
-
-            _BL.Delete(new Customer((int)p_Id));
-
-            return Index();
-        }
-
-        [HttpPost]
-        public IActionResult Select(int? p_Id)
-        {
-            if (p_Id == null)
-            {
-                return NotFound();
-            }
-
-            _BL.Update(new Customer((int)p_Id));
-
-            return Index();
-        }
 
 
         public IActionResult Create()
@@ -62,30 +37,30 @@ namespace WebInterface.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Create(CustomerVM p_customerVM)
+        public IActionResult Create(ProductVM p_ProductVM)
         {
             if (ModelState.IsValid){
-                _BL.Add(p_customerVM.MapToModel());
+                _BL.Add(p_ProductVM.MapToModel());
                 return RedirectToAction("Index");
             }
-            return Index();
+            return View(p_ProductVM);
         }
 
 
 
         public IActionResult Edit(int p_Id)
         {
-            return View(new CustomerVM(_BL.Get(new Customer(p_Id))));
+            return View(new ProductVM(_BL.Get(new Product(p_Id))));
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(CustomerVM p_customerVM)
+        public IActionResult Edit(ProductVM p_ProductVM)
         {
             if (ModelState.IsValid){
-                _BL.Update(p_customerVM.MapToModel());
+                _BL.Update(p_ProductVM.MapToModel());
                 return RedirectToAction("Index");
             }
-            return Index();
+            return View(p_ProductVM);
         }
 
 

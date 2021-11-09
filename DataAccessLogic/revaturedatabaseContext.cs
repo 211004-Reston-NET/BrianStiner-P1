@@ -56,7 +56,7 @@ namespace DataAccessLogic
 
                 entity.Property(e => e.TotalSpent)
                     .HasColumnType("decimal(19, 2)")
-                    .HasColumnName("total");
+                    .HasColumnName("totalSpent");
             });
 
 
@@ -89,10 +89,6 @@ namespace DataAccessLogic
                     .HasMaxLength(50)
                     .IsUnicode(false)
                     .HasColumnName("address");
-
-                entity.Property(e => e.Total)
-                    .HasColumnType("decimal(19, 2)")
-                    .HasColumnName("total");
             });
 
             modelBuilder.Entity<Product>(entity =>

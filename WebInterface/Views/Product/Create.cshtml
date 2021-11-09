@@ -1,0 +1,60 @@
+@*This displays text boxes to enter Name, Description, Category, and Price for a new Product.*@
+@{
+}
+@model WebInterface.Models.ProductVM
+
+<h1 class="text-center">Add New Product</h1>
+<form asp-action="Create">
+    <div asp-validation-summary="ModelOnly"></div>
+    <div class="form-group">
+    <div class="form-floating mb-3">
+        <input type="text" class="form-control" asp-for="Name" asp-required="true" placeholder="Samantha Tokatsu">
+        <label asp-for="Name">Name</label>
+        <span asp-validation-for="Name"></span>
+    </div>
+
+    <div class="form-floating mb-3">
+        <input type="text" class="form-control" asp-for="Description" asp-required="true" placeholder="list of adjectives">
+        <label asp-for="Description">Description</label>
+        <span asp-validation-for="Description"></span>
+    </div>
+
+    <div class="form-floating mb-3">
+        <input type="text" class="form-control" asp-for="Category" asp-required="true" placeholder="Samantha Tokatsu">
+        <label asp-for="Category">Category</label>
+        <span asp-validation-for="Category"></span>
+    </div>
+    
+    <div class="form-floating mb-3">
+        <input type="text" class="form-control" asp-for="Price" asp-required="true" placeholder="Samantha Tokatsu">
+        <label asp-for="Price">Price</label>
+        <span asp-validation-for="Price"></span>
+    </div>
+    
+    <div class="d-grid gap-2">
+        <button type="submit" class="btn btn-lg btn-primary" value="Create">Create Product</button>
+    </div>
+    </div>
+
+    <div class="form-group">
+    <fieldset disabled="">
+    <label class="form-label mt-4">Input addons</label>
+    <div class="form-group">
+        <div class="input-group mb-3">
+        <span class="input-group-text">$</span>
+        <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+        <span class="input-group-text">.00</span>
+        </div>
+        <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">
+        <button class="btn btn-primary" type="button" id="button-addon2">Button</button>
+        </div>
+    </div>
+    </fieldset>
+    </div>
+
+    
+    </div>
+
+    
+</form>

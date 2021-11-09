@@ -136,6 +136,5 @@ namespace DataAccessLogic
         public List<Product> Search(Product p_IC, string p_Search){
             return _context.Products.Where(IC => IC.Name.Contains(p_Search) || IC.Description.Contains(p_Search) || IC.Category.Contains(p_Search) || IC.Price.ToString().Contains(p_Search)).ToList();
         }
-
     }
 }
