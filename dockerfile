@@ -17,8 +17,7 @@ RUN cd WebInterface && dotnet restore
 
 COPY . ./
 CMD /bin/bash
-RUN dotnet publish -c Release -o publish --no-restore
-
+RUN dotnet publish -c Release -o publish
 FROM mcr.microsoft.com/dotnet/aspnet:5.0 as runtime
 
 WORKDIR /app
