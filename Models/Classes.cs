@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Models
 {
@@ -24,8 +25,8 @@ namespace Models
         public virtual List<Order> Orders { get; set; }
 
         //Constructors ---------------------------------------------------------------------------
-        public Customer(){}
-        public Customer(int p_Id){ Id = p_Id; }
+        public Customer(){TotalSpent = 0;}
+        public Customer(int p_Id):this(){ Id = p_Id; }
         public Customer( string p_name):this(){this.Name = p_name;}
         public Customer( string p_name, string p_address):this( p_name){this.Address = p_address;}
         public Customer( string p_name, string p_address, string p_email):this( p_name, p_address){this.Email = p_email;}
@@ -81,6 +82,7 @@ namespace Models
         [Required]
         public virtual List<LineItem> Inventory { get; set; }
         public virtual List<Order> Orders { get; set; }
+        [NotMapped]
         public decimal Profit {get => Revenue-Expenses; set => Profit = value;}
         
         //Constructors ---------------------------------------------------------------------------
@@ -137,7 +139,8 @@ namespace Models
         public string Address { get; set; }
         [Required]
         public bool Active { get; set; }
-        public decimal Total { get => CalculateTotalPrice(); set => Total = CalculateTotalPrice(); }
+        [NotMapped]
+        public decimal Total { get => CalculateTotalPrice(); set => Total = value; }
 
 
         public virtual List<LineItem> LineItems { get; set; }
@@ -185,14 +188,15 @@ namespace Models
         public int ProductId { get; set; }
         [Required]
         public int Quantity { get; set; }
-        public decimal Total { get => Quantity*Product.Price; }
+        [NotMapped]
+        public decimal Total { get => Quantity*Product.Price; set => Total = value; }
 
 
         public virtual Product Product { get; set; }
 
 
         //Constructors ---------------------------------------------------------------------------
-        public LineItem(){Product = new Product();}
+        public LineItem(){Product = new Product(); Total = Product.Price;}
         public LineItem(int p_quantity){this.Quantity = p_quantity;}
         public LineItem(int p_quantity, Product p_lineProduct):this(p_quantity){this.Product = p_lineProduct;}
         public LineItem(int p_quantity, Product p_lineProduct, int p_Id):this(p_quantity, p_lineProduct){this.Id = p_Id;}

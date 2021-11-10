@@ -28,19 +28,15 @@ namespace UnitTests
             using (var context = new revaturedatabaseContext(_options))
             {
                 //Act
-                Store teststore = context.Stores.Find();
+                Store teststore = context.Stores.FirstOrDefaultAsync().Result;
 
                 //Assert
-                Xunit.Assert.Equal(teststore.Id, 10000);
-                Xunit.Assert.Equal(teststore.Name, "Test Store");
-                Xunit.Assert.Equal(teststore.Address, "112 test test 01101");
+                Xunit.Assert.Equal(10000, teststore.Id);
+                Xunit.Assert.Equal("TestStore", teststore.Name);
+                Xunit.Assert.Equal("112 test test 01101", teststore.Address);
 
             }
         }
-
-
-
-
 
 
         private void Seed(){
@@ -57,7 +53,7 @@ namespace UnitTests
                         Email = "testtest@email.com",
                         Orders = new List<Order>{
                             new Order{
-                                Id = 11111,
+                                Id = 11101,
                                 Address = "112 test test 01101",
                                 Active = true,
                                 LineItems = new List<LineItem>{
@@ -83,7 +79,7 @@ namespace UnitTests
                                 Active = true,
                                 LineItems = new List<LineItem>{
                                     new LineItem{
-                                        Id = 11110,
+                                        Id = 11010,
                                         Product = new Product{
                                             Id = 10110,
                                             Name = "Test",
@@ -91,9 +87,9 @@ namespace UnitTests
                                             Description = "Test",
                                         }},
                                     new LineItem{
-                                        Id = 11111,
+                                        Id = 00111,
                                         Product = new Product{
-                                            Id = 10111,
+                                            Id = 10011,
                                             Name = "Test2",
                                             Price = 10.00m,
                                             Description = "Test2",
@@ -131,7 +127,7 @@ namespace UnitTests
                                 Active = true,
                                 LineItems = new List<LineItem>{
                                     new LineItem{
-                                        Id = 11110,
+                                        Id = 10010,
                                         Product = new Product{
                                             Id = 10110,
                                             Name = "Test",

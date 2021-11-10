@@ -9,6 +9,8 @@ namespace WebInterface.Models{
         public string Phone { get; set; }
         public string Email { get; set; }
         public decimal TotalSpent { get; set; }
+
+        public CustomerVM(){ }
         
         public CustomerVM(Customer customer){
             Id = customer.Id;
@@ -21,12 +23,12 @@ namespace WebInterface.Models{
 
         public Customer MapToModel(){
             return new Customer{
-                Id = Id,
-                Name = Name,
-                Address = Address,
-                Phone = Phone,
-                Email = Email,
-                TotalSpent = TotalSpent
+                Id = this.Id,
+                Name = this.Name,
+                Address = this.Address,
+                Phone = this.Phone,
+                Email = this.Email,
+                TotalSpent = this.TotalSpent
             };
         }
     }
@@ -38,6 +40,8 @@ namespace WebInterface.Models{
         public decimal Expenses { get; set; }
         public decimal Revenue { get; set; }
         public decimal Profit { get; set; }
+
+        public StoreVM(){ }
         
         public StoreVM(Store p_store){
             this.Id = p_store.Id;
@@ -65,6 +69,8 @@ namespace WebInterface.Models{
         public string Address { get; set; }
         public bool Active { get; set; }
         public decimal Total { get; set; }
+
+        public OrderVM(){ }
         
         public OrderVM(Order order){
             Id = order.Id;
@@ -88,6 +94,8 @@ namespace WebInterface.Models{
         public decimal Total { get; set; }
         public int ProductId { get; set; }
 
+        public LineItemVM(){ }
+
         public LineItemVM(LineItem lineItem){
             Id = lineItem.Id;
             Quantity = lineItem.Quantity;
@@ -110,6 +118,8 @@ namespace WebInterface.Models{
         public decimal Price { get; set; }
         public string Description { get; set; }
         public string Category { get; set; }
+
+        public ProductVM(){ }
 
         public ProductVM(Product product){
             Id = product.Id;

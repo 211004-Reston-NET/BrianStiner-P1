@@ -122,7 +122,7 @@ namespace DataAccessLogic
 
             modelBuilder.Entity<Store>(entity =>
             {
-                entity.ToTable("Stores");
+                entity.ToTable("Storefront");
 
                 entity.Property(e => e.Id).HasColumnName("ID");
 
