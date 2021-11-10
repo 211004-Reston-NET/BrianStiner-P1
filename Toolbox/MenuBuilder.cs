@@ -491,7 +491,7 @@ namespace Toolbox
                 foreach(LineItem li in o.LineItems){
                     s.Expenses += li.Total*.7M;                                                                     //Stores get a discount from the distributor
                     if(s.Inventory.Find(inv => inv.Id == li.Id) != null){                                           //Does it exist?
-                    s.Inventory.Find(inv => inv.Product.Id == li.Product.Id).Quantity += li.Quantity;                 //Add if it does by merging
+                    s.Inventory.Find(inv => inv.Product.Id == li.Product.Id).Quantity += li.Quantity;               //Add if it does by merging
                     }else{s.Inventory.Add(li);}                                                                     //Add if it doesn't by adding
                 }
                 }   
@@ -511,11 +511,11 @@ namespace Toolbox
             foreach(Order o in  c.Orders){
                 if(o.Active){
                 foreach(LineItem li in o.LineItems){
-                    if(s.Inventory.Find(inv => inv.Product.Id == li.Product.Id) != null){                                            // if it exists,
-                    if(s.Inventory.Find(inv => inv.Product.Id == li.Product.Id).Quantity >= li.Quantity){        // if it has enough,
-                        s.Inventory.Find(inv => inv.Product.Id == li.Product.Id).Quantity -= li.Quantity;        // remove from store
-                        s.Revenue += li.Total;                                                                            // add to store revenue 
-                        c.TotalSpent += li.Total;                                                                         // add to customer spent                                               
+                    if(s.Inventory.Find(inv => inv.Product.Id == li.Product.Id) != null){                                   // if it exists,
+                    if(s.Inventory.Find(inv => inv.Product.Id == li.Product.Id).Quantity >= li.Quantity){                   // if it has enough,
+                        s.Inventory.Find(inv => inv.Product.Id == li.Product.Id).Quantity -= li.Quantity;                   // remove from store
+                        s.Revenue += li.Total;                                                                              // add to store revenue 
+                        c.TotalSpent += li.Total;                                                                           // add to customer spent                                               
                     }else{
                         ResetPause(new List<string>()
                         {"Sorry, we don't have enough of",
