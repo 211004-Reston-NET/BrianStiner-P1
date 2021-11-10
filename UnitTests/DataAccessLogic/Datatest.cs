@@ -21,14 +21,16 @@ namespace UnitTests
         }
 
 
-        [TestMethod]
+        [Fact]
         public void TestStoreMatchesBeforeandAfter()
         {
             //Arrange
             using (var context = new revaturedatabaseContext(_options))
             {
                 //Act
-                Store teststore = context.Stores.FirstOrDefaultAsync().Result;
+                var _repo = new DataAccessLogic.RepositorySQL(context);
+
+                Store teststore = _repo.Get(new Store { Id = 10000 });
 
                 //Assert
                 Xunit.Assert.Equal(10000, teststore.Id);
@@ -37,6 +39,7 @@ namespace UnitTests
 
             }
         }
+        
 
 
         private void Seed(){
