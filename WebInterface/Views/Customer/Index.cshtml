@@ -22,8 +22,8 @@
             <td>@customer.Email</td> 
             <td>@customer.Address</td>
             <td>@customer.TotalSpent</td>
-            <td>@Html.ActionLink("", "Delete", new{id=customer.Id}, new{@class="btn btn-outline-danger btn-lg"})</td>
-            <td>@Html.ActionLink("", "Select", new{id=customer.Id}, new{@class="btn btn-outline-info btn-lg"})</td>
+            <td><form method="POST"> @Html.ActionLink("", "Delete", new{id=customer.Id}, new{@class="btn btn-outline-danger btn-lg"}) </form></td>
+            <td><form method="POST"> @Html.ActionLink("", "Select", new{id=customer.Id}, new{@class="btn btn-outline-info btn-lg"})   </form></td>
 
         </tr>
     }
