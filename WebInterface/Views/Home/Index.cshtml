@@ -2,7 +2,68 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<asp:content Id="Content1" ContentPlaceHolderID="head" runat="server"> </asp:content>
+<asp:content Id="Content2" ContentPlaceHolderID="ContentPlaceHolder2" runat="server">
+    <section>
+        <img src="../images/hero-image.png" alt="HeroImage" class="img-fluid"/>
+    </section>
+
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <center>
+                    <h1>Commerce Managment App</h1>
+                    <p>Three tables in the database</p>
+                    </center>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <center>
+                            <img src="/WebInterface/images/customer.png" alt="Customer" class="img-fluid"/>
+                            <h5 class="card-title">Customers</h5>
+                            <p class="card-text">
+                                Customers are the people who buy our products.
+                            </p>
+                            <a href="Customer/Index/" class="btn btn-primary">Go to Customers</a>
+                            </center>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <center>
+                            <img src="../../images/product.png" alt="Product" class="img-fluid"/>
+                            <h5 class="card-title">Products</h5>
+                            <p class="card-text">
+                                Products are the things that we sell.
+                            </p>
+                            <a href="Product/Index/" class="btn btn-primary">Go to Products</a>
+                            </center>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <center>
+                            <img src="/images/store.png" alt="Store" class="img-fluid"/>
+                            <h5 class="card-title">Stores</h5>
+                            <p class="card-text">
+                                Stores are the places that provide our products.
+                            </p>
+                            <a href="Store/Index/" class="btn btn-primary">Go to Stores</a>
+                            </center>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</asp:content>
+

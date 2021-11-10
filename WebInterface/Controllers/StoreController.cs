@@ -30,7 +30,23 @@ namespace WebInterface.Controllers
             );
         }
 
+        public IActionResult Delete(int? Id)
+        {
+            if (Id == null){return NotFound();}
 
+            _BL.Delete(new Customer((int)Id));
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult Select(int? Id)
+        {
+            if (Id == null){return NotFound();}
+
+            _BL.Update(new Customer((int)Id));
+
+            return RedirectToAction(nameof(Index));
+        }
 
         public IActionResult Create()
         {

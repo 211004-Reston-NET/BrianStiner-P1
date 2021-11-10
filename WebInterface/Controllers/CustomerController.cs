@@ -30,30 +30,22 @@ namespace WebInterface.Controllers
             );
         }
 
-        [HttpPost]
-        public IActionResult Delete(int? p_Id)
+        public IActionResult Delete(int? Id)
         {
-            if (p_Id == null)
-            {
-                return NotFound();
-            }
+            if (Id == null){return NotFound();}
 
-            _BL.Delete(new Customer((int)p_Id));
+            _BL.Delete(new Customer((int)Id));
 
-            return Index();
+            return RedirectToAction(nameof(Index));
         }
 
-        [HttpPost]
-        public IActionResult Select(int? p_Id)
+        public IActionResult Select(int? Id)
         {
-            if (p_Id == null)
-            {
-                return NotFound();
-            }
+            if (Id == null){return NotFound();}
 
-            _BL.Update(new Customer((int)p_Id));
+            _BL.Update(new Customer((int)Id));
 
-            return Index();
+            return RedirectToAction(nameof(Index));
         }
 
 
@@ -68,7 +60,7 @@ namespace WebInterface.Controllers
                 _BL.Add(p_customerVM.MapToModel());
                 return RedirectToAction("Index");
             }
-            return Index();
+            return RedirectToAction(nameof(Index));
         }
 
 
