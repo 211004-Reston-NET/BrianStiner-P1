@@ -12,7 +12,7 @@
     <th scope="col">Address</th> 
     <th scope="col">Spent</th>
     <th scope="col">Delete</th> 
-    <th scope="col">Select</th>   
+    <th scope="col">Edit</th>   
 </tr>
     @foreach(var customer in Model){
         <tr class="table-active">
@@ -22,8 +22,8 @@
             <td>@customer.Email</td> 
             <td>@customer.Address</td>
             <td>@customer.TotalSpent</td>
-            <td><form method="POST"> @Html.ActionLink("", "Delete", new{id=customer.Id}, new{@class="btn btn-outline-danger btn-lg"}) </form></td>
-            <td><form method="POST"> @Html.ActionLink("", "Select", new{id=customer.Id}, new{@class="btn btn-outline-info btn-lg"})   </form></td>
+            <td><form method="POST"> @Html.ActionLink("", "Delete", new{id=customer.Id}, new{@class="btn btn-outline-danger btn-lg"})   </form></td>
+            <td><form method="GET"> @Html.ActionLink("", "Edit", new{id=customer.Id}, new{@class="btn btn-outline-info btn-lg"})        </form></td>
 
         </tr>
     }

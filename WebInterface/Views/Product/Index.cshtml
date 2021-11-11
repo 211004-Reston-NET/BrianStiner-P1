@@ -11,7 +11,7 @@
     <th scope="col">Category</th>
     <th scope="col">Price</th>
     <th scope="col">Delete</th>
-    <th scope="col">Select</th>
+    <th scope="col">Edit</th>
 </tr>
     @foreach(var product in Model){
         <tr class="table-active">
@@ -20,8 +20,8 @@
             <td>@product.Description</td>
             <td>@product.Category</td>
             <td>@product.Price</td>
-            <td><form method="POST"> @Html.ActionLink("", "Delete", new{id=product.Id}, new{@class="btn btn-outline-danger btn-lg"}) </form></td>
-            <td><form method="POST"> @Html.ActionLink("", "Select", new{id=product.Id}, new{@class="btn btn-outline-info btn-lg"})   </form></td>
+            <td><form method="POST"> @Html.ActionLink("", "Delete", new{id=product.Id}, new{@class="btn btn-outline-danger btn-lg"})    </form></td>
+            <td><form method="GET"> @Html.ActionLink("", "Edit", new{id=product.Id}, new{@class="btn btn-outline-info btn-lg"})        </form></td>
         </tr>
     }
 </table>

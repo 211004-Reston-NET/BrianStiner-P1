@@ -168,12 +168,12 @@ namespace DataAccessLogic
                 entity.Property(e => e.Email)
                     .HasMaxLength(50)
                     .IsUnicode(false)
-                    .HasColumnName("role");
+                    .HasColumnName("email");
 
                 entity.Property(e => e.Phone)
                     .HasMaxLength(50)
                     .IsUnicode(false)
-                    .HasColumnName("role");
+                    .HasColumnName("phone");
             });
 
             OnModelCreatingPartial(modelBuilder);

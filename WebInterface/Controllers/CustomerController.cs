@@ -30,23 +30,7 @@ namespace WebInterface.Controllers
             );
         }
 
-        public IActionResult Delete(int? Id)
-        {
-            if (Id == null){return NotFound();}
 
-            _BL.Delete(new Customer((int)Id));
-
-            return RedirectToAction(nameof(Index));
-        }
-
-        public IActionResult Select(int? Id)
-        {
-            if (Id == null){return NotFound();}
-
-            _BL.Update(new Customer((int)Id));
-
-            return RedirectToAction(nameof(Index));
-        }
 
 
         public IActionResult Create()
@@ -64,10 +48,23 @@ namespace WebInterface.Controllers
         }
 
 
-
-        public IActionResult Edit(int p_Id)
+        public IActionResult Delete(int? Id)
         {
-            return View(new CustomerVM(_BL.Get(new Customer(p_Id))));
+            if (Id == null){return NotFound();}
+
+            _BL.Delete(new Customer((int)Id));
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult Edit(int? Id)
+        {
+            if (Id == null){return NotFound();}
+
+            var customer = _BL.Get(new Customer((int)Id));
+            if (customer == null){return NotFound();}
+
+            return View(new CustomerVM(customer));
         }
         [HttpPost]
         [ValidateAntiForgeryToken]

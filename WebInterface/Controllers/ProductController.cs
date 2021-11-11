@@ -30,6 +30,21 @@ namespace WebInterface.Controllers
             );
         }
 
+        public IActionResult Create()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Create(ProductVM p_productVM)
+        {
+            if (ModelState.IsValid){
+                _BL.Add(p_productVM.MapToModel());
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
+
         public IActionResult Delete(int? Id)
         {
             if (Id == null){return NotFound();}
@@ -39,44 +54,24 @@ namespace WebInterface.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult Select(int? Id)
+        public IActionResult Edit(int? Id)
         {
             if (Id == null){return NotFound();}
 
-            _BL.Update(new Product((int)Id));
+            var product = _BL.Get(new Product((int)Id));
+            if (product == null){return NotFound();}
 
-            return RedirectToAction(nameof(Index));
-        }
-
-        public IActionResult Create()
-        {
-            return View();
-        }
-        [HttpPost]
-        public IActionResult Create(ProductVM p_ProductVM)
-        {
-            if (ModelState.IsValid){
-                _BL.Add(p_ProductVM.MapToModel());
-                return RedirectToAction("Index");
-            }
-            return View(p_ProductVM);
-        }
-
-
-
-        public IActionResult Edit(int p_Id)
-        {
-            return View(new ProductVM(_BL.Get(new Product(p_Id))));
+            return View(new ProductVM(product));
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(ProductVM p_ProductVM)
+        public IActionResult Edit(ProductVM p_productVM)
         {
             if (ModelState.IsValid){
-                _BL.Update(p_ProductVM.MapToModel());
+                _BL.Update(p_productVM.MapToModel());
                 return RedirectToAction("Index");
             }
-            return View(p_ProductVM);
+            return Index();
         }
 
 

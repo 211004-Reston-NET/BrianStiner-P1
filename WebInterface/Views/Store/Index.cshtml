@@ -12,7 +12,7 @@
     <th scope="col">Revenue</th>
     <th scope="col">Profit</th>
     <th scope="col">Delete</th> 
-    <th scope="col">Select</th>   
+    <th scope="col">Edit</th>   
 </tr>
     @foreach(var store in Model){
         <tr class="table-active">
@@ -22,8 +22,8 @@
             <td>@store.Expenses</td>
             <td>@store.Revenue</td>
             <td>@store.Profit</td>
-            <td><form method="POST"> @Html.ActionLink("", "Delete", new{id=store.Id}, new{@class="btn btn-outline-danger btn-lg"}) </form></td>
-            <td><form method="POST"> @Html.ActionLink("", "Select", new{id=store.Id}, new{@class="btn btn-outline-info btn-lg"})   </form></td>
+            <td><form method="POST"> @Html.ActionLink("", "Delete", new{id=store.Id}, new{@class="btn btn-outline-danger btn-lg"})  </form></td>
+            <td><form method="GET"> @Html.ActionLink("", "Edit", new{id=store.Id}, new{@class="btn btn-outline-info btn-lg"})       </form></td>
         </tr>
     }
 </table>

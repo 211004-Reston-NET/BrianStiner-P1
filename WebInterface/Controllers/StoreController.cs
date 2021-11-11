@@ -30,24 +30,6 @@ namespace WebInterface.Controllers
             );
         }
 
-        public IActionResult Delete(int? Id)
-        {
-            if (Id == null){return NotFound();}
-
-            _BL.Delete(new Store((int)Id));
-
-            return RedirectToAction(nameof(Index));
-        }
-
-        public IActionResult Select(int? Id)
-        {
-            if (Id == null){return NotFound();}
-
-            _BL.Update(new Store((int)Id));
-
-            return RedirectToAction(nameof(Index));
-        }
-
         public IActionResult Create()
         {
             return View();
@@ -59,14 +41,27 @@ namespace WebInterface.Controllers
                 _BL.Add(p_StoreVM.MapToModel());
                 return RedirectToAction("Index");
             }
-            return View(p_StoreVM);
+            return RedirectToAction(nameof(Index));
         }
 
 
-
-        public IActionResult Edit(int p_Id)
+        public IActionResult Delete(int? Id)
         {
-            return View(new StoreVM(_BL.Get(new Store(p_Id))));
+            if (Id == null){return NotFound();}
+
+            _BL.Delete(new Store((int)Id));
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult Edit(int? Id)
+        {
+            if (Id == null){return NotFound();}
+
+            var Store = _BL.Get(new Store((int)Id));
+            if (Store == null){return NotFound();}
+
+            return View(new StoreVM(Store));
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -76,7 +71,7 @@ namespace WebInterface.Controllers
                 _BL.Update(p_StoreVM.MapToModel());
                 return RedirectToAction("Index");
             }
-            return View(p_StoreVM);
+            return Index();
         }
 
 

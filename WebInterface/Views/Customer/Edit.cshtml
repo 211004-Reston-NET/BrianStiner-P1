@@ -1,0 +1,38 @@
+@*This displays text boxes to enter Name, Address, Phone, and Email for a new Customer.*@
+@{
+}
+@model WebInterface.Models.CustomerVM
+
+<h1 class="text-center">Edit Customer</h1>
+<form asp-action="Create">
+    <div asp-validation-summary="ModelOnly"></div>
+    <div class="form-group">
+        <div class="form-floating mb-3">
+            <input type="name" class="form-control" asp-for="Name" asp-required="true" placeholder="Samantha Tokatsu">
+            <label asp-for="Name">Name</label>
+            <span asp-validation-for="Name"></span>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input type="address" class="form-control" asp-for="Address" asp-required="true" placeholder="101 example ave. 11000">
+            <label asp-for="Address">Address</label>
+            <span asp-validation-for="Address"></span>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input type="phone" class="form-control" asp-for="Phone" asp-required="true" placeholder="101-111-1101">
+            <label asp-for="Phone">Phone number</label>
+            <span asp-validation-for="Phone"></span>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input type="email" class="form-control" asp-for="Email" asp-required="true" placeholder="name@email.com">
+            <label asp-for="Email">Email address</label>
+            <span asp-validation-for="Email"></span>
+        </div>
+        <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-lg btn-primary" value="Edit">Submit</button>
+        </div>
+    </div>
+</form>
+

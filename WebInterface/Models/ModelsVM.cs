@@ -138,4 +138,39 @@ namespace WebInterface.Models{
             };
         }
     }
+    public class UserVM{
+        public string Username { get; set; }
+        public string Password { get; set; }
+        public string Email { get; set; }
+        public string Phone { get; set; }
+
+        public UserVM(){ }
+
+        public UserVM(User user){
+            Username = user.Username;
+            Password = user.Password;
+            Email = user.Email;
+            Phone = user.Phone;
+        }
+
+        public User MapToModel(){
+            return new User{
+                Username = Username,
+                Password = Password,
+                Email = Email,
+                Phone = Phone
+            };
+        }
+    }
+
+    public class NewUserVM{
+        public string Username { get; set; }
+        public string Password1 { get; set; }
+        public string Password2 { get; set; }
+        public string Email { get; set; }
+        public string Phone { get; set; }
+
+        public NewUserVM(){ }
+        
+    }
 }   

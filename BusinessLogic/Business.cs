@@ -34,9 +34,6 @@ namespace BusinessLogic
             Update(s);
         }
         
-        
-        
-        
         // Customer buying from store, increasing store revanue, decreasing store inventory, and increasing customer's totalspent
         public void TransactOrders(Customer c, Store s){
             bool orderFailure = false;
@@ -90,30 +87,38 @@ namespace BusinessLogic
         }
 
 
+
         // Returns bool to verify that two passwords are equal
         public bool IsEqual(string password, string password2){
             return password == password2;
         }
+
+
 
         // Salts and Hashes a password of a User
         public string SaltedHashPassword( string p_salt, string p_unhashedpassword){
             return BCrypt.Net.BCrypt.HashPassword(p_salt + p_unhashedpassword);
         }
 
+
+
         // Checks if entered password matches the Customer's salted hashed password
         public bool CheckPassword(string p_passwordtocheck, User p_User){
             return BCrypt.Net.BCrypt.Verify(p_User.Username + p_passwordtocheck, p_User.Password);
         }
+
+
         
         // Returns bool if the user's username is unique
         public bool IsUniqueUsername(string p_username){
-            return _repo.GetAll(new User()).Find(u => u.Username == p_username) == null;
+            return _repo.GetAll(new User()).Find(u => u.Username == p_username) == null ? true : false;
         }
+
+
 
         // combines functions to check if a username is unique and password is valid, if so, creates a new user and adds to repository
         public bool CreateUser(string p_username, string p_unhashedpassword1, string p_unhashedpassword2, string p_email = "", string p_phone = ""){
-            // if(p_email == null){p_email = "";} if(p_phone == null){p_phone = "";}
-
+            if(p_email == null){p_email = "";} if(p_phone == null){p_phone = "";}
             if(IsUniqueUsername(p_username) && IsValidUsername(p_username)){
             if(IsValidPassword(p_unhashedpassword1) && IsEqual(p_unhashedpassword1, p_unhashedpassword2)){
                 User u = new User(p_username, SaltedHashPassword(p_username, p_unhashedpassword1), p_email, p_phone);
@@ -122,6 +127,9 @@ namespace BusinessLogic
             }}
             return false;
         }
+
+
+
 
         // Returns bool if user can login
         public bool Login(string p_username, string p_unhashedpassword){
