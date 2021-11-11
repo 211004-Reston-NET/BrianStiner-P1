@@ -34,7 +34,7 @@ namespace UnitTests
 
                 //Assert
                 Xunit.Assert.Equal(10000, teststore.Id);
-                Xunit.Assert.Equal("TestStore", teststore.Name);
+                Xunit.Assert.Equal("Test Store", teststore.Name);
                 Xunit.Assert.Equal("112 test test 01101", teststore.Address);
 
             }
@@ -53,9 +53,10 @@ namespace UnitTests
 
                 //Assert
                 Xunit.Assert.Equal(10000, testcustomer.Id);
-                Xunit.Assert.Equal("TestStore", testcustomer.Name);
+                Xunit.Assert.Equal("Test", testcustomer.Name);
                 Xunit.Assert.Equal("112 test test 01101", testcustomer.Address);
                 Xunit.Assert.Equal("testtest@email.com", testcustomer.Email);
+                Xunit.Assert.Equal("123-456-7890", testcustomer.Phone);
 
             }
         }
@@ -69,17 +70,12 @@ namespace UnitTests
                 //Act
                 var _repo = new DataAccessLogic.RepositorySQL(context);
 
-                Order testorder = _repo.Get(new Customer { Id = 10000 }).Orders[0];
-                Order testorder2 = _repo.Get(new Order { Id = 11101 });
+                Order testorder = _repo.Get(new Order { Id = 11101 });
 
                 //Assert
                 Xunit.Assert.Equal(11101, testorder.Id);
                 Xunit.Assert.Equal("112 test test 01101", testorder.Address);
                 Xunit.Assert.True(testorder.Active);
-                Xunit.Assert.Equal(11101, testorder2.Id);
-                Xunit.Assert.Equal("112 test test 01101", testorder2.Address);
-                Xunit.Assert.True(testorder2.Active);
-
 
 
             }
@@ -94,20 +90,26 @@ namespace UnitTests
                 //Act
                 var _repo = new DataAccessLogic.RepositorySQL(context);
 
-                LineItem testlineitem = _repo.Get(new Customer { Id = 11110 }).Orders[0].LineItems[0];
-                LineItem testlineitem2 = _repo.Get(new LineItem { Id = 11110 });
+                LineItem testlineitem = _repo.Get(new LineItem { Id = 11111 });
+
+                // Id = 11110,
+                // Quantity = 10,
+                // Total = 100.00m,
+                // Product = new Product{
+                //     Id = 10000,
+                //     Name = "Test",
+                //     Price = 10.00m,
+                //     Description = "Test",
+                //     Category = "Test",}
 
                 //Assert
-                Xunit.Assert.Equal(10000, testlineitem.Id);
+                Xunit.Assert.Equal(11111, testlineitem.Id );
                 Xunit.Assert.Equal(10, testlineitem.Quantity);
-                Xunit.Assert.Equal(10110, testlineitem.Product.Id);
-                Xunit.Assert.Equal(10110, testlineitem2.Product.Id);
+                Xunit.Assert.Equal(10000, testlineitem.Product.Id);
                 Xunit.Assert.Equal(10.00m, testlineitem.Product.Price);
-                Xunit.Assert.Equal(10.00m, testlineitem2.Product.Price);
                 Xunit.Assert.Equal("Test", testlineitem.Product.Name);
-                Xunit.Assert.Equal("Test", testlineitem2.Product.Name);
                 Xunit.Assert.Equal("Test", testlineitem.Product.Description);
-                Xunit.Assert.Equal("Test", testlineitem2.Product.Description);
+                Xunit.Assert.Equal("Test", testlineitem.Product.Category);
 
             }
         }
@@ -121,17 +123,13 @@ namespace UnitTests
                 //Act
                 var _repo = new DataAccessLogic.RepositorySQL(context);
 
-                Product testproduct = _repo.Get(new Customer { Id = 10110 }).Orders[0].LineItems[0].Product;
-                Product testproduct2 = _repo.Get(new Product { Id = 10110 });
+                Product testproduct = _repo.Get(new Product { Id = 10001 });
                 //Assert
-                Xunit.Assert.Equal(10110, testproduct.Id);
-                Xunit.Assert.Equal("Test", testproduct.Name);
+                Xunit.Assert.Equal(10001, testproduct.Id);
+                Xunit.Assert.Equal("Test2", testproduct.Name);
+                Xunit.Assert.Equal("Test2", testproduct.Description);
                 Xunit.Assert.Equal(10.00m, testproduct.Price);
-                Xunit.Assert.Equal("Test", testproduct.Description);
-                Xunit.Assert.Equal(10110, testproduct2.Id);
-                Xunit.Assert.Equal("Test", testproduct2.Name);
-                Xunit.Assert.Equal(10.00m, testproduct2.Price);
-                Xunit.Assert.Equal("Test", testproduct2.Description);
+                Xunit.Assert.Equal("Test2", testproduct.Category);
 
             }
         }
@@ -168,7 +166,7 @@ namespace UnitTests
                 //Act
                 var _repo = new DataAccessLogic.RepositorySQL(context);
 
-                Customer testcustomer = new Customer { Id = 10001, Name = "Testadd", Address = "1 test 01101", Email = "customer@add.com" };
+                Customer testcustomer = new Customer { Id = 10001, Name = "Testadd", Address = "1 test 01101", Email = "customer@add.com", Phone = "123-456-7890" };
                 _repo.Add(testcustomer);
                 context.SaveChanges();
 
@@ -179,6 +177,7 @@ namespace UnitTests
                 Xunit.Assert.Equal(testcustomer.Name, testcustomer2.Name);
                 Xunit.Assert.Equal(testcustomer.Address, testcustomer2.Address);
                 Xunit.Assert.Equal(testcustomer.Email, testcustomer2.Email);
+                Xunit.Assert.Equal(testcustomer.Phone, testcustomer2.Phone);
 
             }
         }
@@ -215,11 +214,11 @@ namespace UnitTests
                 //Act
                 var _repo = new DataAccessLogic.RepositorySQL(context);
 
-                LineItem testlineitem = new LineItem { Id = 10001, Quantity = 10, Product = new Product { Id = 10110, Name = "Test", Price = 10.00m, Description = "Test" } };
+                LineItem testlineitem = new LineItem { Id = 12201, Quantity = 10, Product = new Product { Id = 12202, Name = "Test", Price = 10.00m, Description = "Test", Category = "Test" } };
                 _repo.Add(testlineitem);
                 context.SaveChanges();
 
-                LineItem testlineitem2 = _repo.Get(new LineItem { Id = 10001 });
+                LineItem testlineitem2 = _repo.Get(new LineItem { Id = 12201 });
 
                 //Assert
                 Xunit.Assert.Equal(testlineitem.Id, testlineitem2.Id);
@@ -228,6 +227,7 @@ namespace UnitTests
                 Xunit.Assert.Equal(testlineitem.Product.Name, testlineitem2.Product.Name);
                 Xunit.Assert.Equal(testlineitem.Product.Price, testlineitem2.Product.Price);
                 Xunit.Assert.Equal(testlineitem.Product.Description, testlineitem2.Product.Description);
+                Xunit.Assert.Equal(testlineitem.Product.Category, testlineitem2.Product.Category);
 
             }
         }
@@ -241,7 +241,7 @@ namespace UnitTests
                 //Act
                 var _repo = new DataAccessLogic.RepositorySQL(context);
 
-                Product testproduct = new Product { Id = 10110, Name = "Test", Price = 10.00m, Description = "Test" };
+                Product testproduct = new Product { Id = 10110, Name = "Test", Price = 10.00m, Description = "Test", Category = "Test" };
                 _repo.Add(testproduct);
                 context.SaveChanges();
 
@@ -252,6 +252,7 @@ namespace UnitTests
                 Xunit.Assert.Equal(testproduct.Name, testproduct2.Name);
                 Xunit.Assert.Equal(testproduct.Price, testproduct2.Price);
                 Xunit.Assert.Equal(testproduct.Description, testproduct2.Description);
+                Xunit.Assert.Equal(testproduct.Category, testproduct2.Category);
 
             }
         }
@@ -295,7 +296,7 @@ namespace UnitTests
             {
 
                 var _repo = new DataAccessLogic.RepositorySQL(context);
-                _repo.Add(new Customer { Id = 10001, Name = "Testdelete", Address = "1 test 01101", Email = "Customer@delete.com" });
+                _repo.Add(new Customer { Id = 10001, Name = "Testdelete", Address = "1 test 01101", Email = "Customer@delete.com", Phone = "123-456-7890" });
                 context.SaveChanges();
 
                 //Act
@@ -305,6 +306,7 @@ namespace UnitTests
                 Xunit.Assert.Equal("Testdelete", testcustomer.Name);
                 Xunit.Assert.Equal("1 test 01101", testcustomer.Address);
                 Xunit.Assert.Equal("Customer@delete.com", testcustomer.Email);
+                Xunit.Assert.Equal("123-456-7890", testcustomer.Phone);
 
                 _repo.Delete(testcustomer);
                 context.SaveChanges();
@@ -352,18 +354,19 @@ namespace UnitTests
             {
 
                 var _repo = new DataAccessLogic.RepositorySQL(context);
-                _repo.Add(new LineItem { Id = 10001, Quantity = 10, Product = new Product { Id = 10110, Name = "Test", Price = 10.00m, Description = "Test" } });
+                _repo.Add(new LineItem { Id = 2222, Quantity = 10, Product = new Product { Id = 22221, Name = "Test", Price = 10.00m, Description = "Test", Category = "Test" } });
                 context.SaveChanges();
 
                 //Act
-                LineItem testlineitem = _repo.Get(new LineItem { Id = 10001 });
+                LineItem testlineitem = _repo.Get(new LineItem { Id = 2222 });
 
-                Xunit.Assert.Equal(10001, testlineitem.Id);
+                Xunit.Assert.Equal(2222, testlineitem.Id);
                 Xunit.Assert.Equal(10, testlineitem.Quantity);
-                Xunit.Assert.Equal(10110, testlineitem.Product.Id);
+                Xunit.Assert.Equal(22221, testlineitem.Product.Id);
                 Xunit.Assert.Equal("Test", testlineitem.Product.Name);
                 Xunit.Assert.Equal(10.00m, testlineitem.Product.Price);
                 Xunit.Assert.Equal("Test", testlineitem.Product.Description);
+                Xunit.Assert.Equal("Test", testlineitem.Product.Category);
 
                 _repo.Delete(testlineitem);
                 context.SaveChanges();
@@ -383,7 +386,7 @@ namespace UnitTests
             {
 
                 var _repo = new DataAccessLogic.RepositorySQL(context);
-                _repo.Add(new Product { Id = 10110, Name = "Test", Price = 10.00m, Description = "Test" });
+                _repo.Add(new Product { Id = 10110, Name = "Test", Price = 10.00m, Description = "Test", Category = "Test" });
                 context.SaveChanges();
 
                 //Act
@@ -393,6 +396,7 @@ namespace UnitTests
                 Xunit.Assert.Equal("Test", testproduct.Name);
                 Xunit.Assert.Equal(10.00m, testproduct.Price);
                 Xunit.Assert.Equal("Test", testproduct.Description);
+                Xunit.Assert.Equal("Test", testproduct.Category);
 
                 _repo.Delete(testproduct);
                 context.SaveChanges();
@@ -446,7 +450,7 @@ namespace UnitTests
             {
 
                 var _repo = new DataAccessLogic.RepositorySQL(context);
-                _repo.Add(new Customer { Id = 10001, Name = "TestCustomer2", Address = "112 test test 01101", Email = "Customer@update.com" });
+                _repo.Add(new Customer { Id = 10001, Name = "TestCustomer2", Address = "112 test test 01101", Email = "Customer@update.com", Phone = "123-456-7890" });
                 context.SaveChanges();
 
                 //Act
@@ -456,10 +460,12 @@ namespace UnitTests
                 Xunit.Assert.Equal("TestCustomer2", testcustomer.Name);
                 Xunit.Assert.Equal("112 test test 01101", testcustomer.Address);
                 Xunit.Assert.Equal("Customer@update.com", testcustomer.Email);
+                Xunit.Assert.Equal("123-456-7890", testcustomer.Phone);
 
                 testcustomer.Name = "Customerupdate3";
                 testcustomer.Address = "4545 Sick burn st 78451";
                 testcustomer.Email = "SSmcflurry@icecream.com";
+                testcustomer.Phone = "123-456-7770";
 
                 _repo.Update(testcustomer);
                 context.SaveChanges();
@@ -471,6 +477,7 @@ namespace UnitTests
                 Xunit.Assert.Equal("Customerupdate3", testcustomer2.Name);
                 Xunit.Assert.Equal("4545 Sick burn st 78451", testcustomer2.Address);
                 Xunit.Assert.Equal("SSmcflurry@icecream.com", testcustomer2.Email);
+                Xunit.Assert.Equal("123-456-7770", testcustomer2.Phone);
 
             }
         }
@@ -517,36 +524,39 @@ namespace UnitTests
             {
 
                 var _repo = new DataAccessLogic.RepositorySQL(context);
-                _repo.Add(new LineItem { Id = 10001, Quantity = 10, Product = new Product { Id = 10110, Name = "Test", Price = 10.00m, Description = "Test" } });
+                _repo.Add(new LineItem { Id = 22111, Quantity = 10, Product = new Product { Id = 221111, Name = "Test", Price = 10.00m, Description = "Test", Category = "Test" } });
                 context.SaveChanges();
 
                 //Act
-                LineItem testlineitem = _repo.Get(new LineItem { Id = 10001 });
+                LineItem testlineitem = _repo.Get(new LineItem { Id = 22111 });
 
-                Xunit.Assert.Equal(10001, testlineitem.Id);
+                Xunit.Assert.Equal(22111, testlineitem.Id);
                 Xunit.Assert.Equal(10, testlineitem.Quantity);
-                Xunit.Assert.Equal(10110, testlineitem.Product.Id);
+                Xunit.Assert.Equal(221111, testlineitem.Product.Id);
                 Xunit.Assert.Equal("Test", testlineitem.Product.Name);
                 Xunit.Assert.Equal(10.00m, testlineitem.Product.Price);
                 Xunit.Assert.Equal("Test", testlineitem.Product.Description);
+                Xunit.Assert.Equal("Test", testlineitem.Product.Category);
 
                 testlineitem.Quantity = 20;
                 testlineitem.Product.Name = "Test2";
                 testlineitem.Product.Price = 20.00m;
                 testlineitem.Product.Description = "Test2";
+                testlineitem.Product.Category = "Test2";
 
                 _repo.Update(testlineitem);
                 context.SaveChanges();
 
-                LineItem testlineitem2 = _repo.Get(new LineItem { Id = 10001 });
+                LineItem testlineitem2 = _repo.Get(new LineItem { Id = 22111 });
 
                 //Assert
-                Xunit.Assert.Equal(10001, testlineitem2.Id);
+                Xunit.Assert.Equal(22111, testlineitem2.Id);
                 Xunit.Assert.Equal(20, testlineitem2.Quantity);
-                Xunit.Assert.Equal(10110, testlineitem2.Product.Id);
+                Xunit.Assert.Equal(221111, testlineitem2.Product.Id);
                 Xunit.Assert.Equal("Test2", testlineitem2.Product.Name);
                 Xunit.Assert.Equal(20.00m, testlineitem2.Product.Price);
                 Xunit.Assert.Equal("Test2", testlineitem2.Product.Description);
+                Xunit.Assert.Equal("Test2", testlineitem2.Product.Category);
 
             }
         }
@@ -559,7 +569,7 @@ namespace UnitTests
             {
 
                 var _repo = new DataAccessLogic.RepositorySQL(context);
-                _repo.Add(new Product { Id = 10110, Name = "Test", Price = 10.00m, Description = "Test" });
+                _repo.Add(new Product { Id = 10110, Name = "Test", Price = 10.00m, Description = "Test", Category = "Test" });
                 context.SaveChanges();
 
                 //Act
@@ -569,10 +579,12 @@ namespace UnitTests
                 Xunit.Assert.Equal("Test", testproduct.Name);
                 Xunit.Assert.Equal(10.00m, testproduct.Price);
                 Xunit.Assert.Equal("Test", testproduct.Description);
+                Xunit.Assert.Equal("Test", testproduct.Category);
 
                 testproduct.Name = "Test2";
                 testproduct.Price = 20.00m;
                 testproduct.Description = "Test2";
+                testproduct.Category = "Test2";
 
                 _repo.Update(testproduct);
                 context.SaveChanges();
@@ -584,6 +596,7 @@ namespace UnitTests
                 Xunit.Assert.Equal("Test2", testproduct2.Name);
                 Xunit.Assert.Equal(20.00m, testproduct2.Price);
                 Xunit.Assert.Equal("Test2", testproduct2.Description);
+                Xunit.Assert.Equal("Test2", testproduct2.Category);
 
             }
         }
@@ -603,6 +616,7 @@ namespace UnitTests
                         Name = "Test",
                         Address = "112 test test 01101",
                         Email = "testtest@email.com",
+                        Phone = "123-456-7890",
                         Orders = new List<Order>{
                             new Order{
                                 Id = 11101,
@@ -610,27 +624,29 @@ namespace UnitTests
                                 Active = true,
                                 LineItems = new List<LineItem>{
                                     new LineItem{
-                                        Id = 11110,
+                                        Id = 10100,
                                         Quantity = 10,
                                         Total = 100.00m,
                                         Product = new Product{
-                                            Id = 10110,
+                                            Id = 11111,
                                             Name = "Test",
                                             Price = 10.00m,
                                             Description = "Test",
+                                            Category = "Test"
                                         }},
                                     new LineItem{
-                                        Id = 11111,
+                                        Id = 10001,
                                         Quantity = 10,
                                         Total = 100.00m,
                                         Product = new Product{
-                                            Id = 10111,
+                                            Id = 11110,
                                             Name = "Test2",
                                             Price = 10.00m,
                                             Description = "Test2",
+                                            Category = "Test2",
                                         }}}},
                             new Order{
-                                Id = 11112,
+                                Id = 11102,
                                 Address = "112 test test 01101",
                                 Active = true,
                                 LineItems = new List<LineItem>{
@@ -639,20 +655,22 @@ namespace UnitTests
                                         Quantity = 10,
                                         Total = 100.00m,
                                         Product = new Product{
-                                            Id = 10110,
+                                            Id = 11100,
                                             Name = "Test",
                                             Price = 10.00m,
                                             Description = "Test",
+                                            Category = "Test"
                                         }},
                                     new LineItem{
-                                        Id = 00111,
+                                        Id = 001111,
                                         Quantity = 10,
                                         Total = 100.00m,
                                         Product = new Product{
-                                            Id = 10011,
+                                            Id = 11000,
                                             Name = "Test2",
                                             Price = 10.00m,
                                             Description = "Test2",
+                                            Category = "Test2"
                                     }}}}}});
                 context.Stores.AddRange(
                     new Store{
@@ -661,7 +679,7 @@ namespace UnitTests
                         Address = "112 test test 01101",
                         Orders = new List<Order>{
                             new Order{
-                                Id = 11111,
+                                Id = 11001,
                                 Address = "112 test test 01101",
                                 Active = true,
                                 LineItems = new List<LineItem>{
@@ -670,20 +688,22 @@ namespace UnitTests
                                         Quantity = 10,
                                         Total = 100.00m,
                                         Product = new Product{
-                                            Id = 10110,
+                                            Id = 10000,
                                             Name = "Test",
                                             Price = 10.00m,
                                             Description = "Test",
+                                            Category = "Test",
                                         }},
                                     new LineItem{
                                         Id = 11111,
                                         Quantity = 10,
                                         Total = 100.00m,
                                         Product = new Product{
-                                            Id = 10111,
+                                            Id = 10001,
                                             Name = "Test2",
                                             Price = 10.00m,
                                             Description = "Test2",
+                                            Category = "Test2",
                                         }}}},
                             new Order{
                                 Id = 11112,
@@ -695,13 +715,14 @@ namespace UnitTests
                                         Quantity = 10,
                                         Total = 100.00m,
                                         Product = new Product{
-                                            Id = 10110,
+                                            Id = 10011,
                                             Name = "Test",
                                             Price = 10.00m,
                                             Description = "Test",
+                                            Category = "Test2",
                                         }},
                                     new LineItem{
-                                        Id = 11111,
+                                        Id = 00111,
                                         Quantity = 10,
                                         Total = 100.00m,
                                         Product = new Product{
@@ -709,6 +730,7 @@ namespace UnitTests
                                             Name = "Test2",
                                             Price = 10.00m,
                                             Description = "Test2",
+                                            Category = "Test2"
                                     }}}}}});
                         context.SaveChanges();
             }         

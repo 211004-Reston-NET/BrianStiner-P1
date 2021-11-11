@@ -12,6 +12,27 @@ namespace BusinessLogic
     public interface IBusiness
     {
     
+        // The IsValid methods use regex to check if the input is valid
+        public bool IsValidName(string name);
+        public bool IsValidUsername(string username);
+        public bool IsValidEmail(string email);
+        public bool IsValidPhone(string phone);
+        public bool IsValidAddress(string address);
+        public bool IsValidPassword(string password);
+        public bool IsValidPrice(decimal price);
+        public bool IsValidQuantity(int quantity);
+
+
+        // User methods for dealing with password security and user authentication.
+        public bool IsEqual(string password, string password2);
+        public string SaltedHashPassword( string p_salt, string p_unhashedpassword); //The unhashed password traveling from form, to controller, to the business logic is an ignorable security risk.
+        public bool CheckPassword(string p_passwordtocheck, User p_User);
+        public bool IsUniqueUsername(string p_username);
+        public bool CreateUser(string p_username, string p_unhashedpassword1, string p_unhashedpassword2, string p_email = "", string p_phone = "");
+        public bool Login(string p_username, string p_passwordtocheck);
+        
+        
+        
         /// <summary> These will pass a Class to our _repo database </summary>
         /// <param name="p_IC">This is the IClass we will be adding to the database</param>
         void Add(Customer p_IC);

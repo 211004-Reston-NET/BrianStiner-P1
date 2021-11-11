@@ -18,8 +18,6 @@ namespace Models
         [Required]
         public string Phone { get; set; }
         [Required]
-        public string Password { get; set; }
-        [Required]
         public decimal TotalSpent { get; set; }
         [Required]
         public int Picture { get; set; }
@@ -191,18 +189,20 @@ namespace Models
         [Required]
         public int Quantity { get; set; }
         [Required]
-        public decimal Total { get => Total; set => Total = value; }
+        public decimal Total { get; set; }
 
 
         public virtual Product Product { get; set; }
 
 
         //Constructors ---------------------------------------------------------------------------
-        public LineItem(){Product = new Product(); Total = Product.Price;}
-        public LineItem(int p_quantity){this.Quantity = p_quantity;}
-        public LineItem(int p_quantity, Product p_lineProduct):this(p_quantity){this.Product = p_lineProduct;}
-        public LineItem(int p_quantity, Product p_lineProduct, int p_Id):this(p_quantity, p_lineProduct){this.Id = p_Id;}
-        public LineItem(int p_quantity, Product p_lineProduct, int p_Id, decimal p_total):this(p_quantity, p_lineProduct, p_Id){this.Total = p_total;}
+        public LineItem(){Product = new Product(); Total = 0; Quantity = 0;}
+        public LineItem(int p_Id):this(){this.ProductId = p_Id;}
+        public LineItem(int p_Id, int p_quantity):this(p_Id){this.Quantity = p_quantity;}
+        public LineItem(int p_Id, int p_quantity, decimal p_total):this(p_Id, p_quantity){this.Total = p_total;}
+        public LineItem(int p_Id, int p_quantity, decimal p_total, Product p_product):this(p_Id, p_quantity, p_total){this.Product = p_product;}
+        public LineItem(int p_Id, int p_quantity, Product p_product):this(p_Id, p_quantity){this.Product = p_product;}
+
 
 
         //Interface --------------------------------------------------------------------------------
@@ -239,9 +239,11 @@ namespace Models
         //Constructors ---------------------------------------------------------------------------
         public Product(){}
         public Product(int p_Id){this.Id = p_Id;}
-        public Product(string p_name):this(){this.Name = p_name;}
-        public Product(string p_name, string p_description):this(p_name){this.Description = p_description;}
-        public Product(string p_name, string p_description, string p_category):this(p_name, p_description){this.Category = p_category;}
+        public Product(int p_Id, string p_name):this(p_Id){this.Name = p_name;}
+        public Product(int p_Id, string p_name, string p_description):this(p_Id, p_name){this.Description = p_description;}
+        public Product(int p_Id, string p_name, string p_description, string p_category):this(p_Id, p_name, p_description){this.Category = p_category;}
+        public Product(int p_Id, string p_name, string p_description, string p_category, decimal p_price):this(p_Id, p_name, p_description, p_category){this.Price = p_price;}
+        public Product(string p_name, string p_description, string p_category):this(){this.Name = p_name; this.Description = p_description; this.Category = p_category;}
         public Product(string p_name, string p_description, string p_category, decimal p_price):this(p_name, p_description, p_category){this.Price = p_price;}
 
         //Interface --------------------------------------------------------------------------------
@@ -266,7 +268,9 @@ namespace Models
         public string Username { get; set; }
         [Required]
         public string Password { get; set; }
+        [Required]
         public string Email { get; set; }
+        [Required]
         public string Phone { get; set; }
 
         //Constructors ---------------------------------------------------------------------------
