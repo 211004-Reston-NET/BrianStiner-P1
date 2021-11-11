@@ -18,6 +18,8 @@ namespace Models
         [Required]
         public string Phone { get; set; }
         [Required]
+        public string Password { get; set; }
+        [Required]
         public decimal TotalSpent { get; set; }
         [Required]
         public int Picture { get; set; }
@@ -188,8 +190,8 @@ namespace Models
         public int ProductId { get; set; }
         [Required]
         public int Quantity { get; set; }
-        [NotMapped]
-        public decimal Total { get => Quantity*Product.Price; set => Total = value; }
+        [Required]
+        public decimal Total { get => Total; set => Total = value; }
 
 
         public virtual Product Product { get; set; }
@@ -200,6 +202,8 @@ namespace Models
         public LineItem(int p_quantity){this.Quantity = p_quantity;}
         public LineItem(int p_quantity, Product p_lineProduct):this(p_quantity){this.Product = p_lineProduct;}
         public LineItem(int p_quantity, Product p_lineProduct, int p_Id):this(p_quantity, p_lineProduct){this.Id = p_Id;}
+        public LineItem(int p_quantity, Product p_lineProduct, int p_Id, decimal p_total):this(p_quantity, p_lineProduct, p_Id){this.Total = p_total;}
+
 
         //Interface --------------------------------------------------------------------------------
         public string Identify() { return "LineItem"; }
@@ -252,4 +256,36 @@ namespace Models
         }
     }
 
+    //User has a username. Maybe an email and phone number. A password is only stored in the database through the business layer.
+    public partial class User : IClass
+    {
+        //Variables -----------------------------------------------------------------------------
+        [Key]
+        public int Id { get; set; }
+        [Required]
+        public string Username { get; set; }
+        [Required]
+        public string Password { get; set; }
+        public string Email { get; set; }
+        public string Phone { get; set; }
+
+        //Constructors ---------------------------------------------------------------------------
+        public User(){}
+        public User(int p_Id):this(){this.Id = p_Id;}
+        public User(string p_username):this(){this.Username = p_username;}
+        public User(string p_username, string password):this(p_username){this.Password = password;}
+        public User(string p_username, string password, string p_email):this(p_username, password){this.Email = p_email;}
+        public User(string p_username, string password, string p_email, string p_phone):this(p_username, password, p_email){this.Phone = p_phone;}
+        public User(string p_username, string password, string p_email, string p_phone, int p_Id):this(p_username, password, p_email, p_phone){this.Id = p_Id;}
+
+        //Interface --------------------------------------------------------------------------------
+        public string Identify() { return "User"; }
+        public List<string> ToStringList(){
+            List<string> stringlist = new List<string>(){
+            $"Username: {Username}",
+            $"Email: {Email}",
+            $"Phone: {Phone}"};
+            return stringlist;
+        }
+    }
 }

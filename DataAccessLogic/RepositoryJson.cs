@@ -200,5 +200,35 @@ namespace DataAccessLogic
         {
             throw new NotImplementedException();
         }
+
+        public void Add(User p_IC)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Delete(User p_IC)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<User> GetAll(User p_IC)
+        {
+            throw new NotImplementedException();
+        }
+
+        public User Get(User p_IC)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Update(User p_IC)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<User> Search(User p_IC, string p_Search)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

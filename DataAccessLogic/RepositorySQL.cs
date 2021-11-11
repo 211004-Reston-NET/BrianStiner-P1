@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Models;
 using DataAccessLogic;
+using System.Collections;
 
 namespace DataAccessLogic
 {
@@ -36,6 +37,10 @@ namespace DataAccessLogic
             _context.Add(p_IC);
             _context.SaveChanges();
         }
+        public void Add(User p_IC){
+            _context.Add(p_IC);
+            _context.SaveChanges();
+        }
 
         // Method Delete:
         // Class parameter. Overloaded 5 times. Used to delete a Class from the database.
@@ -59,6 +64,10 @@ namespace DataAccessLogic
             _context.Remove(p_IC);
             _context.SaveChanges();
         }
+        public void Delete(User p_IC){
+            _context.Remove(p_IC);
+            _context.SaveChanges();
+        }
 
         //Method GetAll:
         // Class parameter. Overloaded 5 times. Uses Linq to grab all classes from the database.
@@ -77,6 +86,9 @@ namespace DataAccessLogic
         public List<Product> GetAll(Product p_IC){
             return _context.Products.ToList();
         }
+        public List<User> GetAll(User p_IC){
+            return _context.Users.ToList();
+        }
 
         // Method Get. 
         // Matches ID to an entry in the database. Grabs all info from the database and returns it as a class.
@@ -94,6 +106,9 @@ namespace DataAccessLogic
         }
         public Product Get(Product p_IC){
             return _context.Products.Where(x => x.Id == p_IC.Id).FirstOrDefault();
+        }
+        public User Get(User p_IC){
+            return _context.Users.Where(x => x.Id == p_IC.Id).FirstOrDefault();
         }
 
         // Method Update:
@@ -118,6 +133,10 @@ namespace DataAccessLogic
             _context.Update(p_IC);
             _context.SaveChanges();
         }
+        public void Update(User p_IC){
+            _context.Update(p_IC);
+            _context.SaveChanges();
+        }
 
         // Method Search: 
         //Class parameter. Overloaded 5 times. Used to search the database and return all classes that match the search criteria.
@@ -135,6 +154,22 @@ namespace DataAccessLogic
         }
         public List<Product> Search(Product p_IC, string p_Search){
             return _context.Products.Where(IC => IC.Name.Contains(p_Search) || IC.Description.Contains(p_Search) || IC.Category.Contains(p_Search) || IC.Price.ToString().Contains(p_Search)).ToList();
+        }
+        public List<User> Search(User p_IC, string p_Search){
+            return _context.Users.Where(IC => IC.Username.Contains(p_Search) || IC.Email.Contains(p_Search) || IC.Phone.Contains(p_Search)).ToList();
+        }
+
+
+        //Search all
+        public ArrayList SearchAll(string p_Search){
+            ArrayList list = new ArrayList();
+            list.Add(Search(new Customer(), p_Search));
+            list.Add(Search(new Store(), p_Search));
+            list.Add(Search(new Order(), p_Search));
+            list.Add(Search(new LineItem(), p_Search));
+            list.Add(Search(new Product(), p_Search));
+            list.Add(Search(new User(), p_Search));
+            return list;
         }
     }
 }
