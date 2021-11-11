@@ -123,6 +123,15 @@ namespace BusinessLogic
             return false;
         }
 
+        // Returns bool if user can login
+        public bool Login(string p_username, string p_unhashedpassword){
+            User u = _repo.GetAll(new User()).Find(user => user.Username == p_username);
+            if(u != null){
+                return CheckPassword(p_unhashedpassword, u);
+            }
+            return false;
+        }
+
 
 
 
