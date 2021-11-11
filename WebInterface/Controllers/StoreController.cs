@@ -34,7 +34,7 @@ namespace WebInterface.Controllers
         {
             if (Id == null){return NotFound();}
 
-            _BL.Delete(new Customer((int)Id));
+            _BL.Delete(new Store((int)Id));
 
             return RedirectToAction(nameof(Index));
         }
@@ -43,7 +43,7 @@ namespace WebInterface.Controllers
         {
             if (Id == null){return NotFound();}
 
-            _BL.Update(new Customer((int)Id));
+            _BL.Update(new Store((int)Id));
 
             return RedirectToAction(nameof(Index));
         }

@@ -58,11 +58,11 @@ namespace BusinessLogic
 
         // Returns bool if string is a valid name using regex
         public bool IsValidName(string name){
-            return Regex.IsMatch(name, @"^[a-zA-Z ]+$");
+            return Regex.IsMatch(name, @"^[a-zA-Z,'.\s]+$");
         }
         // Returns bool if string is a valid username using regex
         public bool IsValidUsername(string username){
-            return Regex.IsMatch(username, @"^[a-zA-Z0-9_-]+$");
+            return Regex.IsMatch(username, @"^[a-zA-Z0-9_~-]+$");
         }
         // Returns bool if string is a valid email using regex
         public bool IsValidEmail(string email){
@@ -70,11 +70,11 @@ namespace BusinessLogic
         }
         // Returns bool if string is a valid phone number using regex
         public bool IsValidPhone(string phone){
-            return Regex.IsMatch(phone, @"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$"); // 9 numbers with spaces, dashes, or periods or none of that.
+            return Regex.IsMatch(phone, @"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$"); // 9 numbers with optional spaces, dashes, or periods.
         }
         // Returns bool if string is a valid address with zipcode using regex
         public bool IsValidAddress(string address){
-            return Regex.IsMatch(address, @"^\(?([0-9]{1-6})\) ?([a-zA-Z\s, .'-]) ?([0-9]{5})$"); // house number, street, zipcode
+            return Regex.IsMatch(address, @"^[0-9]{1,6}[a-zA-Z\s,.'-]+[0-9]{5}$"); // house number, street, zipcode
         }
         // Returns bool if string is a valid password using regex
         public bool IsValidPassword(string password){
@@ -86,7 +86,7 @@ namespace BusinessLogic
         }
         // Returns bool if int is a valid quantity using regex
         public bool IsValidQuantity(int quantity){
-            return Regex.IsMatch(quantity.ToString(), @"^[0-9]{1-3}$");
+            return 0<quantity && quantity<=999;
         }
 
 

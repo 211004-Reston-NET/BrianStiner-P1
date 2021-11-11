@@ -59,7 +59,6 @@ namespace WebInterface.Models{
                 Address = this.Address,
                 Expenses = this.Expenses,
                 Revenue = this.Revenue,
-                Profit = this.Profit
             };
         }
     }

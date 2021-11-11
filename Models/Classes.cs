@@ -189,14 +189,14 @@ namespace Models
         [Required]
         public int Quantity { get; set; }
         [Required]
-        public decimal Total { get; set; }
+        public decimal Total { get => Quantity * Product.Price; set => Total = value; }
 
 
         public virtual Product Product { get; set; }
 
 
         //Constructors ---------------------------------------------------------------------------
-        public LineItem(){Product = new Product(); Total = 0; Quantity = 0;}
+        public LineItem(){Product = new Product(); Total = 1; Quantity = 1;}
         public LineItem(int p_Id):this(){this.ProductId = p_Id;}
         public LineItem(int p_Id, int p_quantity):this(p_Id){this.Quantity = p_quantity;}
         public LineItem(int p_Id, int p_quantity, decimal p_total):this(p_Id, p_quantity){this.Total = p_total;}

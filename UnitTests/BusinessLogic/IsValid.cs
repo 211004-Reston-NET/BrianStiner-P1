@@ -119,7 +119,7 @@ namespace UnitTests
             string address = "1 h 11100";
             Xunit.Assert.True(b.IsValidAddress(address));
 
-            address = "12512 People are Weird St. 11101";
+            address = "125122 People are Weird St. 11101";
             Xunit.Assert.True(b.IsValidAddress(address));
 
             address = "10 just words st no zip";
