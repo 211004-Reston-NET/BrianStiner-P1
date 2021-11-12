@@ -50,7 +50,7 @@ jobs:
     
     #Restore dependencies .NET application
     - name: Restore dependencies
-      run: dotnet restore /WebInterface # The filepath will differ for yours
+      run: dotnet restore
       
     # Unit Testing
     - name: Test
@@ -111,7 +111,7 @@ jobs:
         image: BrianStiner/WebApp #Change this to whatever name you want your image to be
         tags: v1, latest
         registry: docker.io 
-        directory: / #The main directory of your application (might differ to yours)
-        dockerfile: /dockerfile #The actual docker file location
+        directory: /WebInterface #The main directory of your application (might differ to yours)
+        dockerfile: / #The actual docker file location
         username: ${{ secrets.DOCKER_USERNAME }} # Put your docker login credentials in your secrets
         password: ${{ secrets.DOCKER_PASSWORD }} 
