@@ -108,7 +108,7 @@ jobs:
     - uses: mr-smithers-excellent/docker-build-push@v5
       name: Build & push Docker image
       with:
-        image: BrianStiner/WebApp #Change this to whatever name you want your image to be
+        image: brianstinerwebapp #Change this to whatever name you want your image to be
         tags: v1, latest
         registry: docker.io 
         directory: /WebInterface #The main directory of your application (might differ to yours)
