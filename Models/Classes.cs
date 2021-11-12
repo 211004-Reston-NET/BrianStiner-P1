@@ -189,14 +189,15 @@ namespace Models
         [Required]
         public int Quantity { get; set; }
         [Required]
-        public decimal Total { get => Quantity * Product.Price; set => Total = value; }
+        public decimal Total { get; set; }
 
-
+        [ForeignKey("ProductId")]
+        [Required]
         public virtual Product Product { get; set; }
 
 
         //Constructors ---------------------------------------------------------------------------
-        public LineItem(){Product = new Product(); Total = 1; Quantity = 1;}
+        public LineItem(){}
         public LineItem(int p_Id):this(){this.ProductId = p_Id;}
         public LineItem(int p_Id, int p_quantity):this(p_Id){this.Quantity = p_quantity;}
         public LineItem(int p_Id, int p_quantity, decimal p_total):this(p_Id, p_quantity){this.Total = p_total;}
@@ -218,6 +219,11 @@ namespace Models
             stringlist.Add($"                Total: {Total}");
             return stringlist;
         }
+
+        //Methods ---------------------------------------------------------------------------------
+        public decimal CalculateTotalPrice(){
+            return Product.Price * Quantity;
+        }
     }
 
     public partial class Product : IClass
@@ -234,6 +240,7 @@ namespace Models
         [Required]
         public decimal Price { get; set; }
 
+        [Required]
         public virtual List<LineItem> LineItems { get; set; }
 
         //Constructors ---------------------------------------------------------------------------

@@ -7,8 +7,8 @@ namespace UnitTests{
     public class LineItemIdentifiesAsLineItem{
         [TestMethod]
         public void LineItem_Equals_LineItem(){
-            LineItem LineItem = new LineItem();
-            Assert.AreEqual(LineItem.Identify(), "LineItem");
+            LineItem li = new LineItem();
+            Assert.AreEqual(li.Identify(), "LineItem");
         }
     }
 }

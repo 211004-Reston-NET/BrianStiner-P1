@@ -15,10 +15,9 @@ namespace UnitTests
 
         public UserSecurityTests()
         {
-            _options = new DbContextOptionsBuilder<revaturedatabaseContext>() //In-memory database
-                .UseSqlite("Filename = TestingDatabase.Db")
-                .Options;
-
+                _options = new DbContextOptionsBuilder<revaturedatabaseContext>() //In-memory database
+                        .UseSqlite("Filename = TestingDatabase.Db")
+                        .Options;
                 Seed();
         }
 
@@ -51,6 +50,7 @@ namespace UnitTests
                 Xunit.Assert.NotNull(result);
                 Xunit.Assert.NotEqual("password", result);
                 Xunit.Assert.NotEqual("usernamepassword", result);
+                Xunit.Assert.Equal(60, result.Length);
 
         }
 

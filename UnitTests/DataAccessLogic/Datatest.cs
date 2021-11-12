@@ -626,7 +626,6 @@ namespace UnitTests
                                     new LineItem{
                                         Id = 10100,
                                         Quantity = 10,
-                                        Total = 100.00m,
                                         Product = new Product{
                                             Id = 11111,
                                             Name = "Test",
@@ -637,7 +636,6 @@ namespace UnitTests
                                     new LineItem{
                                         Id = 10001,
                                         Quantity = 10,
-                                        Total = 100.00m,
                                         Product = new Product{
                                             Id = 11110,
                                             Name = "Test2",
@@ -653,7 +651,6 @@ namespace UnitTests
                                     new LineItem{
                                         Id = 11010,
                                         Quantity = 10,
-                                        Total = 100.00m,
                                         Product = new Product{
                                             Id = 11100,
                                             Name = "Test",
@@ -664,7 +661,6 @@ namespace UnitTests
                                     new LineItem{
                                         Id = 001111,
                                         Quantity = 10,
-                                        Total = 100.00m,
                                         Product = new Product{
                                             Id = 11000,
                                             Name = "Test2",
@@ -686,7 +682,6 @@ namespace UnitTests
                                     new LineItem{
                                         Id = 11110,
                                         Quantity = 10,
-                                        Total = 100.00m,
                                         Product = new Product{
                                             Id = 10000,
                                             Name = "Test",
@@ -697,7 +692,6 @@ namespace UnitTests
                                     new LineItem{
                                         Id = 11111,
                                         Quantity = 10,
-                                        Total = 100.00m,
                                         Product = new Product{
                                             Id = 10001,
                                             Name = "Test2",
@@ -713,7 +707,6 @@ namespace UnitTests
                                     new LineItem{
                                         Id = 10010,
                                         Quantity = 10,
-                                        Total = 100.00m,
                                         Product = new Product{
                                             Id = 10011,
                                             Name = "Test",
@@ -724,7 +717,6 @@ namespace UnitTests
                                     new LineItem{
                                         Id = 00111,
                                         Quantity = 10,
-                                        Total = 100.00m,
                                         Product = new Product{
                                             Id = 10111,
                                             Name = "Test2",

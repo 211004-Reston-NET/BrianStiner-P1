@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Models;
 using WebInterface.Models;
 
 namespace WebInterface.Controllers
@@ -16,11 +17,14 @@ namespace WebInterface.Controllers
 
         public IActionResult Index()
         {
+            
+            //LineItem li = new LineItem(1, 10, 9.99m, new Product());
             return View();
         }
 
         public IActionResult Privacy()
         {
+            var prod = new Product();
             return View();
         }
 
