@@ -140,7 +140,26 @@ namespace BusinessLogic
             return false;
         }
 
-
+        public bool IsValidCustomer(Customer c){
+            if(IsValidName(c.Name)){
+            if(IsValidAddress(c.Address)){
+            if(IsValidEmail(c.Email)){
+            if(IsValidPhone(c.Phone)){
+                return true;}}}}
+            return false;
+        }
+        public bool IsValidStore(Store s){
+            if(IsValidName(s.Name)){
+            if(IsValidAddress(s.Address)){
+                return true;}}
+            return false;
+        }
+        public bool IsValidProduct(Product p){
+            if(IsValidName(p.Name)){
+            if(IsValidPrice(p.Price)){
+                return true;}}
+            return false;
+        }
 
 
 

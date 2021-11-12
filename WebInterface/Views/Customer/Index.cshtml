@@ -1,6 +1,5 @@
-@{
-}
-@model IEnumerable<WebInterface.Models.CustomerVM>
+@using Models;
+@model IEnumerable<Models.Customer>
 
 <h1 class="text-center"> List of Customers</h1>
 <table border="2", class="table table-hover">
@@ -23,8 +22,7 @@
             <td>@customer.Address</td>
             <td>@customer.TotalSpent</td>
             <td><form method="POST"> @Html.ActionLink("", "Delete", new{id=customer.Id}, new{@class="btn btn-outline-danger btn-lg"})   </form></td>
-            <td><form method="GET"> @Html.ActionLink("", "Edit", new{id=customer.Id}, new{@class="btn btn-outline-info btn-lg"})        </form></td>
-
+            <td><form method="GET">  @Html.ActionLink("", "Edit", new{id=customer.Id}, new{@class="btn btn-outline-info btn-lg"})       </form></td>
         </tr>
     }
 </table>

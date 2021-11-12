@@ -31,7 +31,9 @@ namespace BusinessLogic
         public bool CreateUser(string p_username, string p_unhashedpassword1, string p_unhashedpassword2, string p_email = "", string p_phone = "");
         public bool Login(string p_username, string p_passwordtocheck);
         
-        
+        public bool IsValidCustomer(Customer customer);
+        public bool IsValidProduct(Product product);
+        public bool IsValidStore(Store store);
         
         /// <summary> These will pass a Class to our _repo database </summary>
         /// <param name="p_IC">This is the IClass we will be adding to the database</param>

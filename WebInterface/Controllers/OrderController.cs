@@ -8,15 +8,15 @@ using System.Linq;
 
 namespace WebInterface.Controllers
 {
-    public class CustomerController : Controller
+    public class OrderController : Controller
     {
-        private readonly ILogger<CustomerController> _logger;
+        private readonly ILogger<OrderController> _logger;
         private IBusiness _BL; 
             
         //     DbContextOptionsBuilder<revaturedatabaseContext> options = new DbContextOptionsBuilder<revaturedatabaseContext>()
         //         .UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
 
-        public CustomerController(IBusiness p_BL, ILogger<CustomerController> p_logger)
+        public OrderController(IBusiness p_BL, ILogger<OrderController> p_logger)
         {
             _logger = p_logger;
             _BL = p_BL;
@@ -24,59 +24,58 @@ namespace WebInterface.Controllers
 
         public IActionResult Index()
         {
-            return View(_BL.GetAll(new Customer()));
+            return View(_BL.GetAll(new Order()) //Map to view model
+            .Select(x => new OrderVM(x))
+            .ToList()
+            );
         }
 
 
 
-        [HttpGet]
+
         public IActionResult Create()
         {
             return View();
         }
         [HttpPost]
-        public IActionResult Create(CustomerVM p_customerVM)
+        public IActionResult Create(OrderVM p_OrderVM)
         {
             if (ModelState.IsValid){
-            if(_BL.IsValidCustomer(p_customerVM.MapToModel())){
-                _BL.Add(p_customerVM.MapToModel());
+                _BL.Add(p_OrderVM.MapToModel());
                 return RedirectToAction("Index");
-            }}
+            }
             ModelState.AddModelError("", "Entered Values are invalid");
             return Create();
         }
 
-        [HttpGet("Delete/{id}")]
+
         public IActionResult Delete(int? Id)
         {
             if (Id == null){return NotFound();}
 
-            _BL.Delete(new Customer((int)Id));
+            _BL.Delete(new Order((int)Id));
 
             return RedirectToAction(nameof(Index));
         }
 
-        [HttpGet("Edit/{id}")]
         public IActionResult Edit(int? Id)
         {
             if (Id == null){return NotFound();}
 
-            var customer = _BL.Get(new Customer((int)Id));
-            if (customer == null){return NotFound();}
+            var Order = _BL.Get(new Order((int)Id));
+            if (Order == null){return NotFound();}
 
-            ViewData["Orders"] = customer.Orders;
-            return View(new CustomerVM(customer));
+            return View(new OrderVM(Order));
         }
-        [HttpPost("Edit")]
-        public IActionResult Edit(CustomerVM p_customerVM)
+        [HttpPost]
+        public IActionResult Edit(OrderVM p_OrderVM)
         {
-            if (ModelState.IsValid){
-            if(_BL.IsValidCustomer(p_customerVM.MapToModel())){
-                _BL.Update(p_customerVM.MapToModel());
+            if (ModelState.IsValid){  
+                _BL.Update(p_OrderVM.MapToModel());
                 return RedirectToAction("Index");
-            }}
+            }
             ModelState.AddModelError("", "Entered Values are invalid");
-            return Edit(p_customerVM.Id);
+            return Edit(p_OrderVM.Id);
         }
             
 

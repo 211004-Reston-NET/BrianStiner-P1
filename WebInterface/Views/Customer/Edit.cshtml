@@ -1,7 +1,9 @@
 @*This displays text boxes to enter Name, Address, Phone, and Email for a new Customer.*@
+@using Models;
 @{
 }
 @model WebInterface.Models.CustomerVM
+@*{List<Order> orders = ViewData["Orders"] as List<Order>;} *@
 
 <h1 class="text-center">Edit Customer</h1>
 <form asp-action="Create">
@@ -30,8 +32,26 @@
             <label asp-for="Email">Email address</label>
             <span asp-validation-for="Email"></span>
         </div>
+
+    @* @foreach(var order in customer.Orders){
+            <tr class="table-active">
+                <td>@order.Id</td>
+                <td>@order.Total</td>
+                <td><form method="POST"> @Html.ActionLink("", "Delete", new{id=order.Id}, new{@class="btn btn-outline-danger btn-lg"})   </form></td>
+                <td><form method="GET">  @Html.ActionLink("", "Edit", new{id=order.Id}, new{@class="btn btn-outline-info btn-lg"})       </form></td>
+            @foreach (var item in order.LineItems){
+                <tr class="table-active">
+                    <td>@item.Id</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.Product.Name</td>
+                    <td>@item.Product.Price</td>
+                    <td><form method="POST"> @Html.ActionLink("", "Delete", new{id=item.Id}, new{@class="btn btn-outline-danger btn-lg"})   </form></td>
+                    <td><form method="GET">  @Html.ActionLink("", "Edit", new{id=item.Id}, new{@class="btn btn-outline-info btn-lg"})       </form></td>
+                </tr>
+            }
+            </tr> *@
         <div class="d-grid gap-2">
-            <button type="submit" class="btn btn-lg btn-primary" value="Edit">Submit</button>
+            <button method = "POST" type="submit" class="btn btn-lg btn-primary" value="Edit">Submit Changes</button>
         </div>
     </div>
 </form>
