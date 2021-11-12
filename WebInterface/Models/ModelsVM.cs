@@ -143,7 +143,7 @@ namespace WebInterface.Models{
         public string Password { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
-
+        public bool LoggedIn { get; set; }
         public UserVM(){ }
 
         public UserVM(User user){

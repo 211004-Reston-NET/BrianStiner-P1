@@ -64,14 +64,13 @@ namespace WebInterface.Controllers
             return View(new ProductVM(product));
         }
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public IActionResult Edit(ProductVM p_productVM)
         {
             if (ModelState.IsValid){
                 _BL.Update(p_productVM.MapToModel());
                 return RedirectToAction("Index");
             }
-            return Index();
+            return Edit(p_productVM.Id);
         }
 
 

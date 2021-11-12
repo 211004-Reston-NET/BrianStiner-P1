@@ -42,9 +42,27 @@ namespace WebInterface.Controllers
                 if(_BL.CreateUser(p_NewUserVM.Username, p_NewUserVM.Password1, p_NewUserVM.Password2, p_NewUserVM.Email, p_NewUserVM.Phone) ){
                     return RedirectToAction("Index");
                 }
-                return View();
+                return Create();
             }
+            return Create();
+        }
+
+
+        public IActionResult Login1()
+        {
             return View();
+        }
+        [HttpPost]
+        public IActionResult Login1(UserVM p_UserVM)
+        {
+            if (ModelState.IsValid){
+                if(_BL.Login(p_UserVM.Username, p_UserVM.Password)){
+                    p_UserVM.LoggedIn = true;
+                    return RedirectToAction("Home/Index");
+                }
+                return Login1();
+            }
+            return Login1();
         }
     }
 }

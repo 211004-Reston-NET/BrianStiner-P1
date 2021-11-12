@@ -3,6 +3,5 @@ bin
 .vscode
 appsetting.json
 textStorage.txt
-UserInterface/appsetting.json
 publish
 appsettings.Development.json

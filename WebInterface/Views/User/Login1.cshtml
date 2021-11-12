@@ -1,0 +1,27 @@
+@*This displays text boxes to enter Username, Address, Password, and Email for a new Customer.*@
+@{
+}
+@model WebInterface.Models.UserVM
+
+<h1 class="text-center">Login</h1>
+<form asp-action="Login1">
+    <div asp-validation-summary="ModelOnly"></div>
+    <div class="form-group">
+        <div class="form-floating mb-3">
+            <input type="Username" class="form-control" id="Username" asp-required="true" placeholder="Samantha Tokatsu">
+            <label asp-for="Username">Username</label>
+            <span asp-validation-for="Username"></span>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input type="Password" class="form-control" id="Password" asp-required="true" placeholder="101-111-1101">
+            <label asp-for="Password">Password</label>
+            <span asp-validation-for="Password"></span>
+        </div>
+
+        <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-lg btn-primary" value="Login1">Submit</button>
+        </div>
+    </div>
+</form>
+

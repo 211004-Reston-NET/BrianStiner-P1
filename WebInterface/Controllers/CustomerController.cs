@@ -74,7 +74,7 @@ namespace WebInterface.Controllers
                 _BL.Update(p_customerVM.MapToModel());
                 return RedirectToAction("Index");
             }
-            return Index();
+            return Edit(p_customerVM.Id);
         }
 
 

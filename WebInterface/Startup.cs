@@ -7,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using DataAccessLogic;
 using BusinessLogic;
 using Microsoft.EntityFrameworkCore;
+using Models;
 
 namespace WebInterface
 {
@@ -47,6 +48,8 @@ namespace WebInterface
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

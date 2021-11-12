@@ -150,7 +150,7 @@ namespace DataAccessLogic
 
             modelBuilder.Entity<User>(entity =>
             {
-                entity.ToTable("User");
+                entity.ToTable("Users");
 
                 entity.Property(e => e.Id).HasColumnName("ID");
 
