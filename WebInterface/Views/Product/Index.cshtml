@@ -1,6 +1,5 @@
-@{
-}
-@model IEnumerable<WebInterface.Models.ProductVM>
+@using Models;
+@model IEnumerable<Product>
 
 <h1 class="text-center"> List of Products</h1>
 <table border="2", class="table table-hover">
@@ -15,11 +14,8 @@
 </tr>
     @foreach(var product in Model){
         <tr class="table-active">
-            <td>@product.Id</td>
-            <td>@product.Name</td>
-            <td>@product.Description</td>
-            <td>@product.Category</td>
-            <td>@product.Price</td>
+            @foreach (var item in product.ToStringList())
+                {<td>@item</td>}
             <td><form method="POST"> @Html.ActionLink("", "Delete", new{id=product.Id}, new{@class="btn btn-outline-danger btn-lg"})    </form></td>
             <td><form method="GET"> @Html.ActionLink("", "Edit", new{id=product.Id}, new{@class="btn btn-outline-info btn-lg"})        </form></td>
         </tr>

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -40,30 +41,27 @@ namespace Models
         public List<string> ToStringList(){return ToStringList(false);}
         public List<string> ToStringList(bool p_showpastorders){
             List<string> stringlist = new List<string>(){
-            " ",
-            $"name: {this.Name}",
-            $"address: {this.Address}",
-            $"email: {this.Email}",
-            $"phoneNumber: {this.Phone}",
-            $"totalSpent: {this.TotalSpent}",
-            $"Orders: "};
-            try{
-                int cnt = 0;
-                foreach(Order o in this.Orders){
-                    if(o.Active || p_showpastorders){
-                        stringlist.Add($"-[{cnt++}]-");
-                        foreach(string s in o.ToStringList()){
-                            stringlist.Add($"|  {s}");
-                        }
-                    }
-                }
-            }catch (System.Exception){
-                stringlist.Add("Customer has NULL orders.");
-                throw;
-            }
-            stringlist.Add(" ");
+            $"{this.Id}",
+            $"{this.Name}",
+            $"{this.Phone}",
+            $"{this.Email}",
+            $"{this.Address}",
+            $"{this.TotalSpent}",};
             return stringlist;
         }
+        #nullable enable
+        public ArrayList ToArrayList(ArrayList? p_al){
+            if(p_al == null){p_al = new ArrayList();}
+            p_al.Add(Id);
+            p_al.Add(Name);
+            p_al.Add(Phone);
+            p_al.Add(Email);
+            p_al.Add(Address);
+            p_al.Add(TotalSpent);
+            foreach(var item in Orders){p_al.AddRange(item.ToArrayList(p_al));}
+            return p_al;
+        }
+        #nullable disable
     }
 
     public partial class Store : IClass
@@ -100,33 +98,27 @@ namespace Models
         public List<string> ToStringList(){return ToStringList(false);}
         public List<string> ToStringList(bool p_showpastorders){
             List<string> stringlist = new List<string>() {
-            $"Name: {Name}",
-            $"Address: {Address}",
-            $"Expenses: {Expenses}",
-            $"Revenue: {Revenue}",
-            $"Profit: {Profit}",
-            $"Inventory: ",
-            };
-            if(Inventory.Count > 0){
-                foreach(LineItem li in Inventory){
-                    stringlist.Add("---------------------------");
-                    stringlist.AddRange(li.ToStringList());
-                }
-            }else{stringlist.Add("   None");}
-        stringlist.Add($"Orders: ");
-            if(Orders.Count > 0){
-                int cnt = 0;
-                foreach(Order o in Orders){
-                    if(o.Active || p_showpastorders){
-                        stringlist.Add($"-[{cnt++}]-");
-                        foreach(string s in o.ToStringList()){
-                            stringlist.Add($"  {s}");
-                        }
-                    }
-                }
-            }else{stringlist.Add("   None");}
+            $"{Id}",
+            $"{Name}",
+            $"{Address}",
+            $"{Expenses}",
+            $"{Revenue}",
+            $"{Profit}",};
             return stringlist;
         }
+        #nullable enable
+        public ArrayList ToArrayList(ArrayList? p_al){
+            if(p_al == null){p_al = new ArrayList();}
+            p_al.Add(Id);
+            p_al.Add(Name);
+            p_al.Add(Address);
+            p_al.Add(Expenses);
+            p_al.Add(Revenue);
+            p_al.Add(Profit);
+            foreach(var item in Orders){p_al.AddRange(item.ToArrayList(p_al));}
+            return p_al;
+        }
+        #nullable disable
             
     }
 
@@ -157,20 +149,30 @@ namespace Models
         public string Identify() { return "Order"; }
         public List<string> ToStringList(){
             List<string> stringlist = new List<string>(){
-            $"Active:   {this.Active}",
-            $"Order ID: {Id}",
-            $"Address:  {Address}",
-            $"LineItems: "};
-            foreach(LineItem oli in LineItems){ 
-                foreach(string s in oli.ToStringList()){
-                    stringlist.Add($"| {s}");
-                }
-            }
-            stringlist.Add($"-------------------------------");
-            stringlist.Add($"                 Total: {Total}");
+            $"{Id}",
+            $"{this.Active}",
+            $"{Address}",};
+            // $"LineItems: "};
+            // foreach(LineItem oli in LineItems){ 
+            //     foreach(string s in oli.ToStringList()){
+            //         stringlist.Add($"| {s}");
+            //     }
+            // }
+            // stringlist.Add($"-------------------------------");
+            stringlist.Add($"{Total}");
             return stringlist;
         }
-        
+        #nullable enable
+        public ArrayList ToArrayList(ArrayList? p_al){
+            if(p_al == null){p_al = new ArrayList();}
+            p_al.Add(Id);
+            p_al.Add(Address);
+            p_al.Add(Active);
+            foreach(var item in LineItems){p_al.AddRange(item.ToArrayList(p_al));}
+            p_al.Add(Total);
+            return p_al;
+        }
+        #nullable disable
         //Methods ---------------------------------------------------------------------------------
         public decimal CalculateTotalPrice(){
             decimal orderTotal = 0;
@@ -189,9 +191,7 @@ namespace Models
         [Required]
         public int Quantity { get; set; }
         [Required]
-        public decimal Total { get; set; }
-
-        [ForeignKey("ProductId")]
+        public decimal Total { get => CalculateTotalPrice(); set => Total = value; }
         [Required]
         public virtual Product Product { get; set; }
 
@@ -210,15 +210,28 @@ namespace Models
         public string Identify() { return "LineItem"; }
         public List<string> ToStringList(){
             List<string> stringlist = new List<string>();
-            stringlist.Add($"Product:");
-            foreach(string s in Product.ToStringList()){
-                stringlist.Add($"| {s}");
-            }
-            stringlist.Add($"Quantity: {Quantity}");
-            stringlist.Add($"------------------------------");
-            stringlist.Add($"                Total: {Total}");
+            // stringlist.Add($"Product:");
+            // foreach(string s in Product.ToStringList()){
+            //     stringlist.Add($"| {s}");
+            // }
+            stringlist.Add($"{Quantity}");
+            //stringlist.Add($"------------------------------");
+            stringlist.Add($"{Total}");
             return stringlist;
+        
+        //turns itself into a list of variables
+            
         }
+        #nullable enable
+        public ArrayList ToArrayList(ArrayList? p_al){
+            if(p_al == null){p_al = new ArrayList();}
+            p_al.Add(Id);
+            p_al.Add(Quantity);
+            p_al.AddRange(Product.ToArrayList(p_al));
+            p_al.Add(Total);
+            return p_al;
+        }
+        #nullable disable
 
         //Methods ---------------------------------------------------------------------------------
         public decimal CalculateTotalPrice(){
@@ -257,12 +270,24 @@ namespace Models
         public string Identify() { return "Product"; }
         public List<string> ToStringList(){
             List<string> stringlist = new List<string>(){
-            $"name: {Name}",
-            $"description: {Description}",
-            $"category: {Category}",
-            $"price: {Price}"};
+            $"{Id}",
+            $"{Name}",
+            $"{Description}",
+            $"{Category}",
+            $"{Price}"};
             return stringlist;
         }
+        #nullable enable
+        public ArrayList ToArrayList(ArrayList? p_al){
+            if(p_al == null){p_al = new ArrayList();}
+            p_al.Add(Id);
+            p_al.Add(Name);
+            p_al.Add(Description);
+            p_al.Add(Category);
+            p_al.Add(Price);
+            return p_al;
+        }
+        #nullable disable
     }
 
     //User has a username. Maybe an email and phone number. A password is only stored in the database through the business layer.

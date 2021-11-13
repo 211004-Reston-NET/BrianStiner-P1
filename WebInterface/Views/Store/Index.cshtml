@@ -1,6 +1,5 @@
-@{
-}
-@model IEnumerable<WebInterface.Models.StoreVM>
+@using Models;
+@model IEnumerable<Store>
 
 <h1 class="text-center"> List of Stores</h1>
 <table border="2", class="table table-hover">
@@ -16,12 +15,8 @@
 </tr>
     @foreach(var store in Model){
         <tr class="table-active">
-            <td>@store.Id</td>
-            <td>@store.Name</td>
-            <td>@store.Address</td>
-            <td>@store.Expenses</td>
-            <td>@store.Revenue</td>
-            <td>@store.Profit</td>
+            @foreach (var item in store.ToStringList())
+                {<td>@item</td>} 
             <td><form method="POST"> @Html.ActionLink("", "Delete", new{id=store.Id}, new{@class="btn btn-outline-danger btn-lg"})  </form></td>
             <td><form method="GET"> @Html.ActionLink("", "Edit", new{id=store.Id}, new{@class="btn btn-outline-info btn-lg"})       </form></td>
         </tr>

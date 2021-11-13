@@ -24,10 +24,7 @@ namespace WebInterface.Controllers
 
         public IActionResult Index()
         {
-            return View(_BL.GetAll(new Store()) //Map to view model
-            .Select(x => new StoreVM(x))
-            .ToList()
-            );
+            return View(_BL.GetAll(new Store()));
         }
 
         public IActionResult Create()

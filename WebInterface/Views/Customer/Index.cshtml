@@ -1,5 +1,5 @@
 @using Models;
-@model IEnumerable<Models.Customer>
+@model IEnumerable<Customer>
 
 <h1 class="text-center"> List of Customers</h1>
 <table border="2", class="table table-hover">
@@ -15,12 +15,8 @@
 </tr>
     @foreach(var customer in Model){
         <tr class="table-active">
-            <td>@customer.Id</td>
-            <td>@customer.Name</td>
-            <td>@customer.Phone</td>
-            <td>@customer.Email</td> 
-            <td>@customer.Address</td>
-            <td>@customer.TotalSpent</td>
+            @foreach (var item in customer.ToStringList())
+                {<td>@item</td>}
             <td><form method="POST"> @Html.ActionLink("", "Delete", new{id=customer.Id}, new{@class="btn btn-outline-danger btn-lg"})   </form></td>
             <td><form method="GET">  @Html.ActionLink("", "Edit", new{id=customer.Id}, new{@class="btn btn-outline-info btn-lg"})       </form></td>
         </tr>
