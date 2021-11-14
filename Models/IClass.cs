@@ -1,4 +1,4 @@
-using System;
+using System.Collections;
 using System.Collections.Generic;  
 
 namespace Models
@@ -10,6 +10,9 @@ namespace Models
         /// It will return a List<string> containing each of its variables displayed for the menubuilder.
         /// <returns>{$"name:{name}","phone:{phone}","color:{color}"}</returns>
         List<string> ToStringList();
+
+        #nullable enable
+        ArrayList ToArrayList(ArrayList? al = null);
     }
 
 }

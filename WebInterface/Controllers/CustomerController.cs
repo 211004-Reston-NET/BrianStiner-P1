@@ -56,6 +56,20 @@ namespace WebInterface.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        public IActionResult Select(int? Id)
+        {
+            if (Id == null){return NotFound();}
+            return View( _BL.Get( new Customer((int)Id) ).ToArrayList(null) );
+        }
+
+        public IActionResult Test(int? Id)
+        {
+            if (Id == null){return NotFound();}
+            var test =_BL.GetAll( new Customer((int)Id) ).Where(x => x.Id == Id).FirstOrDefault();
+            test.Orders = _BL.GetAll(new Order());
+            return View(  test.ToArrayList(null) );
+        }
+
         [HttpGet("Edit/{id}")]
         public IActionResult Edit(int? Id)
         {
@@ -64,7 +78,6 @@ namespace WebInterface.Controllers
             var customer = _BL.Get(new Customer((int)Id));
             if (customer == null){return NotFound();}
 
-            ViewData["Orders"] = customer.Orders;
             return View(new CustomerVM(customer));
         }
         [HttpPost("Edit")]

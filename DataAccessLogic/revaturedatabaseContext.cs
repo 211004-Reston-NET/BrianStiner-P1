@@ -80,6 +80,8 @@ namespace DataAccessLogic
 
             modelBuilder.Entity<Order>(entity =>
             {
+                entity.ToTable("Order");
+
                 entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.Active)

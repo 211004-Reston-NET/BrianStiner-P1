@@ -78,7 +78,8 @@ namespace DataAccessLogic
             return _context.Stores.ToList();   
         }
         public List<Order> GetAll(Order p_IC){
-            return _context.Orders.ToList();    
+            List<Order> a = _context.Orders.ToList(); // Somehow this is null.
+            return a;
         }
         public List<LineItem> GetAll(LineItem p_IC){
             return _context.LineItems.ToList();   

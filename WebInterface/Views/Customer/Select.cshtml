@@ -1,0 +1,50 @@
+@using System.Collections
+@using Models
+@model ArrayList   
+@*Maybe insert Orders.Count and forloop through so the ArrayList doesn't contain an ArrayList'*@
+@{Customer customer = new Customer(); customer.FromArrayList(Model);} @*//rename and distribute a Select view, restore the customer edit *@
+
+<h1 class="text-center">Viewing the Whole Customer</h1>
+<table border="2", class="table table-hover">
+<tr>
+    <th scope="col">ID</th>
+    <th scope="col">Name</th>
+    <th scope="col">Phone</th>
+    <th scope="col">Email</th>
+    <th scope="col">Address</th> 
+    <th scope="col">Spent</th>
+    <th scope="col">Edit</th> 
+    <th scope="col">Add Order</th>   
+</tr>
+    <tr class="table-light">
+        <td>@customer.Id</td>
+        <td>@customer.Name</td>
+        <td>@customer.Address</td>
+        <td>@customer.Phone</td>
+        <td>@customer.Email</td>
+        <td>@customer.TotalSpent</td>
+        <td><form method="GET">  @Html.ActionLink("", "Customer/Edit", new{id=customer.Id}, new{@class="btn btn-outline-info btn-lg"})       </form></td>
+        <td><form method="GET">  @Html.ActionLink("", "Customer/AddOrder", new{id=customer.Id}, new{@class="btn btn-outline-info btn-lg"})       </form></td>
+        @if(customer.Orders.Count > 0){<tr class="table-primary">
+        @foreach(var order in customer.Orders){
+            <td>@if(@order.Active){<label>Active</label>}</td>
+            <td>@order.Id</td>
+            <td>@order.Total</td>
+            <td><form method="POST"> @Html.ActionLink("", "Order/Delete", new{id=order.Id}, new{@class="btn btn-outline-danger btn-lg"})   </form></td>
+            <td><form method="GET">  @Html.ActionLink("", "Order/Edit", new{id=order.Id}, new{@class="btn btn-outline-info btn-lg"})       </form></td>
+            if(order.LineItems.Count > 0){<tr class="table-secondary">
+            @foreach (var item in order.LineItems){
+                <td>@item.Id</td>
+                <td>@item.Quantity</td>
+                <td>@item.Product.Name</td>
+                <td>@item.Product.Description</td>
+                <td>@item.Product.Category</td>
+                <td>@item.Product.Price</td>
+                <td><form method="POST"> @Html.ActionLink("", "LineItem/Delete", new{id=item.Id}, new{@class="btn btn-outline-danger btn-lg"})   </form></td>
+                <td><form method="GET">  @Html.ActionLink("", "LineItem/Edit", new{id=item.Id}, new{@class="btn btn-outline-info btn-lg"})       </form></td>
+            }</tr>}
+        }</tr>}
+    </tr>
+</table
+<form class="text-center" method="GET" action="/Customer"><button type="submit" class="btn btn-primary btn-lg " value="Index">Done Viewing</button></form>
+
