@@ -1,0 +1,21 @@
+@using Models;
+@model IEnumerable<Order>
+
+<h1 class="text-center"> List of All Orders</h1>
+<table border="2", class="table table-hover">
+<tr>
+    <th scope="col">ID</th>
+    <th scope="col">Address</th> 
+    <th scope="col">Active</th>
+    <th scope="col">Delete</th> 
+    <th scope="col">Edit</th>   
+</tr>
+    @foreach(var order in Model){
+        <tr class="table-active">
+            @foreach (var item in order.ToStringList())
+            {<td>@item</td>}
+            <td><form method="POST"> @Html.ActionLink("", "Delete", new{id=order.Id}, new{@class="btn btn-outline-danger btn-lg"})   </form></td>
+            <td><form method="GET">  @Html.ActionLink("", "Select", new{id=order.Id}, new{@class="btn btn-outline-info btn-lg"})     </form></td>
+        </tr>
+    }
+</table>

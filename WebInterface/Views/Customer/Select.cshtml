@@ -13,8 +13,8 @@
     <th scope="col">Email</th>
     <th scope="col">Address</th> 
     <th scope="col">Spent</th>
-    <th scope="col">Edit</th> 
-    <th scope="col">Add Order</th>   
+    <th scope="col"> </th> 
+    <th scope="col"> </th>   
 </tr>
     <tr class="table-light">
         <td>@customer.Id</td>
@@ -23,15 +23,13 @@
         <td>@customer.Phone</td>
         <td>@customer.Email</td>
         <td>@customer.TotalSpent</td>
-        <td><form method="GET">  @Html.ActionLink("", "Customer/Edit", new{id=customer.Id}, new{@class="btn btn-outline-info btn-lg"})       </form></td>
-        <td><form method="GET">  @Html.ActionLink("", "Customer/AddOrder", new{id=customer.Id}, new{@class="btn btn-outline-info btn-lg"})       </form></td>
         @if(customer.Orders.Count > 0){<tr class="table-primary">
         @foreach(var order in customer.Orders){
             <td>@if(@order.Active){<label>Active</label>}</td>
             <td>@order.Id</td>
             <td>@order.Total</td>
-            <td><form method="POST"> @Html.ActionLink("", "Order/Delete", new{id=order.Id}, new{@class="btn btn-outline-danger btn-lg"})   </form></td>
-            <td><form method="GET">  @Html.ActionLink("", "Order/Edit", new{id=order.Id}, new{@class="btn btn-outline-info btn-lg"})       </form></td>
+            <td><form method="POST"> @Html.ActionLink("", "Order/Delete",   new{id=order.Id}, new{@class="btn btn-outline-danger btn-lg"})      </form></td>
+            <td><form method="GET">  @Html.ActionLink("", "Order/Edit",     new{id=order.Id}, new{@class="btn btn-outline-info btn-lg"})        </form></td>
             if(order.LineItems.Count > 0){<tr class="table-secondary">
             @foreach (var item in order.LineItems){
                 <td>@item.Id</td>
@@ -40,11 +38,15 @@
                 <td>@item.Product.Description</td>
                 <td>@item.Product.Category</td>
                 <td>@item.Product.Price</td>
-                <td><form method="POST"> @Html.ActionLink("", "LineItem/Delete", new{id=item.Id}, new{@class="btn btn-outline-danger btn-lg"})   </form></td>
-                <td><form method="GET">  @Html.ActionLink("", "LineItem/Edit", new{id=item.Id}, new{@class="btn btn-outline-info btn-lg"})       </form></td>
+                <td><form method="POST"> @Html.ActionLink("", "LineItem/Delete",    new{id=item.Id}, new{@class="btn btn-outline-danger btn-lg"})       </form></td>
+                <td><form method="GET">  @Html.ActionLink("", "LineItem/Edit",      new{id=item.Id}, new{@class="btn btn-outline-info btn-lg"})         </form></td>
             }</tr>}
         }</tr>}
     </tr>
 </table
-<form class="text-center" method="GET" action="/Customer"><button type="submit" class="btn btn-primary btn-lg " value="Index">Done Viewing</button></form>
-
+<div class="d-grid gap-2">
+    <form class="text-center" method="GET">  @Html.ActionLink("Edit", "Edit",           new{id=customer.Id}, new{@class="btn btn-success btn-lg"})      </form>
+    <form class="text-center" method="GET">  @Html.ActionLink("Add Order", "AddOrder",  new{id=customer.Id}, new{@class="btn btn-warning btn-lg"})      </form>
+    <form class="text-center" method="GET">  @Html.ActionLink("Purchase", "Purchase",   new{id=customer.Id}, new{@class="btn btn-warning btn-lg"})      </form>
+    <form class="text-center" method="GET">  @Html.ActionLink("Done Viewing", "Index",  new{id=0},           new{@class="btn btn-primary btn-lg"})      </form>
+</div>

@@ -3,6 +3,7 @@ using System.Linq;
 using Models;
 using DataAccessLogic;
 using System.Collections;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataAccessLogic
 {
@@ -78,12 +79,11 @@ namespace DataAccessLogic
             return _context.Stores.ToList();   
         }
         public List<Order> GetAll(Order p_IC){
-            List<Order> a = _context.Orders.ToList(); // Somehow this is null.
-            return a;
-        }
+            return _context.Orders.ToList();  
+        }                                     
         public List<LineItem> GetAll(LineItem p_IC){
-            return _context.LineItems.ToList();   
-        }
+            return _context.LineItems.ToList();
+        }                                                     
         public List<Product> GetAll(Product p_IC){
             return _context.Products.ToList();
         }

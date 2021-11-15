@@ -1,0 +1,25 @@
+@using Models;
+@model IEnumerable<LineItem>
+
+<h1 class="text-center"> List of All lineitems</h1>
+<table border="2", class="table table-hover">
+<tr>
+    <th scope="col">ID</th>
+    <th scope="col">Quantity</th> 
+    <th scope="col">Product Id</th>
+    <th scope="col">Name</th>
+    <th scope="col">Description</th>
+    <th scope="col">Category</th>
+    <th scope="col">Price</th>
+    <th scope="col">Delete</th> 
+    <th scope="col">Edit</th>   
+</tr>
+    @foreach(var lineitem in Model){
+        <tr class="table-active">
+            @foreach (var item in lineitem.ToStringList())
+            {<td>@item</td>}
+            <td><form method="POST"> @Html.ActionLink("", "Delete", new{id=lineitem.Id}, new{@class="btn btn-outline-danger btn-lg"})   </form></td>
+            <td><form method="GET">  @Html.ActionLink("", "Select", new{id=lineitem.Id}, new{@class="btn btn-outline-info btn-lg"})     </form></td>
+        </tr>
+    }
+</table>

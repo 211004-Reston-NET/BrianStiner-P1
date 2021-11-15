@@ -24,14 +24,8 @@ namespace WebInterface.Controllers
 
         public IActionResult Index()
         {
-            return View(_BL.GetAll(new Order()) //Map to view model
-            .Select(x => new OrderVM(x))
-            .ToList()
-            );
+            return View(_BL.GetAll(new Order()));
         }
-
-
-
 
         public IActionResult Create()
         {
@@ -41,13 +35,13 @@ namespace WebInterface.Controllers
         public IActionResult Create(OrderVM p_OrderVM)
         {
             if (ModelState.IsValid){
+            if (_BL.IsValidAddress(p_OrderVM.Address)){
                 _BL.Add(p_OrderVM.MapToModel());
                 return RedirectToAction("Index");
-            }
+            }}
             ModelState.AddModelError("", "Entered Values are invalid");
             return Create();
         }
-
 
         public IActionResult Delete(int? Id)
         {
@@ -55,27 +49,26 @@ namespace WebInterface.Controllers
 
             _BL.Delete(new Order((int)Id));
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index");
         }
 
         public IActionResult Edit(int? Id)
         {
             if (Id == null){return NotFound();}
+            var order = _BL.Get(new Order((int)Id));
+            if (order == null){return NotFound();}
 
-            var Order = _BL.Get(new Order((int)Id));
-            if (Order == null){return NotFound();}
-
-            return View(new OrderVM(Order));
+            return Edit(order);
         }
         [HttpPost]
-        public IActionResult Edit(OrderVM p_OrderVM)
+        public IActionResult Edit(Order p_Order)
         {
             if (ModelState.IsValid){  
-                _BL.Update(p_OrderVM.MapToModel());
+                _BL.Update(p_Order);
                 return RedirectToAction("Index");
             }
             ModelState.AddModelError("", "Entered Values are invalid");
-            return Edit(p_OrderVM.Id);
+            return Edit(p_Order.Id);
         }
             
 

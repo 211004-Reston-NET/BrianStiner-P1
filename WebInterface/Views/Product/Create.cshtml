@@ -1,14 +1,13 @@
 @*This displays text boxes to enter Name, Description, Category, and Price for a new Product.*@
-@{
-}
-@model WebInterface.Models.ProductVM
+@using Models;
+@model Product
 
 <h1 class="text-center">Add New Product</h1>
 <form asp-action="Create">
     <div asp-validation-summary="ModelOnly"></div>
     <div class="form-group">
     <div class="form-floating mb-3">
-        <input type="text" class="form-control" asp-for="Name" asp-required="true" placeholder="Samantha Tokatsu">
+        <input type="text" class="form-control" asp-for="Name" asp-required="true" placeholder="Bannana Smoothie w/ Whip">
         <label asp-for="Name">Name</label>
         <span asp-validation-for="Name"></span>
     </div>
@@ -20,13 +19,13 @@
     </div>
 
     <div class="form-floating mb-3">
-        <input type="text" class="form-control" asp-for="Category" asp-required="true" placeholder="Samantha Tokatsu">
+        <input type="text" class="form-control" asp-for="Category" asp-required="true" placeholder="Food Parts Medicine">
         <label asp-for="Category">Category</label>
         <span asp-validation-for="Category"></span>
     </div>
     
     <div class="form-floating mb-3">
-        <input type="text" class="form-control" asp-for="Price" asp-required="true" placeholder="Samantha Tokatsu">
+        <input type="text" class="form-control" asp-for="Price" asp-required="true" placeholder="10.10">
         <label asp-for="Price">Price</label>
         <span asp-validation-for="Price"></span>
     </div>
@@ -41,13 +40,13 @@
     <label class="form-label mt-4">Input addons</label>
     <div class="form-group">
         <div class="input-group mb-3">
-        <span class="input-group-text">$</span>
-        <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-        <span class="input-group-text">.00</span>
+            <span class="input-group-text">$</span>
+            <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+            <span class="input-group-text">.00</span>
         </div>
         <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">
-        <button class="btn btn-primary" type="button" id="button-addon2">Button</button>
+            <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">
+            <button class="btn btn-primary" type="button" id="button-addon2">Button</button>
         </div>
     </div>
     </fieldset>

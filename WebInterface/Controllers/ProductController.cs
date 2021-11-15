@@ -24,10 +24,7 @@ namespace WebInterface.Controllers
 
         public IActionResult Index()
         {
-            return View(_BL.GetAll(new Product()) //Map to view model
-            .Select(x => new ProductVM(x))
-            .ToList()
-            );
+            return View(_BL.GetAll(new Product()));
         }
 
         public IActionResult Create()
@@ -35,13 +32,13 @@ namespace WebInterface.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Create(ProductVM p_productVM)
+        public IActionResult Create(Product p_product)
         {
             if (ModelState.IsValid){
-                _BL.Add(p_productVM.MapToModel());
+                _BL.Add(p_product);
                 return RedirectToAction("Index");
             }
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Create"); 
         }
 
 
@@ -51,7 +48,7 @@ namespace WebInterface.Controllers
 
             _BL.Delete(new Product((int)Id));
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index");
         }
 
         public IActionResult Edit(int? Id)
@@ -61,16 +58,16 @@ namespace WebInterface.Controllers
             var product = _BL.Get(new Product((int)Id));
             if (product == null){return NotFound();}
 
-            return View(new ProductVM(product));
+            return View(product);
         }
         [HttpPost]
-        public IActionResult Edit(ProductVM p_productVM)
+        public IActionResult Edit(Product p_product)
         {
             if (ModelState.IsValid){
-                _BL.Update(p_productVM.MapToModel());
+                _BL.Update(p_product);
                 return RedirectToAction("Index");
             }
-            return Edit(p_productVM.Id);
+            return Edit(p_product.Id);
         }
 
 

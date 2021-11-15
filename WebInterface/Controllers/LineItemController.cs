@@ -24,10 +24,7 @@ namespace WebInterface.Controllers
 
         public IActionResult Index()
         {
-            return View(_BL.GetAll(new LineItem()) //Map to view model
-            .Select(x => new LineItemVM(x))
-            .ToList()
-            );
+            return View(_BL.GetAll(new LineItem()));
         }
 
 
@@ -35,15 +32,16 @@ namespace WebInterface.Controllers
 
         public IActionResult Create()
         {
-            return View();
+            return View(_BL.GetAll(new Product()));
         }
         [HttpPost]
-        public IActionResult Create(LineItemVM p_LineItemVM)
+        public IActionResult Create(LineItem p_LineItem)
         {
             if (ModelState.IsValid){
-                _BL.Add(p_LineItemVM.MapToModel());
+            if(_BL.IsValidQuantity(p_LineItem.Quantity)){
+                _BL.Add(p_LineItem);
                 return RedirectToAction("Index");
-            }
+            }}
             ModelState.AddModelError("", "Entered Values are invalid");
             return Create();
         }

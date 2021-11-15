@@ -1,0 +1,36 @@
+@*This displays text boxes to enter Name, Address, Phone, and Email for a new Product.*@
+@using Models;
+@model Customer
+
+<h1 class="text-center">Edit Customer</h1>
+<form asp-action="Edit">
+    <div class="form-group">
+        <div class="form-floating mb-3">
+            <input type="Text" class="form-control" asp-for="Name" asp-required="true" placeholder="Samantha Tokatsu">
+            <label asp-for="Name">Name</label>
+            <span asp-validation-for="Name"></span>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input type="Text" class="form-control" asp-for="Address" asp-required="true" placeholder="White Sweet Smooth">
+            <label asp-for="Address">Address</label>
+            <span asp-validation-for="Address"></span>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input type="Text" class="form-control" asp-for="Phone" asp-required="true" placeholder="Food">
+            <label asp-for="Phone">Phone</label>
+            <span asp-validation-for="Phone"></span>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input type="Text" class="form-control" asp-for="Email" asp-required="true" placeholder="11.78">
+            <label asp-for="Email">Email</label>
+            <span asp-validation-for="Email"></span>
+        </div>
+
+        <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-lg btn-primary" value="Edit">Submit</button>
+        </div>
+    </div>
+</form>

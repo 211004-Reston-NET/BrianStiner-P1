@@ -5,6 +5,7 @@ using WebInterface.Models;
 using BusinessLogic;
 using Models;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace WebInterface.Controllers
 {
@@ -56,43 +57,58 @@ namespace WebInterface.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult Select(int? Id)
+
+        public IActionResult Select(int? Id)                            //View the whole customer
         {
             if (Id == null){return NotFound();}
             return View( _BL.Get( new Customer((int)Id) ).ToArrayList(null) );
         }
 
-        public IActionResult Test(int? Id)
-        {
-            if (Id == null){return NotFound();}
-            var test =_BL.GetAll( new Customer((int)Id) ).Where(x => x.Id == Id).FirstOrDefault();
-            test.Orders = _BL.GetAll(new Order());
-            return View(  test.ToArrayList(null) );
-        }
 
         [HttpGet("Edit/{id}")]
-        public IActionResult Edit(int? Id)
+        public IActionResult Edit(int? Id)                              //Edit the customer
         {
             if (Id == null){return NotFound();}
-
             var customer = _BL.Get(new Customer((int)Id));
             if (customer == null){return NotFound();}
 
-            return View(new CustomerVM(customer));
+            return View(customer);
         }
-        [HttpPost("Edit")]
-        public IActionResult Edit(CustomerVM p_customerVM)
+        [HttpPost]
+        public IActionResult Edit(Customer p_customer)
         {
             if (ModelState.IsValid){
-            if(_BL.IsValidCustomer(p_customerVM.MapToModel())){
-                _BL.Update(p_customerVM.MapToModel());
-                return RedirectToAction("Index");
-            }}
+                _BL.Update(p_customer);
+                return Select(p_customer.Id);
+            }
             ModelState.AddModelError("", "Entered Values are invalid");
-            return Edit(p_customerVM.Id);
+            return Edit(p_customer.Id);
         }
             
 
+        public IActionResult AddOrder(int? Id){                         //add order to customer
+            if (Id == null){return NotFound();}
+            var customer = _BL.Get(new Customer((int)Id));
+            if (customer == null){return NotFound();}
+            return View(customer);
+        }
+        [HttpPost]
+        public IActionResult AddOrder(Customer p_customer)
+        {
+            if (ModelState.IsValid){
+                _BL.Update(p_customer);
+                return Select(p_customer.Id);
+            }
+            ModelState.AddModelError("", "Entered Values are invalid");
+            return AddOrder(p_customer.Id);
+        }
+
+        public IActionResult Purchase(int? Id){                         //add order to customer
+            if (Id == null){return NotFound();}
+            var customer = _BL.Get(new Customer((int)Id));
+            _BL.TransactOrders(customer);
+            return Select(customer.Id);
+        }
 
 
 

@@ -11,6 +11,9 @@ namespace BusinessLogic
 {
     public interface IBusiness
     {
+
+        public void TransactOrders(Customer customer);
+        public void TransactOrders(Store store);
     
         // The IsValid methods use regex to check if the input is valid
         public bool IsValidName(string name);

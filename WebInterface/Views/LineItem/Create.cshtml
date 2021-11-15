@@ -1,0 +1,23 @@
+@using Models;
+@model IEnumerable<Product>;
+@{LineItem lineitem = new LineItem();}
+<table border="2", class="table table-hover">
+<tr>
+    <th scope="col">ID</th>
+    <th scope="col">Name</th>
+    <th scope="col">Description</th>
+    <th scope="col">Category</th>
+    <th scope="col">Price</th>
+    <th scope="col">Select</th>
+</tr>
+    @foreach(var product in Model){
+        <tr class="table-active">
+            @foreach (var item in product.ToStringList())
+            {<td>@item</td>}
+            <td> @Html.RadioButtonFor(radioid => lineitem.ProductId, new { @class = "form-check-input" })</td>
+        </tr>
+    }
+</table>
+<div class="form-group">
+    <input type="number" class="form-control" id="quantity" name="quantity" min="0" max="999" placeholder="Quantity">
+</div>

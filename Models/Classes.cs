@@ -10,17 +10,26 @@ namespace Models
         //Variables -----------------------------------------------------------------------------
         [Key]
         public int Id { get; set; }
+        [RegularExpression(@"^[a-zA-Z,'.\s]+$", ErrorMessage = "Name must be letters, commas, apostrophes, periods, or spaces.")]
+        [StringLength(50, ErrorMessage = "Name must be less than 50 characters.")] 
         [Required]
         public string Name { get; set; }
+        [RegularExpression(@"^[0-9]{1,6}[a-zA-Z\s,.'-]+[0-9]{5}$", ErrorMessage = "Address must be letters, numbers, commas, apostrophes, periods, or spaces.")]
+        [StringLength(50, ErrorMessage = "Address must be less than 50 characters.")]
         [Required]
         public string Address { get; set; }
         [Required]
+        [RegularExpression(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$", ErrorMessage = "Email must be a valid email address.")]
+        [StringLength(50, ErrorMessage = "Email must be less than 50 characters.")]
         public string Email { get; set; }
         [Required]
+        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Phone must be in the format of (xxx)-xxx-xxxx.")]
+        [StringLength(12, ErrorMessage = "Phone must be less than 12 characters.")]
         public string Phone { get; set; }
         [Required]
+        [DataType(DataType.Currency), Column(TypeName = "decimal(18, 2)")]
         public decimal TotalSpent { get; set; }
-        [Required]
+
         public int Picture { get; set; }
 
         public virtual List<Order> Orders { get; set; }
@@ -118,16 +127,22 @@ namespace Models
         [Key]
         public int Id { get; set; }
         [Required]
+        [StringLength(50, ErrorMessage = "Name must be less than 50 characters.")]
+        [RegularExpression(@"^[a-zA-Z,'.\s]+$", ErrorMessage = "Name must be letters, spaces, apostrophes,  periods, and commas only.")]
         public string Name { get; set; }
+        [StringLength(50, ErrorMessage = "Address must be less than 50 characters.")]
+        [RegularExpression(@"^[0-9]{1,6}[a-zA-Z\s,.'-]+[0-9]{5}$", ErrorMessage = "Address must be have a street number, street name, and zip code.")]
         [Required]
         public string Address { get; set; }
         [Required]
+        [DataType(DataType.Currency), Column(TypeName = "decimal(18, 2)")]
         public decimal Expenses { get; set; }
         [Required]
+        [DataType(DataType.Currency), Column(TypeName = "decimal(18, 2)")]
         public decimal Revenue { get; set; }
-        [Required]
         public virtual List<LineItem> Inventory { get; set; }
         public virtual List<Order> Orders { get; set; }
+
         [NotMapped]
         public decimal Profit {get => Revenue-Expenses; set => Profit = value;}
         
@@ -192,10 +207,15 @@ namespace Models
         //Variables -----------------------------------------------------------------------------
         [Key]
         public int Id { get; set; }
-        [Required] 
+
+        [Required]
+        [RegularExpression(@"^[0-9]{1,6}[a-zA-Z\s,.'-]+[0-9]{5}$", ErrorMessage = "Address must be have a street number, street name, and zip code.")]
+        [StringLength(50, ErrorMessage = "Address must be less than 50 characters.")]
         public string Address { get; set; }
+
         [Required]
         public bool Active { get; set; }
+        
         [NotMapped]
         public decimal Total { get => CalculateTotalPrice(); set => Total = value; }
 
@@ -263,17 +283,20 @@ namespace Models
         public int Id { get; set; }
         [Required]
         public int ProductId { get; set; }
+
         [Required]
+        [Range(1, 999, ErrorMessage = "Quantity must be between 1 and 999.")]
         public int Quantity { get; set; }
-        [Required]
+
+        [NotMapped]
         public decimal Total { get => CalculateTotalPrice(); set => Total = value; }
-        [Required]
+
         public virtual Product Product { get; set; }
 
 
         //Constructors ---------------------------------------------------------------------------
         public LineItem(){}
-        public LineItem(int p_Id):this(){this.ProductId = p_Id;}
+        public LineItem(int p_Id):this(){this.Id = p_Id;}
         public LineItem(int p_Id, int p_quantity):this(p_Id){this.Quantity = p_quantity;}
         public LineItem(int p_Id, int p_quantity, decimal p_total):this(p_Id, p_quantity){this.Total = p_total;}
         public LineItem(int p_Id, int p_quantity, decimal p_total, Product p_product):this(p_Id, p_quantity, p_total){this.Product = p_product;}
@@ -327,15 +350,21 @@ namespace Models
         [Key]
         public int Id { get; set; }
         [Required]
+        [RegularExpression(@"^[a-zA-Z\s,.'-]+$", ErrorMessage = "Name must be letters, spaces, commas, periods, and apostrophes.")]
+        [StringLength(50, ErrorMessage = "Name must be less than 50 characters.")]
         public string Name { get; set; }
         [Required]
+        [StringLength(50, ErrorMessage = "Description must be less than 50 characters.")]
+        [RegularExpression(@"^[a-zA-Z\s,.%&$#'-]+$", ErrorMessage = "Description must be letters, percents, dollars, hashtags, commas, periods, and apostrophes.")]
         public string Description { get; set; }
         [Required]
+        [StringLength(50, ErrorMessage = "Category must be less than 50 characters.")]
+        [RegularExpression(@"^[a-zA-Z\s,.'-]+$", ErrorMessage = "Category must be letters, commas, periods, and apostrophes.")]
         public string Category { get; set; }
         [Required]
+        [Column(TypeName = "decimal(18,2)"), DataType(DataType.Currency)]
         public decimal Price { get; set; }
 
-        [Required]
         public virtual List<LineItem> LineItems { get; set; }
 
         //Constructors ---------------------------------------------------------------------------

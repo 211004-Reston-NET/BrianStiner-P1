@@ -27,7 +27,7 @@ namespace WebInterface
             services.AddDbContext<revaturedatabaseContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            //services.AddIdentity<IdentityUser, IdentityRole>().AddUserStore<IdentityUser>().AddRoleStore<IdentityRole>().AddDefaultTokenProviders();
+                //services.AddIdentity<IdentityUser, IdentityRole>().AddUserStore<IdentityUser>().AddRoleStore<IdentityRole>().AddDefaultTokenProviders();
             services.AddScoped<IRepository, RepositorySQL>();
             services.AddScoped<IBusiness, Business>();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
@@ -51,7 +51,7 @@ namespace WebInterface
 
             app.UseRouting();
 
-            //app.UseAuthentication();
+                //app.UseAuthentication();
 
             app.UseAuthorization();
 
