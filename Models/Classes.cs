@@ -58,67 +58,34 @@ namespace Models
             $"{this.TotalSpent}",};
             return stringlist;
         }
-        #nullable enable
-        public ArrayList ToArrayList(ArrayList? p_al){
-            if(p_al == null){p_al = new ArrayList();}
-            p_al.Add(Id);
-            p_al.Add(Name);
-            p_al.Add(Phone);
-            p_al.Add(Email);
-            p_al.Add(Address);
-            p_al.Add(TotalSpent);
-            p_al.Add(Orders.Count);
-            foreach(Order o in Orders){
-                p_al.Add(o.Id);
-                p_al.Add(o.Active);
-                p_al.Add(o.Address);
-                p_al.Add(o.LineItems.Count);
-                foreach(LineItem li in o.LineItems){
-                    p_al.Add(li.Id);
-                    p_al.Add(li.Quantity);
-                    p_al.Add(li.Product.Id);
-                    p_al.Add(li.Product.Name);
-                    p_al.Add(li.Product.Description);
-                    p_al.Add(li.Product.Category);
-                    p_al.Add(li.Product.Price);
-                }
+        public ArrayList ToArrayList(){
+            var al = new ArrayList();
 
-            }
-            return p_al;
-        } 
-        #nullable disable
-        public Customer FromArrayList(ArrayList p_al){
-            int i = 0;
-            Id = (int)p_al[i++];
-            Name = (string)p_al[i++];
-            Phone = (string)p_al[i++];
-            Email = (string)p_al[i++];
-            Address = (string)p_al[i++];
-            TotalSpent = (decimal)p_al[i++];
-            for(int j = 0; j < (int)p_al[i++]; j++){
-                Order order = new Order();
-                order.Id = (int)p_al[i++];
-                order.Active = (bool)p_al[i++];
-                order.Address = (string)p_al[i++];
-                for(int k = 0; k < (int)p_al[i++]; k++){
-                    LineItem lineitem = new LineItem();
-                    lineitem.Id = (int)p_al[i++];
-                    lineitem.Quantity = (int)p_al[i++];
-                        Product product = new Product();
-                        product.Id = (int)p_al[i++];
-                        product.Name = (string)p_al[i++];
-                        product.Description = (string)p_al[i++];
-                        product.Category = (string)p_al[i++];
-                        product.Price = (decimal)p_al[i++];
-                    lineitem.Product = product;
-                    order.LineItems.Add(lineitem);
-                }
-                Orders.Add(order);
-            }
-            return this;
+            al.Add(Id);
+            al.Add(Name);
+            al.Add(Phone);
+            al.Add(Email);
+            al.Add(Address);
+            al.Add(TotalSpent);
+            foreach(Order o in Orders){al.Add(o.ToArrayList());}
+
+            return al;
         }
-
-       
+        public void FromArrayList(ArrayList p_al){
+            int i = 0;
+            this.Id = (int)p_al[i++];
+            this.Name = (string)p_al[i++];
+            this.Phone = (string)p_al[i++];
+            this.Email = (string)p_al[i++];
+            this.Address = (string)p_al[i++];
+            this.TotalSpent = (decimal)p_al[i++];
+            for(int j = i; j < p_al.Count; j++){
+                ArrayList al = (ArrayList)p_al[j];
+                Order o = new Order();
+                o.FromArrayList(al);
+                this.Orders.Add(o);
+            }
+        }
     }
 
     public partial class Store : IClass
@@ -174,19 +141,21 @@ namespace Models
             return stringlist;
         }
         #nullable enable
-        public ArrayList ToArrayList(ArrayList? p_al){
-            if(p_al == null){p_al = new ArrayList();}
-            p_al.Add(Id);
-            p_al.Add(Name);
-            p_al.Add(Address);
-            p_al.Add(Expenses);
-            p_al.Add(Revenue);
-            p_al.Add(Profit);
-            foreach(var item in Inventory){p_al.Add(item.ToArrayList(p_al));}
-            return p_al;
+        public ArrayList ToArrayList(){
+            var al = new ArrayList();
+
+            al.Add(Id);
+            al.Add(Name);
+            al.Add(Address);
+            al.Add(Expenses);
+            al.Add(Revenue);
+            al.Add(Profit);
+            foreach(var item in Inventory){al.Add(item.ToArrayList());}
+
+            return al;
         }
         #nullable disable
-        public Store FromArrayList(ArrayList p_al){
+        public void FromArrayList(ArrayList p_al){
             int i = 0;
 
             Id = (int)p_al[i++];
@@ -195,13 +164,12 @@ namespace Models
             Expenses = (decimal)p_al[i++];
             Revenue = (decimal)p_al[i++];
             Profit = (decimal)p_al[i++];
-            while(i < p_al.Count){
-                InventoryItem inv = new InventoryItem();
-                inv.FromArrayList((ArrayList)p_al[i++]);
-                Inventory.Add(inv);
+            for(int j = i; j < p_al.Count; j++){
+                ArrayList al = (ArrayList)p_al[j];
+                InventoryItem item = new InventoryItem();
+                item.FromArrayList(al);
+                Inventory.Add(item);
             }
-
-            return this;
         }
             
     }
@@ -230,7 +198,7 @@ namespace Models
         public virtual Customer Customer { get; set; }
 
         //Constructors ---------------------------------------------------------------------------
-        public Order(){}
+        public Order(){LineItems = new List<LineItem>();}
         public Order(int p_Id):this(){this.Id = p_Id;}
         public Order(string p_location):this(){this.Address = p_location;}
         public Order(string p_location, int p_Id):this(p_Id){this.Address = p_location;}
@@ -247,33 +215,28 @@ namespace Models
             stringlist.Add($"{Total}");
             return stringlist;
         }
-        #nullable enable
-        public ArrayList ToArrayList(ArrayList? p_al){
-            if(p_al == null){p_al = new ArrayList();}
+        public ArrayList ToArrayList(){
+            var al = new ArrayList();
 
-            p_al.Add(Id);
-            p_al.Add(Address);
-            p_al.Add(Active);
-            p_al.Add(Total);
-            foreach(var item in LineItems){p_al.Add(item.ToArrayList(p_al));}
+            al.Add(Id);
+            al.Add(Address);
+            al.Add(Active);
+            foreach(var item in LineItems){al.Add(item.ToArrayList());}
 
-            return p_al;
+            return al;
         }
-        #nullable disable
-        public Order FromArrayList(ArrayList p_al){
+        public void FromArrayList(ArrayList p_al){
             int i = 0;
 
             Id = (int)p_al[i++];
             Address = (string)p_al[i++];
             Active = (bool)p_al[i++];
-            Total = (decimal)p_al[i++];
-            while(i < p_al.Count){
-                LineItem lineitem = new LineItem();
-                lineitem.FromArrayList((ArrayList)p_al[i++]);
-                LineItems.Add(lineitem);
+            for(int j = i; j < p_al.Count; j++){
+                ArrayList al = (ArrayList)p_al[j];
+                LineItem item = new LineItem();
+                item.FromArrayList(al);
+                LineItems.Add(item);
             }
-            
-            return this;
         }
         //Methods ---------------------------------------------------------------------------------
         public decimal CalculateTotalPrice(){
@@ -305,12 +268,12 @@ namespace Models
 
 
         //Constructors ---------------------------------------------------------------------------
-        public LineItem(){}
+        public LineItem(){Product = new Product(); Order = new Order();}
         public LineItem(int p_Id):this(){this.Id = p_Id;}
         public LineItem(int p_Id, int p_quantity):this(p_Id){this.Quantity = p_quantity;}
-        public LineItem(int p_Id, int p_quantity, decimal p_total):this(p_Id, p_quantity){this.Total = p_total;}
-        public LineItem(int p_Id, int p_quantity, decimal p_total, Product p_product):this(p_Id, p_quantity, p_total){this.Product = p_product;}
-        public LineItem(int p_Id, int p_quantity, Product p_product):this(p_Id, p_quantity){this.Product = p_product;}
+        public LineItem(int p_Id, int p_quantity, int p_productId):this(p_Id, p_quantity){this.ProductId = p_productId;}
+        public LineItem(int p_Id, int p_quantity, int p_productId, Product p_product):this(p_Id, p_quantity, p_productId){this.Product = p_product;}
+        public LineItem(int p_Id, int p_quantity, Product p_product):this(p_Id, p_quantity){this.Product = p_product; ProductId = p_product.Id;}
 
 
 
@@ -318,34 +281,33 @@ namespace Models
         public string Identify() { return "LineItem"; }
         public List<string> ToStringList(){
             List<string> stringlist = new List<string>();
+            stringlist.Add($"{Id}");
             stringlist.Add($"{Quantity}");
             stringlist.Add($"{Total}");
+            stringlist.Add($"{Product.Id}");
+            stringlist.Add($"{Product.Name}");
+            stringlist.Add($"{Product.Price}");
+
             return stringlist;
         
         //Turns itself into a list of variables    
         }
-        #nullable enable
-        public ArrayList ToArrayList(ArrayList? p_al){
-            if(p_al == null){p_al = new ArrayList();}
+        public ArrayList ToArrayList(){
+            var p_al = new ArrayList();
 
             p_al.Add(Id);
             p_al.Add(Quantity);
-            p_al.Add(Total);
-            p_al.Add(Product.ToArrayList(p_al));
+            p_al.Add(Product.ToArrayList());
 
             return p_al;
         }
-        #nullable disable
         //Unpacks itself from a list of variables
-        public LineItem FromArrayList(ArrayList p_al){
+        public void FromArrayList(ArrayList p_al){
             int i = 0;
 
             Id = (int)p_al[i++];
             Quantity = (int)p_al[i++];
-            Total = (decimal)p_al[i++];
-            Product = Product.FromArrayList((ArrayList)p_al[i++]);
-
-            return this;
+            this.Product.FromArrayList((ArrayList)p_al[i++]);
         }
 
         //Methods ---------------------------------------------------------------------------------
@@ -375,12 +337,14 @@ namespace Models
 
 
         //Constructors ---------------------------------------------------------------------------
-        public InventoryItem(){}
+        public InventoryItem(){Product = new Product(); Store = new Store();}
         public InventoryItem(int p_Id):this(){this.Id = p_Id;}
         public InventoryItem(int p_Id, int p_quantity):this(p_Id){this.Quantity = p_quantity;}
         public InventoryItem(int p_Id, int p_quantity, decimal p_total):this(p_Id, p_quantity){this.Total = p_total;}
         public InventoryItem(int p_Id, int p_quantity, decimal p_total, Product p_product):this(p_Id, p_quantity, p_total){this.Product = p_product;}
         public InventoryItem(int p_Id, int p_quantity, Product p_product):this(p_Id, p_quantity){this.Product = p_product;}
+        public InventoryItem(int p_Id, int p_quantity, Product p_product, Store p_store):this(p_Id, p_quantity, p_product){this.Store = p_store;}
+
 
 
 
@@ -394,28 +358,23 @@ namespace Models
         
        
         }
-        #nullable enable //Turns itself into a list of variables    
-        public ArrayList ToArrayList(ArrayList? p_al){
-            if(p_al == null){p_al = new ArrayList();}
+        //Turns itself into a list of variables    
+        public ArrayList ToArrayList(){
+            var al = new ArrayList();
 
-            p_al.Add(Id);
-            p_al.Add(Quantity);
-            p_al.Add(Total);
-            p_al.Add(Product.ToArrayList(p_al));
+            al.Add(Id);
+            al.Add(Quantity);
+            al.Add(Product.ToArrayList());
 
-            return p_al;
+            return al;
         }
-        #nullable disable
         //Unpacks itself from a list of variables
-        public InventoryItem FromArrayList(ArrayList p_al){
+        public void FromArrayList(ArrayList p_al){
             int i = 0;
 
-            Id = (int)p_al[i++];
-            Quantity = (int)p_al[i++];
-            Total = (decimal)p_al[i++];
-            Product = Product.FromArrayList((ArrayList)p_al[i++]);
-
-            return this;
+            this.Id = (int)p_al[i++];
+            this.Quantity = (int)p_al[i++];
+            this.Product.FromArrayList((ArrayList)p_al[i++]);
         }
 
         //Methods ---------------------------------------------------------------------------------
@@ -474,29 +433,25 @@ namespace Models
             $"{Price}"};
             return stringlist;
         }
-        #nullable enable
-        public ArrayList ToArrayList(ArrayList? p_al){
-            if(p_al == null){p_al = new ArrayList();}
+        public ArrayList ToArrayList(){
+            var al = new ArrayList();
 
-            p_al.Add(Id);
-            p_al.Add(Name);
-            p_al.Add(Description);
-            p_al.Add(Category);
-            p_al.Add(Price);
+            al.Add(Id);
+            al.Add(Name);
+            al.Add(Description);
+            al.Add(Category);
+            al.Add(Price);
 
-            return p_al;
+            return al;
         }
-        #nullable disable
-        public Product FromArrayList(ArrayList p_al){
+        public void FromArrayList(ArrayList p_al){
             int i = 0;
 
-            Id = (int)p_al[i++];
-            Name = (string)p_al[i++];
-            Description = (string)p_al[i++];
-            Category = (string)p_al[i++];
-            Price = (decimal)p_al[i++];
-
-            return this;
+            this.Id = (int)p_al[i++];
+            this.Name = (string)p_al[i++];
+            this.Description = (string)p_al[i++];
+            this.Category = (string)p_al[i++];
+            this.Price = (decimal)p_al[i++];
         }
     }
 
@@ -536,9 +491,8 @@ namespace Models
             $"Phone: {Phone}"};
             return stringlist;
         }
-        #nullable enable
-        public ArrayList ToArrayList(ArrayList? p_al){
-            if(p_al == null){p_al = new ArrayList();}
+        public ArrayList ToArrayList(){
+            var p_al = new ArrayList();
 
             p_al.Add(Id);
             p_al.Add(Username);
@@ -548,17 +502,14 @@ namespace Models
 
             return p_al;
         }
-        #nullable disable
-        public User FromArrayList(ArrayList p_al){
+        public void FromArrayList(ArrayList p_al){
             int i = 0;
 
-            Id = (int)p_al[i++];
-            Username = (string)p_al[i++];
-            Password = (string)p_al[i++];
-            Email = (string)p_al[i++];
-            Phone = (string)p_al[i++];
-
-            return this;
+            this.Id = (int)p_al[i++];
+            this.Username = (string)p_al[i++];
+            this.Password = (string)p_al[i++];
+            this.Email = (string)p_al[i++];
+            this.Phone = (string)p_al[i++];
         }
     }
 }

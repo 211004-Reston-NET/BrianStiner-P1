@@ -1,6 +1,6 @@
 @*This displays text boxes to enter Name, Address, Phone, and Email for a new Product.*@
 @using Models;
-@model Customer
+@model Customer;
 
 <h1 class="text-center">Edit Customer</h1>
 <form asp-action="Edit">
@@ -30,7 +30,7 @@
         </div>
 
         <div class="d-grid gap-2">
-            <button type="submit" class="btn btn-lg btn-primary" value="Edit">Submit</button>
+            <form class="form-control" method="POST" action="/Customer/Edit"><button type="submit" class="btn btn-lg btn-primary">Submit</button></form>
         </div>
     </div>
 </form>

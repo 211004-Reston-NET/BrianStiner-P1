@@ -11,8 +11,10 @@ namespace Models
         /// <returns>{$"name:{name}","phone:{phone}","color:{color}"}</returns>
         List<string> ToStringList();
 
-        #nullable enable
-        ArrayList ToArrayList(ArrayList? al = null);
+
+        ArrayList ToArrayList();
+        void FromArrayList(ArrayList al);
+
     }
 
 }

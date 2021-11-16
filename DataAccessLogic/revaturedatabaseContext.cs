@@ -155,6 +155,8 @@ namespace DataAccessLogic
 
             modelBuilder.Entity<Order>(entity =>
             {
+                entity.ToTable("Orders");
+
                 entity.Property(e => e.Id).HasColumnName("Id");
 
                 entity.Property(e => e.CustomerId).HasColumnName("CustomerId");

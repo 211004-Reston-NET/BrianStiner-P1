@@ -58,6 +58,7 @@ namespace DataAccessLogic
             _context.SaveChanges();
         }
         public void Delete(LineItem p_IC){
+            p_IC = Get(p_IC);
             _context.Remove(p_IC);
             _context.SaveChanges();
         }
@@ -73,19 +74,115 @@ namespace DataAccessLogic
         //Method GetAll:
         // Class parameter. Overloaded 5 times. Uses Linq to grab all classes from the database.
         public List<Customer> GetAll(Customer p_IC){
-            return _context.Customers.ToList();
+            var i = (from c in _context.Customers
+                    select new Customer
+                    {
+                        Id = c.Id,
+                        Name = c.Name,
+                        Phone = c.Phone,
+                        Email = c.Email,
+                        Address = c.Address,
+                        Orders = (from o in _context.Orders
+                                where o.CustomerId == c.Id
+                                select new Order
+                                {
+                                    Id = o.Id,
+                                    CustomerId = o.CustomerId,
+                                    Address = o.Address,
+                                    Active = o.Active,
+                                    LineItems = (from li in _context.LineItems
+                                                where li.OrderId == o.Id
+                                                select new LineItem
+                                                {
+                                                    Id = li.Id,
+                                                    OrderId = li.OrderId,
+                                                    ProductId = li.ProductId,
+                                                    Quantity = li.Quantity,
+                                                    Product = (from p in _context.Products
+                                                            where p.Id == li.ProductId
+                                                            select new Product
+                                                            {
+                                                                Id = p.Id,
+                                                                Name = p.Name,
+                                                                Description = p.Description,
+                                                                Category = p.Category,
+                                                                Price = p.Price,
+                                                            }).FirstOrDefault()
+                                                }).ToList()
+                                }).ToList()
+                    }).ToList();
+            return i;
+
         }
         public List<Store> GetAll(Store p_IC){
-            return _context.Stores.ToList();   
+            var stores = (from s in _context.Stores
+                          select new Store
+                          {
+                              Id = s.Id,
+                              Name = s.Name,
+                              Address = s.Address,
+                              Inventory = (from i in _context.Inventory
+                                           where i.StoreId == s.Id
+                                           select new InventoryItem
+                                           {
+                                                Id = i.Id,
+                                                StoreId = i.StoreId,
+                                                ProductId = i.ProductId,
+                                                Quantity = i.Quantity,
+                                                Product = (from p in _context.Products
+                                                            where p.Id == i.ProductId
+                                                            select new Product
+                                                            {
+                                                                Id = p.Id,
+                                                                Name = p.Name,
+                                                                Description = p.Description,
+                                                                Category = p.Category,
+                                                                Price = p.Price,
+                                                            }).FirstOrDefault()
+                                             }).ToList()
+                            }).ToList();
+            return stores;
         }
         public List<Order> GetAll(Order p_IC){
-            return _context.Orders.ToList();  
+            var orders =   (from o in _context.Orders
+                            select new Order
+                            {
+                                Id = o.Id,
+                                CustomerId = o.CustomerId,
+                                Address = o.Address,
+                                Active = o.Active,
+                                LineItems = (from li in _context.LineItems
+                                              where li.OrderId == o.Id
+                                              select new LineItem
+                                              {
+                                                   Id = li.Id,
+                                                   OrderId = li.OrderId,
+                                                   ProductId = li.ProductId,
+                                                   Quantity = li.Quantity,
+                                                   Product = (from p in _context.Products
+                                                              where p.Id == li.ProductId
+                                                              select new Product
+                                                              {
+                                                                   Id = p.Id,
+                                                                   Name = p.Name,
+                                                                   Description = p.Description,
+                                                                   Category = p.Category,
+                                                                   Price = p.Price,
+                                                              }).FirstOrDefault()
+                                              }).ToList()
+                            }).ToList();
+            return orders;
         }                                     
         public List<LineItem> GetAll(LineItem p_IC){
-            return _context.LineItems.ToList();
+            return _context.LineItems.Include(li => li.Product).Include(li => li.Order).ToList();
+        }
+        public List<InventoryItem> GetAll(InventoryItem p_IC){
+            var inv = _context.Inventory.Include(i => i.Product).Include(i => i.Store).ToList();
+            return inv;
         }                                                     
         public List<Product> GetAll(Product p_IC){
-            return _context.Products.ToList();
+            var pro = _context.Products.ToList();
+            return pro;
         }
         public List<User> GetAll(User p_IC){
             return _context.Users.ToList();
@@ -94,22 +191,25 @@ namespace DataAccessLogic
         // Method Get. 
         // Matches ID to an entry in the database. Grabs all info from the database and returns it as a class.
         public Customer Get(Customer p_IC){
-            return _context.Customers.Where(x => x.Id == p_IC.Id).FirstOrDefault();  
+            return GetAll(p_IC).Where(x => x.Id == p_IC.Id).FirstOrDefault();  
         }
         public Store Get(Store p_IC){
-            return _context.Stores.Where(x => x.Id == p_IC.Id).FirstOrDefault();
+            return GetAll(p_IC).Where(x => x.Id == p_IC.Id).FirstOrDefault();
         }
         public Order Get(Order p_IC){
-            return _context.Orders.Where(x => x.Id == p_IC.Id).FirstOrDefault();
+            return GetAll(p_IC).Where(x => x.Id == p_IC.Id).FirstOrDefault();
         }
         public LineItem Get(LineItem p_IC){
-            return _context.LineItems.Where(x => x.Id == p_IC.Id).FirstOrDefault();
+            return GetAll(p_IC).Where(x => x.Id == p_IC.Id).FirstOrDefault();
+        }
+        public InventoryItem Get(InventoryItem p_IC){
+            return GetAll(p_IC).Where(x => x.Id == p_IC.Id).FirstOrDefault();
         }
         public Product Get(Product p_IC){
-            return _context.Products.Where(x => x.Id == p_IC.Id).FirstOrDefault();
+            return GetAll(p_IC).Where(x => x.Id == p_IC.Id).FirstOrDefault();
         }
         public User Get(User p_IC){
-            return _context.Users.Where(x => x.Id == p_IC.Id).FirstOrDefault();
+            return GetAll(p_IC).Where(x => x.Id == p_IC.Id).FirstOrDefault();
         }
 
         // Method Update:

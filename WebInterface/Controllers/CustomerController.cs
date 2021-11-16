@@ -44,10 +44,10 @@ namespace WebInterface.Controllers
                 return RedirectToAction("Index");
             }}
             ModelState.AddModelError("", "Entered Values are invalid");
-            return Create();
+            return RedirectToAction(nameof(Create));
         }
 
-        [HttpGet("Delete/{id}")]
+        [HttpGet("Customer/Delete/{id}")]
         public IActionResult Delete(int? Id)
         {
             if (Id == null){return NotFound();}
@@ -61,11 +61,10 @@ namespace WebInterface.Controllers
         public IActionResult Select(int? Id)                            //View the whole customer
         {
             if (Id == null){return NotFound();}
-            return View( _BL.Get( new Customer((int)Id) ).ToArrayList(null) );
+            return View( _BL.Get( new Customer((int)Id) ).ToArrayList() );
         }
 
-
-        [HttpGet("Edit/{id}")]
+        [HttpGet("Customer/Edit/{id}")]
         public IActionResult Edit(int? Id)                              //Edit the customer
         {
             if (Id == null){return NotFound();}
@@ -74,15 +73,15 @@ namespace WebInterface.Controllers
 
             return View(customer);
         }
-        [HttpPost]
+        [HttpPost("Customer/Edit/{id}")]
         public IActionResult Edit(Customer p_customer)
         {
             if (ModelState.IsValid){
                 _BL.Update(p_customer);
-                return Select(p_customer.Id);
+                return RedirectToAction(nameof(Select), new { Id = p_customer.Id });
             }
             ModelState.AddModelError("", "Entered Values are invalid");
-            return Edit(p_customer.Id);
+            return RedirectToAction(nameof(Edit), new { Id = p_customer.Id });
         }
             
 
@@ -100,14 +99,16 @@ namespace WebInterface.Controllers
                 return Select(p_customer.Id);
             }
             ModelState.AddModelError("", "Entered Values are invalid");
-            return AddOrder(p_customer.Id);
+            return RedirectToAction(nameof(AddOrder), new { Id = p_customer.Id });
         }
+
 
         public IActionResult Purchase(int? Id){                         //add order to customer
             if (Id == null){return NotFound();}
             var customer = _BL.Get(new Customer((int)Id));
             //_BL.TransactOrders(customer);
-            return Select(customer.Id);
+            if (customer == null){return NotFound();}
+            return View(customer);
         }
 
 
