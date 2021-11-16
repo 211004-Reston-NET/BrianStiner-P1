@@ -220,7 +220,7 @@ namespace Models
         public string Address { get; set; }
 
         [Required]
-        public bool Active { get; set; }
+        public bool? Active { get; set; }
         
         [NotMapped]
         public decimal Total { get => CalculateTotalPrice(); set => Total = value; }

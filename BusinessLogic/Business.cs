@@ -38,7 +38,7 @@ namespace BusinessLogic
         public void TransactOrders(Customer c, Store s){
             bool orderFailure = false;
             foreach(Order o in  c.Orders){
-                if(o.Active){
+                if((bool)o.Active){
                 foreach(LineItem li in o.LineItems){
                     if(s.Inventory.Find(inv => inv.Product.Id == li.Product.Id) != null){                               // if it exists,
                     if(s.Inventory.Find(inv => inv.Product.Id == li.Product.Id).Quantity >= li.Quantity){               // if it has enough,

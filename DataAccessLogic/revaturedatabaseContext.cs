@@ -70,6 +70,39 @@ namespace DataAccessLogic
                     .HasConstraintName("FK_Customer_Order");
             });
 
+            modelBuilder.Entity<Store>(entity =>
+            {
+                entity.ToTable("Store");
+
+                entity.Property(e => e.Id).HasColumnName("Id");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("name");
+
+                entity.Property(e => e.Address)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("address");
+
+                entity.Property(e => e.Expenses)
+                    .HasColumnType("decimal(19, 2)")
+                    .HasColumnName("expenses");
+
+                entity.Property(e => e.Revenue)
+                    .HasColumnType("decimal(19, 2)")
+                    .HasColumnName("revenue");
+                
+                entity.HasMany(d => d.Inventory)
+                    .WithOne(p => p.Store)
+                    .HasForeignKey(d => d.StoreId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Store__StoreId__1CF15040");
+            });
+            
             modelBuilder.Entity<InventoryItem>(entity =>
             {
                 entity.ToTable("Inventory");
@@ -180,35 +213,16 @@ namespace DataAccessLogic
                     .HasForeignKey(d => d.ProductId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Product__Produc__1B0907CE");
+                
+                entity.HasMany(d => d.Inventory)
+                    .WithOne(p => p.Product)
+                    .HasForeignKey(d => d.ProductId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Product__Produc__1BFD2C07");
             });
 
 
-            modelBuilder.Entity<Store>(entity =>
-            {
-                entity.ToTable("Store");
-
-                entity.Property(e => e.Id).HasColumnName("Id");
-
-                entity.Property(e => e.Address)
-                    .IsRequired()
-                    .HasMaxLength(50)
-                    .IsUnicode(false)
-                    .HasColumnName("address");
-
-                entity.Property(e => e.Expenses)
-                    .HasColumnType("decimal(19, 2)")
-                    .HasColumnName("expenses");
-
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(50)
-                    .IsUnicode(false)
-                    .HasColumnName("name");
-
-                entity.Property(e => e.Revenue)
-                    .HasColumnType("decimal(19, 2)")
-                    .HasColumnName("revenue");
-            });
+            
 
             modelBuilder.Entity<User>(entity =>
             {

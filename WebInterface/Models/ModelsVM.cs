@@ -74,7 +74,7 @@ namespace WebInterface.Models{
         public OrderVM(Order order){
             Id = order.Id;
             Address = order.Address;
-            Active = order.Active;
+            Active = (bool)order.Active;
             Total = order.Total;
         }
 

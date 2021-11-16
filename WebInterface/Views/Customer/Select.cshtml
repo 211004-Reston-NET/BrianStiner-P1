@@ -25,11 +25,11 @@
         <td>@customer.TotalSpent</td>
         @if(customer.Orders.Count > 0){<tr class="table-primary">
         @foreach(var order in customer.Orders){
-            <td>@if(@order.Active){<label>Active</label>}</td>
+            <td>@if(@order.Active == true){<label>Active</label>}</td>
             <td>@order.Id</td>
             <td>@order.Total</td>
             <td><form method="POST"> @Html.ActionLink("", "Order/Delete",   new{id=order.Id}, new{@class="btn btn-outline-danger btn-lg"})      </form></td>
-            <td><form method="GET">  @Html.ActionLink("", "Order/Edit",     new{id=order.Id}, new{@class="btn btn-outline-info btn-lg"})        </form></td>
+            <td><form method="GET">  @Html.ActionLink("", "Order/Edit",     new{id=order.Id}, new{@class="btn btn-outline-info btn-lg"})       </form></td>
             if(order.LineItems.Count > 0){<tr class="table-secondary">
             @foreach (var item in order.LineItems){
                 <td>@item.Id</td>
