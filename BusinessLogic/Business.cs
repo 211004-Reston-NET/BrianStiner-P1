@@ -19,20 +19,20 @@ namespace BusinessLogic
         }
 
         // Store buying All orders from distributor and adding to inventory
-        public void TransactOrders(Store s){
-            foreach(Order o in  s.Orders){
-                if(o.Active){
-                foreach(LineItem li in o.LineItems){
-                    s.Expenses += li.Total*.7M;                                                                     //Stores get a discount from the distributor
-                    if(s.Inventory.Find(inv => inv.Id == li.Id) != null){                                           //Does it exist?
-                    s.Inventory.Find(inv => inv.Product.Id == li.Product.Id).Quantity += li.Quantity;               //Add if it does by merging
-                    }else{s.Inventory.Add(li);}                                                                     //Add if it doesn't by adding
-                }
-                }   
-                o.Active = false;
-            }
-            Update(s);
-        }
+        // public void TransactOrders(Store s){
+        //     foreach(Order o in  s.Orders){
+        //         if(o.Active){
+        //         foreach(LineItem li in o.LineItems){
+        //             s.Expenses += li.Total*.7M;                                                                     //Stores get a discount from the distributor
+        //             if(s.Inventory.Find(inv => inv.Id == li.Id) != null){                                           //Does it exist?
+        //             s.Inventory.Find(inv => inv.Product.Id == li.Product.Id).Quantity += li.Quantity;               //Add if it does by merging
+        //             }else{s.Inventory.Add(li);}                                                                     //Add if it doesn't by adding
+        //         }
+        //         }   
+        //         o.Active = false;
+        //     }
+        //     Update(s);
+        // }
         
         // Customer buying from store, increasing store revanue, decreasing store inventory, and increasing customer's totalspent
         public void TransactOrders(Customer c, Store s){

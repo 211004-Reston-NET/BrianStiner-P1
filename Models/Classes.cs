@@ -126,25 +126,30 @@ namespace Models
         //Variables -----------------------------------------------------------------------------
         [Key]
         public int Id { get; set; }
+
         [Required]
         [StringLength(50, ErrorMessage = "Name must be less than 50 characters.")]
         [RegularExpression(@"^[a-zA-Z,'.\s]+$", ErrorMessage = "Name must be letters, spaces, apostrophes,  periods, and commas only.")]
         public string Name { get; set; }
+
         [StringLength(50, ErrorMessage = "Address must be less than 50 characters.")]
         [RegularExpression(@"^[0-9]{1,6}[a-zA-Z\s,.'-]+[0-9]{5}$", ErrorMessage = "Address must be have a street number, street name, and zip code.")]
         [Required]
         public string Address { get; set; }
+
         [Required]
         [DataType(DataType.Currency), Column(TypeName = "decimal(18, 2)")]
         public decimal Expenses { get; set; }
+
         [Required]
         [DataType(DataType.Currency), Column(TypeName = "decimal(18, 2)")]
         public decimal Revenue { get; set; }
-        public virtual List<LineItem> Inventory { get; set; }
-        public virtual List<Order> Orders { get; set; }
 
         [NotMapped]
         public decimal Profit {get => Revenue-Expenses; set => Profit = value;}
+
+        public virtual List<InventoryItem> Inventory { get; set; }
+
         
         //Constructors ---------------------------------------------------------------------------
         public Store(){}
@@ -152,9 +157,8 @@ namespace Models
         public Store(string p_name, string p_address){this.Name = p_name;this.Address = p_address; }
         public Store(string p_name, string p_address, decimal p_expenses):this(p_name, p_address){this.Expenses = p_expenses;}
         public Store(string p_name, string p_address, decimal p_expenses, decimal p_revenue):this(p_name, p_address, p_expenses){this.Revenue = p_revenue;}
-        public Store(string p_name, string p_address, decimal p_expenses, decimal p_revenue, List<LineItem> p_Inventory):this(p_name, p_address, p_expenses, p_revenue){this.Inventory = p_Inventory;}
-        public Store(string p_name, string p_address, decimal p_expenses, decimal p_revenue, List<LineItem> p_Inventory, List<Order> p_Orders):this(p_name, p_address, p_expenses, p_revenue, p_Inventory){this.Orders = p_Orders;}
-        public Store(string p_name, string p_address, decimal p_expenses, decimal p_revenue, List<LineItem> p_Inventory, List<Order> p_Orders, int p_id):this(p_name, p_address, p_expenses, p_revenue, p_Inventory, p_Orders){this.Id = p_id;}
+        public Store(string p_name, string p_address, decimal p_expenses, decimal p_revenue, List<InventoryItem> p_Inventory):this(p_name, p_address, p_expenses, p_revenue){this.Inventory = p_Inventory;}
+        public Store(string p_name, string p_address, decimal p_expenses, decimal p_revenue, List<InventoryItem> p_Inventory, int p_id):this(p_name, p_address, p_expenses, p_revenue, p_Inventory){this.Id = p_id;}
        
         //Interface --------------------------------------------------------------------------------
         public string Identify() { return "Storefront"; }
@@ -178,7 +182,7 @@ namespace Models
             p_al.Add(Expenses);
             p_al.Add(Revenue);
             p_al.Add(Profit);
-            foreach(var item in Orders){p_al.Add(item.ToArrayList(p_al));}
+            foreach(var item in Inventory){p_al.Add(item.ToArrayList(p_al));}
             return p_al;
         }
         #nullable disable
@@ -192,9 +196,9 @@ namespace Models
             Revenue = (decimal)p_al[i++];
             Profit = (decimal)p_al[i++];
             while(i < p_al.Count){
-                Order order = new Order();
-                order.FromArrayList((ArrayList)p_al[i++]);
-                Orders.Add(order);
+                InventoryItem inv = new InventoryItem();
+                inv.FromArrayList((ArrayList)p_al[i++]);
+                Inventory.Add(inv);
             }
 
             return this;
@@ -207,6 +211,8 @@ namespace Models
         //Variables -----------------------------------------------------------------------------
         [Key]
         public int Id { get; set; }
+        [Required]
+        public int CustomerId { get; set; }
 
         [Required]
         [RegularExpression(@"^[0-9]{1,6}[a-zA-Z\s,.'-]+[0-9]{5}$", ErrorMessage = "Address must be have a street number, street name, and zip code.")]
@@ -221,6 +227,7 @@ namespace Models
 
 
         public virtual List<LineItem> LineItems { get; set; }
+        public virtual Customer Customer { get; set; }
 
         //Constructors ---------------------------------------------------------------------------
         public Order(){}
@@ -283,6 +290,8 @@ namespace Models
         public int Id { get; set; }
         [Required]
         public int ProductId { get; set; }
+        [Required]
+        public int OrderId { get; set; }
 
         [Required]
         [Range(1, 999, ErrorMessage = "Quantity must be between 1 and 999.")]
@@ -292,6 +301,7 @@ namespace Models
         public decimal Total { get => CalculateTotalPrice(); set => Total = value; }
 
         public virtual Product Product { get; set; }
+        public virtual Order Order { get; set; }
 
 
         //Constructors ---------------------------------------------------------------------------
@@ -343,29 +353,105 @@ namespace Models
             return Product.Price * Quantity;
         }
     }
+    public partial class InventoryItem : IClass
+    {
+        //Variables -----------------------------------------------------------------------------
+        [Key]
+        public int Id { get; set; }
+        [Required]
+        public int ProductId { get; set; }
+        [Required]
+        public int StoreId { get; set; }
+
+        [Required]
+        [Range(1, 999, ErrorMessage = "Quantity must be between 1 and 999.")]
+        public int Quantity { get; set; }
+
+        [NotMapped]
+        public decimal Total { get => CalculateTotalPrice(); set => Total = value; }
+
+        public virtual Product Product { get; set; }
+        public virtual Store Store { get; set; }
+
+
+        //Constructors ---------------------------------------------------------------------------
+        public InventoryItem(){}
+        public InventoryItem(int p_Id):this(){this.Id = p_Id;}
+        public InventoryItem(int p_Id, int p_quantity):this(p_Id){this.Quantity = p_quantity;}
+        public InventoryItem(int p_Id, int p_quantity, decimal p_total):this(p_Id, p_quantity){this.Total = p_total;}
+        public InventoryItem(int p_Id, int p_quantity, decimal p_total, Product p_product):this(p_Id, p_quantity, p_total){this.Product = p_product;}
+        public InventoryItem(int p_Id, int p_quantity, Product p_product):this(p_Id, p_quantity){this.Product = p_product;}
+
+
+
+        //Interface --------------------------------------------------------------------------------
+        public string Identify() { return "InventoryItem"; }
+        public List<string> ToStringList(){
+            List<string> stringlist = new List<string>();
+            stringlist.Add($"{Quantity}");
+            stringlist.Add($"{Total}");
+            return stringlist;
+        
+       
+        }
+        #nullable enable //Turns itself into a list of variables    
+        public ArrayList ToArrayList(ArrayList? p_al){
+            if(p_al == null){p_al = new ArrayList();}
+
+            p_al.Add(Id);
+            p_al.Add(Quantity);
+            p_al.Add(Total);
+            p_al.Add(Product.ToArrayList(p_al));
+
+            return p_al;
+        }
+        #nullable disable
+        //Unpacks itself from a list of variables
+        public InventoryItem FromArrayList(ArrayList p_al){
+            int i = 0;
+
+            Id = (int)p_al[i++];
+            Quantity = (int)p_al[i++];
+            Total = (decimal)p_al[i++];
+            Product = Product.FromArrayList((ArrayList)p_al[i++]);
+
+            return this;
+        }
+
+        //Methods ---------------------------------------------------------------------------------
+        public decimal CalculateTotalPrice(){
+            return Product.Price * Quantity;
+        }
+    }
 
     public partial class Product : IClass
     {
         //Variables -----------------------------------------------------------------------------
         [Key]
         public int Id { get; set; }
+
         [Required]
         [RegularExpression(@"^[a-zA-Z\s,.'-]+$", ErrorMessage = "Name must be letters, spaces, commas, periods, and apostrophes.")]
         [StringLength(50, ErrorMessage = "Name must be less than 50 characters.")]
         public string Name { get; set; }
+
         [Required]
         [StringLength(50, ErrorMessage = "Description must be less than 50 characters.")]
         [RegularExpression(@"^[a-zA-Z\s,.%&$#'-]+$", ErrorMessage = "Description must be letters, percents, dollars, hashtags, commas, periods, and apostrophes.")]
         public string Description { get; set; }
+
         [Required]
         [StringLength(50, ErrorMessage = "Category must be less than 50 characters.")]
         [RegularExpression(@"^[a-zA-Z\s,.'-]+$", ErrorMessage = "Category must be letters, commas, periods, and apostrophes.")]
         public string Category { get; set; }
+
         [Required]
         [Column(TypeName = "decimal(18,2)"), DataType(DataType.Currency)]
         public decimal Price { get; set; }
 
-        public virtual List<LineItem> LineItems { get; set; }
+        public List<LineItem> LineItems { get; set; }
+        public List<InventoryItem> Inventory { get; set; }
+
 
         //Constructors ---------------------------------------------------------------------------
         public Product(){}
@@ -414,7 +500,10 @@ namespace Models
         }
     }
 
+
+    
     //User has a username. Maybe an email and phone number. A password is only stored in the database through the business layer.
+    //User is a vestigial limb now becuase I don't have time to make it work.
     public partial class User : IClass
     {
         //Variables -----------------------------------------------------------------------------

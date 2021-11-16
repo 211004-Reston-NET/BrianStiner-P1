@@ -106,7 +106,7 @@ namespace WebInterface.Controllers
         public IActionResult Purchase(int? Id){                         //add order to customer
             if (Id == null){return NotFound();}
             var customer = _BL.Get(new Customer((int)Id));
-            _BL.TransactOrders(customer);
+            //_BL.TransactOrders(customer);
             return Select(customer.Id);
         }
 
