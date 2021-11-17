@@ -54,7 +54,7 @@ jobs:
       
     # Unit Testing
     - name: Test
-      run: dotnet test / --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+      run: dotnet test /UnitTests --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
       
     #Build and have scanner analyze our code
     #When running the long run command make sure you edit the filepaths to the correct one in your repository
