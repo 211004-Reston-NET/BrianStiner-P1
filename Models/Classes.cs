@@ -14,7 +14,7 @@ namespace Models
         [StringLength(50, ErrorMessage = "Name must be less than 50 characters.")] 
         [Required]
         public string Name { get; set; }
-        [RegularExpression(@"^[0-9]{1,6}[a-zA-Z\s,.'-]+[0-9]{5}$", ErrorMessage = "Address must be letters, numbers, commas, apostrophes, periods, or spaces.")]
+        [RegularExpression(@"^[0-9]{1,6}[a-zA-Z\s,.'-]+[0-9]{5}$", ErrorMessage = "Address must be have a street number, street name, and zip code.")]
         [StringLength(50, ErrorMessage = "Address must be less than 50 characters.")]
         [Required]
         public string Address { get; set; }
@@ -35,7 +35,7 @@ namespace Models
         public virtual List<Order> Orders { get; set; }
 
         //Constructors ---------------------------------------------------------------------------
-        public Customer(){TotalSpent = 0; Orders = new List<Order>();}
+        public Customer(){Orders = new List<Order>();}
         public Customer(int p_Id):this(){ Id = p_Id; }
         public Customer( string p_name):this(){this.Name = p_name;}
         public Customer( string p_name, string p_address):this( p_name){this.Address = p_address;}
@@ -219,6 +219,7 @@ namespace Models
             var al = new ArrayList();
 
             al.Add(Id);
+            al.Add(CustomerId);
             al.Add(Address);
             al.Add(Active);
             foreach(var item in LineItems){al.Add(item.ToArrayList());}
@@ -229,6 +230,7 @@ namespace Models
             int i = 0;
 
             Id = (int)p_al[i++];
+            CustomerId = (int)p_al[i++];
             Address = (string)p_al[i++];
             Active = (bool)p_al[i++];
             for(int j = i; j < p_al.Count; j++){
@@ -296,6 +298,8 @@ namespace Models
             var p_al = new ArrayList();
 
             p_al.Add(Id);
+            p_al.Add(ProductId);
+            p_al.Add(OrderId);
             p_al.Add(Quantity);
             p_al.Add(Product.ToArrayList());
 
@@ -306,6 +310,8 @@ namespace Models
             int i = 0;
 
             Id = (int)p_al[i++];
+            ProductId = (int)p_al[i++];
+            OrderId = (int)p_al[i++];
             Quantity = (int)p_al[i++];
             this.Product.FromArrayList((ArrayList)p_al[i++]);
         }
@@ -363,6 +369,8 @@ namespace Models
             var al = new ArrayList();
 
             al.Add(Id);
+            al.Add(ProductId);
+            al.Add(StoreId);
             al.Add(Quantity);
             al.Add(Product.ToArrayList());
 
@@ -373,6 +381,8 @@ namespace Models
             int i = 0;
 
             this.Id = (int)p_al[i++];
+            this.ProductId = (int)p_al[i++];
+            this.StoreId = (int)p_al[i++];
             this.Quantity = (int)p_al[i++];
             this.Product.FromArrayList((ArrayList)p_al[i++]);
         }

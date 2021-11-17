@@ -5,6 +5,7 @@ using WebInterface.Models;
 using BusinessLogic;
 using Models;
 using System.Linq;
+using System.Collections;
 
 namespace WebInterface.Controllers
 {
@@ -27,29 +28,34 @@ namespace WebInterface.Controllers
             return View(_BL.GetAll(new Order()));
         }
 
-        public IActionResult Create()
-        {
-            return View();
-        }
+
         [HttpPost]
-        public IActionResult Create(OrderVM p_OrderVM)
+        public IActionResult Create(Order p_Order)
         {
             if (ModelState.IsValid){
-            if (_BL.IsValidAddress(p_OrderVM.Address)){
-                _BL.Add(p_OrderVM.MapToModel());
-                return RedirectToAction("Index");
+            if (_BL.IsValidAddress(p_Order.Address)){
+                _BL.Add(p_Order);
+                return RedirectToAction("Select", "Customer", new { id = p_Order.CustomerId });
             }}
             ModelState.AddModelError("", "Entered Values are invalid");
-            return Create();
+            return Index();
         }
 
         public IActionResult Delete(int? Id)
         {
             if (Id == null){return NotFound();}
-
+            var order = _BL.Get(new Order() { Id = (int)Id });
+            order.Customer = _BL.Get(new Customer() { Id = order.CustomerId });
             _BL.Delete(new Order((int)Id));
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Select", "Customer", new { Id = order.CustomerId });
+        }
+
+
+        public IActionResult Select(int? Id)                            //View the whole customer
+        {
+            if (Id == null){return NotFound();}
+            return View( _BL.Get( new Order((int)Id) ).ToArrayList() );
         }
 
         public IActionResult Edit(int? Id)
@@ -70,8 +76,29 @@ namespace WebInterface.Controllers
             ModelState.AddModelError("", "Entered Values are invalid");
             return Edit(p_Order.Id);
         }
-            
 
+
+        public IActionResult AddItem(int? Id)
+        {
+            if (Id == null){return NotFound();}
+            ViewBag.Products = _BL.GetAll(new Product());
+            LineItem lineitem = new LineItem();
+            lineitem.OrderId = (int)Id; lineitem.Order = _BL.Get(new Order((int)Id));
+            return View(lineitem);
+        }
+
+        [HttpPost("Order/AddItem")]
+        public IActionResult AddItem(LineItem p_LineItem)
+        {
+            p_LineItem.Product  = _BL.Get(new Product() { Id = p_LineItem.ProductId });
+            p_LineItem.Order    = _BL.Get(new Order() { Id = p_LineItem.OrderId });
+            if (_BL.IsValidLineItem(p_LineItem)){
+                _BL.Add(p_LineItem);
+                return RedirectToAction("Select", "Order", new { Id = p_LineItem.OrderId });
+            }
+            ModelState.AddModelError("", "Entered Values are invalid");
+            return AddItem(p_LineItem.OrderId);
+        }
 
 
 

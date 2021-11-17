@@ -1,7 +1,6 @@
 @*This displays text boxes to enter Name, Address, Phone, and Email for a new Customer.*@
-@{
-}
-@model WebInterface.Models.CustomerVM
+@using Models;
+@model Customer
 
 <h1 class="text-center">Add New Customer</h1>
 <form asp-action="Create">
@@ -30,6 +29,7 @@
             <label asp-for="Email">Email address</label>
             <span asp-validation-for="Email"></span>
         </div>
+
         <div class="d-grid gap-2">
             <button type="submit" class="btn btn-lg btn-primary" value="Create">Submit</button>
         </div>

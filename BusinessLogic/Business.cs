@@ -35,8 +35,9 @@ namespace BusinessLogic
         // }
         
         // Customer buying from store, increasing store revanue, decreasing store inventory, and increasing customer's totalspent
-        public void TransactOrders(Customer c, Store s){
+        public void TransactOrders(Customer c){
             bool orderFailure = false;
+            Store s = _repo.Get(new Store(1));
             foreach(Order o in  c.Orders){
                 if((bool)o.Active){
                 foreach(LineItem li in o.LineItems){
@@ -47,7 +48,7 @@ namespace BusinessLogic
                         c.TotalSpent += li.Total;                                                                       // add to customer spent                                               
                     }else{orderFailure = true; break;} 
                 }   }     
-                o.Active = !orderFailure;
+                o.Active = orderFailure;
                 }}
             Update(c);
             Update(s);
@@ -158,6 +159,20 @@ namespace BusinessLogic
             if(IsValidName(p.Name)){
             if(IsValidPrice(p.Price)){
                 return true;}}
+            return false;
+        }
+        public bool IsValidOrder(Order o)
+        {
+            if((bool)o.Active){
+            if(o.Customer != null){
+            if(o.LineItems.Count > 0){
+                return true;}}}       
+
+            return false;
+        }
+        public bool IsValidLineItem(LineItem li){
+            if(IsValidQuantity(li.Quantity)){
+                return true;}
             return false;
         }
 

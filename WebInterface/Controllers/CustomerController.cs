@@ -36,15 +36,16 @@ namespace WebInterface.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Create(CustomerVM p_customerVM)
+        public IActionResult Create(Customer p_customer)
         {
             if (ModelState.IsValid){
-            if(_BL.IsValidCustomer(p_customerVM.MapToModel())){
-                _BL.Add(p_customerVM.MapToModel());
+            if(_BL.IsValidCustomer(p_customer)){
+                _BL.Add(p_customer);
                 return RedirectToAction("Index");
             }}
-            ModelState.AddModelError("", "Entered Values are invalid");
-            return RedirectToAction(nameof(Create));
+            ModelState.AddModelError("", "Invalid Entrys");
+            return Create();
+
         }
 
         [HttpGet("Customer/Delete/{id}")]
@@ -81,34 +82,29 @@ namespace WebInterface.Controllers
                 return RedirectToAction(nameof(Select), new { Id = p_customer.Id });
             }
             ModelState.AddModelError("", "Entered Values are invalid");
-            return RedirectToAction(nameof(Edit), new { Id = p_customer.Id });
+            return Edit(p_customer.Id);
         }
             
 
-        public IActionResult AddOrder(int? Id){                         //add order to customer
-            if (Id == null){return NotFound();}
-            var customer = _BL.Get(new Customer((int)Id));
-            if (customer == null){return NotFound();}
-            return View(customer);
-        }
-        [HttpPost]
-        public IActionResult AddOrder(Customer p_customer)
+        public IActionResult AddOrder(int? Id)          //add new fresh order to customer
         {
-            if (ModelState.IsValid){
-                _BL.Update(p_customer);
-                return Select(p_customer.Id);
-            }
-            ModelState.AddModelError("", "Entered Values are invalid");
-            return RedirectToAction(nameof(AddOrder), new { Id = p_customer.Id });
+            Order order = new Order();
+            order.CustomerId = (int)Id;
+            order.Customer = _BL.Get(new Customer((int)Id));
+            order.Active = true;
+            order.Address = order.Customer.Address;
+            order.LineItems = new List<LineItem>();
+            _BL.Add(order);
+            return RedirectToAction("Select", new { id = Id });
         }
 
 
-        public IActionResult Purchase(int? Id){                         //add order to customer
+        public IActionResult Purchase(int? Id){                        
             if (Id == null){return NotFound();}
             var customer = _BL.Get(new Customer((int)Id));
-            //_BL.TransactOrders(customer);
             if (customer == null){return NotFound();}
-            return View(customer);
+            _BL.TransactOrders(customer);
+            return RedirectToAction("Select", new { id = Id });
         }
 
 

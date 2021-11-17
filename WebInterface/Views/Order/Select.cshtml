@@ -1,0 +1,54 @@
+@using System.Collections
+@using Models
+@model ArrayList 
+@{Order order = new Order(); order.FromArrayList(Model);} 
+
+<h1 class="text-center">Viewing the Whole Order</h1>
+<table border="2", class="table table-hover">
+<tr>
+    <th scope="col">Active?</th>
+    <th scope="col">Id</th>
+    <th scope="col">Total</th>
+    <th scope="col">Address</th>
+    <th scope="col"> </th> 
+    <th scope="col"> </th>   
+</tr>
+<tr class="table-light">
+    <td>@order.Active</td>
+    <td>@order.Id</td>
+    <td>@order.Total</td>
+    <td>@order.Address</td>
+    
+
+</tr>
+</table>
+<table border="2", class="table table-hover">
+    @if(order.LineItems.Count > 0){
+    <tr>
+        <th scope="col"></th>
+        <th scope="col">Id</th>
+        <th scope="col">Total</th>
+        <th scope="col">Contents</th>
+        <th scope="col">Delete</th>
+        <th scope="col">Edit</th>
+    </tr>
+<div class="text-center">
+    <form class="text-center" method="GET">  @Html.ActionLink("Edit Order", "Edit",           new{id=order.Id}, new{@class="btn btn-success btn-lg"})      </form>
+</div>
+    @foreach(var lineitem in order.LineItems){
+    <tr class="table-light">
+        <td></td>
+        <td>@lineitem.Id</td>
+        <td>@lineitem.Total</td>
+        <td>@lineitem.Quantity @lineitem.Product.Name</td>
+        <td><form method="POST"> @Html.ActionLink("", "Delete", "LineItem", new{id=lineitem.Id}, new{@class="btn btn-outline-danger btn-lg"})       </form></td>
+        <td><form method="GET">  @Html.ActionLink("", "Edit",   "LineItem", new{id=lineitem.Id}, new{@class="btn btn-outline-info btn-lg"})         </form></td>
+    </tr>
+    }}
+</table>
+<div class="d-grid gap-2">
+
+    <form class="text-center" method="GET">  @Html.ActionLink("Add Item", "AddItem",                new{id=order.Id},         new{@class="btn btn-warning btn-lg"})      </form>
+
+    <form class="text-center" method="GET">  @Html.ActionLink("Done Viewing", "Select", "Customer", new{id=order.CustomerId}, new{@class="btn btn-primary btn-lg"})      </form>
+</div>

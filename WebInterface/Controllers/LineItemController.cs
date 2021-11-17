@@ -50,10 +50,16 @@ namespace WebInterface.Controllers
         public IActionResult Delete(int? Id)
         {
             if (Id == null){return NotFound();}
-
+            LineItem lineitem = _BL.Get(new LineItem() { Id = (int)Id });
             _BL.Delete(new LineItem((int)Id));
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Select", "Order", new { Id = lineitem.OrderId });
+        }
+
+        public IActionResult Select(int? Id)                            //View the whole customer
+        {
+            if (Id == null){return NotFound();}
+            return View( _BL.Get( new LineItem((int)Id) ).ToArrayList() );
         }
 
         public IActionResult Edit(int? Id)

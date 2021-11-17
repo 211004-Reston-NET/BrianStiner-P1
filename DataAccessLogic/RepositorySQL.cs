@@ -27,11 +27,14 @@ namespace DataAccessLogic
             _context.SaveChanges();
         }
         public void Add(Order p_IC){
-            _context.Add(p_IC);
+            _context.Entry(p_IC).State = EntityState.Added;
+            _context.Entry(p_IC.Customer).State = EntityState.Modified;
             _context.SaveChanges();
         }
-        public void Add(LineItem p_IC){
-            _context.Add(p_IC);
+        public void Add(LineItem p_IC){ 
+            _context.Entry(p_IC).State = EntityState.Added;
+            _context.Entry(p_IC.Order).State = EntityState.Modified;
+            _context.Entry(p_IC.Product).State = EntityState.Unchanged;
             _context.SaveChanges();
         }
         public void Add(Product p_IC){
@@ -54,7 +57,13 @@ namespace DataAccessLogic
             _context.SaveChanges();
         }
         public void Delete(Order p_IC){
-            _context.Remove(p_IC);
+            foreach(LineItem lineItem in p_IC.LineItems){
+                _context.Entry(lineItem).State = EntityState.Deleted;
+                _context.Entry(lineItem.Product).State = EntityState.Unchanged;
+                _context.Entry(lineItem.Order).State = EntityState.Modified;
+            }
+            _context.SaveChanges();
+            _context.Entry(p_IC).State = EntityState.Deleted;
             _context.SaveChanges();
         }
         public void Delete(LineItem p_IC){
@@ -82,6 +91,7 @@ namespace DataAccessLogic
                         Phone = c.Phone,
                         Email = c.Email,
                         Address = c.Address,
+                        TotalSpent = c.TotalSpent,
                         Orders = (from o in _context.Orders
                                 where o.CustomerId == c.Id
                                 select new Order
@@ -156,7 +166,7 @@ namespace DataAccessLogic
                                               select new LineItem
                                               {
                                                    Id = li.Id,
-                                                   OrderId = li.OrderId,
+                                                   OrderId = o.Id,
                                                    ProductId = li.ProductId,
                                                    Quantity = li.Quantity,
                                                    Product = (from p in _context.Products
@@ -215,7 +225,16 @@ namespace DataAccessLogic
         // Method Update:
         // Class parameter. Overloaded 5 times. Used to update a class in the database.
         public void Update(Customer p_IC){
-            _context.Update(p_IC);
+            _context.Entry(p_IC).State = EntityState.Modified;
+            foreach (var order in p_IC.Orders)
+            {
+                _context.Entry(order).State = EntityState.Modified;
+                foreach (var lineItem in order.LineItems)
+                {
+                    _context.Entry(lineItem).State = EntityState.Modified;
+                    _context.Entry(lineItem.Product).State = EntityState.Detached;
+                }
+            }
             _context.SaveChanges();
         }
         public void Update(Store p_IC){

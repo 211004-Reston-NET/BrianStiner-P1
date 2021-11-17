@@ -51,6 +51,12 @@ namespace WebInterface.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        public IActionResult Select(int? Id)                            //View the whole customer
+        {
+            if (Id == null){return NotFound();}
+            return View( _BL.Get( new Store((int)Id) ).ToArrayList() );
+        }
+
         public IActionResult Edit(int? Id)
         {
             if (Id == null){return NotFound();}
