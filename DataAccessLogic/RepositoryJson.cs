@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
@@ -227,6 +228,41 @@ namespace DataAccessLogic
         }
 
         public List<User> Search(User p_IC, string p_Search)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Add(InventoryItem p_IC)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Delete(InventoryItem p_IC)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<InventoryItem> GetAll(InventoryItem p_IC)
+        {
+            throw new NotImplementedException();
+        }
+
+        public InventoryItem Get(InventoryItem p_IC)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Update(InventoryItem p_IC)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<InventoryItem> Search(InventoryItem p_IC, string p_Search)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ArrayList SearchAll(string p_Search)
         {
             throw new NotImplementedException();
         }

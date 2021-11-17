@@ -119,7 +119,7 @@ namespace Models
 
         
         //Constructors ---------------------------------------------------------------------------
-        public Store(){}
+        public Store(){Inventory = new List<InventoryItem>();}
         public Store(int p_Id){this.Id = p_Id;}
         public Store(string p_name, string p_address){this.Name = p_name;this.Address = p_address; }
         public Store(string p_name, string p_address, decimal p_expenses):this(p_name, p_address){this.Expenses = p_expenses;}
@@ -129,8 +129,7 @@ namespace Models
        
         //Interface --------------------------------------------------------------------------------
         public string Identify() { return "Storefront"; }
-        public List<string> ToStringList(){return ToStringList(false);}
-        public List<string> ToStringList(bool p_showpastorders){
+        public List<string> ToStringList(){
             List<string> stringlist = new List<string>() {
             $"{Id}",
             $"{Name}",
@@ -140,7 +139,6 @@ namespace Models
             $"{Profit}",};
             return stringlist;
         }
-        #nullable enable
         public ArrayList ToArrayList(){
             var al = new ArrayList();
 
@@ -149,12 +147,10 @@ namespace Models
             al.Add(Address);
             al.Add(Expenses);
             al.Add(Revenue);
-            al.Add(Profit);
             foreach(var item in Inventory){al.Add(item.ToArrayList());}
 
             return al;
         }
-        #nullable disable
         public void FromArrayList(ArrayList p_al){
             int i = 0;
 
@@ -163,11 +159,11 @@ namespace Models
             Address = (string)p_al[i++];
             Expenses = (decimal)p_al[i++];
             Revenue = (decimal)p_al[i++];
-            Profit = (decimal)p_al[i++];
             for(int j = i; j < p_al.Count; j++){
                 ArrayList al = (ArrayList)p_al[j];
                 InventoryItem item = new InventoryItem();
                 item.FromArrayList(al);
+                item.Store = this;
                 Inventory.Add(item);
             }
         }

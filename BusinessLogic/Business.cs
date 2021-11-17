@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Models;
 using DataAccessLogic;
 using System.Text.RegularExpressions;
+using System.Collections;
 
 namespace BusinessLogic
 {
@@ -238,6 +239,20 @@ namespace BusinessLogic
             return _repo.Search(p_IC, p_search);
         }
 
+        //InventoryItem
+        public void Add(InventoryItem p_IC){
+            _repo.Add(p_IC);       
+        }
+        public List<InventoryItem> GetAll(InventoryItem p_IC){
+            return _repo.GetAll(p_IC);
+        }
+        public void Delete(InventoryItem p_IC){
+            _repo.Delete(p_IC);       
+        }
+        public List<InventoryItem> Search(InventoryItem p_IC, string p_search){
+            return _repo.Search(p_IC, p_search);
+        }
+
 
         //Product
         public void Add(Product p_IC){
@@ -282,6 +297,9 @@ namespace BusinessLogic
         public LineItem Get(LineItem p_IC){
             return _repo.Get(p_IC);
         }
+        public InventoryItem Get(InventoryItem p_IC){
+            return _repo.Get(p_IC);
+        }
         public Product Get(Product p_IC){
             return _repo.Get(p_IC);
         }
@@ -303,6 +321,9 @@ namespace BusinessLogic
         public void Update(LineItem p_IC){
             _repo.Update(p_IC);
         }
+        public void Update(InventoryItem p_IC){
+            _repo.Update(p_IC);
+        }
         public void Update(Product p_IC){
             _repo.Update(p_IC);
         }
@@ -310,6 +331,8 @@ namespace BusinessLogic
             _repo.Update(p_IC);
         }
 
-        
+        public ArrayList SearchAll(string p_search){
+            return _repo.SearchAll(p_search);
+        }
     }
 }

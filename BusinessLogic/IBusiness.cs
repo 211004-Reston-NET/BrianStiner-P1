@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Models;
 
@@ -46,6 +47,7 @@ namespace BusinessLogic
         void Add(Store p_IC);
         void Add(Order p_IC);
         void Add(LineItem p_IC);
+        void Add(InventoryItem p_IC);
         void Add(Product p_IC);
 
 
@@ -55,6 +57,7 @@ namespace BusinessLogic
         List<Store> GetAll(Store p_IC);
         List<Order> GetAll(Order p_IC);
         List<LineItem> GetAll(LineItem p_IC);
+        List<InventoryItem> GetAll(InventoryItem p_IC);
         List<Product> GetAll(Product p_IC);
 
 
@@ -63,6 +66,7 @@ namespace BusinessLogic
         void Delete(Store p_IC);
         void Delete(Order p_IC);
         void Delete(LineItem p_IC);
+        void Delete(InventoryItem p_IC);
         void Delete(Product p_IC);
 
         /// <summary> These return a Class from the database that matches the Id </summary>
@@ -70,6 +74,7 @@ namespace BusinessLogic
         Store Get(Store p_IC);
         Order Get(Order p_IC);
         LineItem Get(LineItem p_IC);
+        InventoryItem Get(InventoryItem p_IC);
         Product Get(Product p_IC);
 
         /// <summary> These will pass a Class to the database for updating. </summary>
@@ -77,6 +82,7 @@ namespace BusinessLogic
         void Update(Store p_IC);
         void Update(Order p_IC);
         void Update(LineItem p_IC);
+        void Update(InventoryItem p_IC);
         void Update(Product p_IC);
 
 
@@ -87,7 +93,12 @@ namespace BusinessLogic
         List<Store> Search(Store p_IC, string p_search);
         List<Order> Search(Order p_IC, string p_search);
         List<LineItem> Search(LineItem p_IC, string p_search);
+        List<InventoryItem> Search(InventoryItem p_IC, string p_search);
         List<Product> Search(Product p_IC, string p_search);
 
+
+        /// <summary> These will Search all and return arraylist from database. </summary>
+        /// <returns>It will return an arraylist</returns>
+        ArrayList SearchAll(string p_search);
     }
 }

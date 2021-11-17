@@ -1,0 +1,43 @@
+@using Models
+@model InventoryItem 
+@*Maybe insert Orders.Count and forloop through so the ArrayList doesn't contain an ArrayList'*@
+
+<h1 class="text-center">Add new LineItem to Order</h1>
+<form asp-action="AddItem" method="POST">
+    <table border="2", class="table table-hover">
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Name</th>
+        <th scope="col">Description</th>
+        <th scope="col">Category</th>
+        <th scope="col">Price</th>  
+    </tr>
+
+    @foreach (var product in ViewBag.Products)
+        {<tr class="table-light">
+            @foreach(var item in product.ToStringList())
+            {<td>@item</td>}
+        </tr>}
+    </table>
+    
+    <div class="form-group form-center">
+        <label asp-for="Quantity">Quantity:</label>
+        <input type="number" class="form-control" asp-for="Quantity" name="Quantity" placeholder="Quantity">
+        <span asp-validation-for="Quantity"></span>
+    </div>
+
+    <div class="form-group form-center">
+        <label asp-for="ProductId">ProductId:</label>
+        <input type="number" class="form-control" asp-for="ProductId" name="ProductId" placeholder="ProductId">
+        <span asp-validation-for="ProductId"></span>
+    </div>
+
+    <input type="hidden" asp-for="StoreId" name="StoreId" placeholder="StoreId">
+    
+    <div class="form-group form-center">
+        <input type="submit" class="btn btn-primary" value="Add Item">
+    </div>
+
+</form>
+    
+

@@ -1,0 +1,14 @@
+@using System.Collections
+@using System.Collections.Generic
+@model ArrayList
+@{ArrayList al = new ArrayList(); al = Model;}  
+
+<div> </div>
+<table class="table">
+    <tr></tr>
+    @foreach (var strlis in al)
+    {<tr>
+    @foreach(var item in (List<string>)strlis){<td>@item</td>}
+    </tr>}
+</table>
+

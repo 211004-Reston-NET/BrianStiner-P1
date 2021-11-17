@@ -51,7 +51,7 @@ namespace WebInterface.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult Select(int? Id)                            //View the whole customer
+        public IActionResult Select(int? Id)                            //View the whole Store
         {
             if (Id == null){return NotFound();}
             return View( _BL.Get( new Store((int)Id) ).ToArrayList() );
@@ -77,7 +77,24 @@ namespace WebInterface.Controllers
             return Index();
         }
 
+        public IActionResult AddItem(int? Id)
+        {
+            if (Id == null){return NotFound();}
+            ViewBag.Products = _BL.GetAll(new Product());
+            InventoryItem inventoryItem = new InventoryItem();
+            inventoryItem.StoreId = (int)Id; inventoryItem.Store = _BL.Get(new Store((int)Id));
+            return View(inventoryItem);
+        }
 
+        [HttpPost("Store/AddItem")]
+        public IActionResult AddItem(InventoryItem p_inventoryItem)
+        {
+            p_inventoryItem.Product  = _BL.Get(new Product() { Id = p_inventoryItem.ProductId });
+            p_inventoryItem.Store    = _BL.Get(new Store() { Id = p_inventoryItem.StoreId });
+            p_inventoryItem.Store.Inventory.FirstOrDefault(x => x.ProductId == p_inventoryItem.ProductId).Quantity += p_inventoryItem.Quantity;
+            _BL.Update(p_inventoryItem.Store);
+            return RedirectToAction("Select", "Store", new { Id = p_inventoryItem.StoreId });
+        }
 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

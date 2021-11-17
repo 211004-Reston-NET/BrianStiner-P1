@@ -1,0 +1,63 @@
+@using System.Collections
+@using Models
+@model ArrayList   
+@*Maybe insert Inventory.Count and forloop through so the ArrayList doesn't contain an ArrayList'*@
+@{Store store = new Store(); store.FromArrayList(Model);} @*//rename and distribute a Select view, restore the store edit *@
+
+<h1 class="text-center">Viewing the Whole Store</h1>
+<table border="2", class="table table-hover">
+
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Name</th>
+        <th scope="col">Address</th>
+        <th scope="col">Expenses</th>
+        <th scope="col">Revenue</th> 
+        <th scope="col">Profit</th>
+    </tr>
+
+    <div class="text-center">
+        <form class="text-center" method="GET">  @Html.ActionLink("Edit Store", "Edit",  new{id=store.Id}, new{@class="btn btn-success btn-lg"})      </form>
+    </div>
+
+    <tr class="table-light">
+        <td>@store.Id</td>
+        <td>@store.Name</td>
+        <td>@store.Address</td>
+        <td>@store.Expenses</td>
+        <td>@store.Revenue</td>
+        <td>@store.Profit</td>
+    </tr>
+
+</table>
+
+<div class="text-center">  
+    <form class="text-center" method="GET">   @Html.ActionLink("Add Item", "AddItem",  new{id=store.Id}, new{@class="btn btn-warning btn-lg"})      </form>
+</div>
+
+@if(store.Inventory.Count > 0){
+<table border="2", class="table table-hover">
+    
+    <tr>
+        <th scope="col"></th>
+        <th scope="col">Id</th>
+        <th scope="col">Total</th>
+        <th scope="col">Contents</th>
+        <th scope="col">Delete</th>
+    </tr>
+
+    @foreach(var item in store.Inventory.OrderByDescending(o => o.Id).ToList()){
+    <tr class="table-light">
+        <td></td>
+        <td>@item.Id</td>
+        <td>@item.Total</td>
+        <td>@item.Quantity @item.Product.Name</td>
+        <td><form method="POST"> @Html.ActionLink("", "Delete",   "InventoryItem", new{id=item.Id}, new{@class="btn btn-outline-danger btn-lg"})      </form></td>
+    </tr> 
+    }
+</table>
+}
+
+<div class="d-grid gap-2">
+    <form class="text-center" method="GET">   @Html.ActionLink("Done Viewing", "Index",  new{id=0},           new{@class="btn btn-primary btn-lg"})      </form>
+</div>

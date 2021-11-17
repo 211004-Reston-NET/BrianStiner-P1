@@ -37,6 +37,12 @@ namespace DataAccessLogic
             _context.Entry(p_IC.Product).State = EntityState.Unchanged;
             _context.SaveChanges();
         }
+        public void Add(InventoryItem p_IC){
+            _context.Entry(p_IC).State = EntityState.Added;
+            _context.Entry(p_IC.Store).State = EntityState.Modified;
+            _context.Entry(p_IC.Product).State = EntityState.Unchanged;
+            _context.SaveChanges();
+        }
         public void Add(Product p_IC){
             _context.Add(p_IC);
             _context.SaveChanges();
@@ -59,7 +65,7 @@ namespace DataAccessLogic
         public void Delete(Order p_IC){
             foreach(LineItem lineItem in p_IC.LineItems){
                 _context.Entry(lineItem).State = EntityState.Deleted;
-                _context.Entry(lineItem.Product).State = EntityState.Unchanged;
+                _context.Entry(lineItem.Product).State = EntityState.Detached;
                 _context.Entry(lineItem.Order).State = EntityState.Modified;
             }
             _context.SaveChanges();
@@ -67,8 +73,15 @@ namespace DataAccessLogic
             _context.SaveChanges();
         }
         public void Delete(LineItem p_IC){
-            p_IC = Get(p_IC);
-            _context.Remove(p_IC);
+            _context.Entry(p_IC).State = EntityState.Deleted;
+            _context.Entry(p_IC.Product).State = EntityState.Detached;
+            _context.SaveChanges();
+        }
+        public void Delete(InventoryItem p_IC){
+            _context.Entry(p_IC.Store).State = EntityState.Detached;
+            _context.Entry(p_IC).State = EntityState.Deleted;
+            _context.Entry(p_IC.Product).State = EntityState.Detached;
+            
             _context.SaveChanges();
         }
         public void Delete(Product p_IC){
@@ -131,15 +144,17 @@ namespace DataAccessLogic
                               Id = s.Id,
                               Name = s.Name,
                               Address = s.Address,
+                              Revenue = s.Revenue,
+                              Expenses = s.Expenses,
                               Inventory = (from i in _context.Inventory
                                            where i.StoreId == s.Id
                                            select new InventoryItem
                                            {
                                                 Id = i.Id,
-                                                StoreId = i.StoreId,
+                                                StoreId = s.Id,
                                                 ProductId = i.ProductId,
                                                 Quantity = i.Quantity,
-                                                Product = (from p in _context.Products
+                                                Product = ( from p in _context.Products
                                                             where p.Id == i.ProductId
                                                             select new Product
                                                             {
@@ -238,7 +253,11 @@ namespace DataAccessLogic
             _context.SaveChanges();
         }
         public void Update(Store p_IC){
-            _context.Update(p_IC);
+            _context.Entry(p_IC).State = EntityState.Modified;
+            foreach (var inv in p_IC.Inventory)
+            {
+                _context.Entry(inv).State = EntityState.Modified;
+            }
             _context.SaveChanges();
         }
         public void Update(Order p_IC){
@@ -246,6 +265,10 @@ namespace DataAccessLogic
             _context.SaveChanges();
         }
         public void Update(LineItem p_IC){
+            _context.Update(p_IC);
+            _context.SaveChanges();
+        }
+        public void Update(InventoryItem p_IC){
             _context.Update(p_IC);
             _context.SaveChanges();
         }
@@ -272,6 +295,9 @@ namespace DataAccessLogic
         public List<LineItem> Search(LineItem p_IC, string p_Search){
             return _context.LineItems.Where(IC => IC.Quantity.ToString().Contains(p_Search) || IC.Product.Name.Contains(p_Search) || IC.Product.Description.Contains(p_Search)|| IC.Product.Category.Contains(p_Search)).ToList();
         }
+        public List<InventoryItem> Search(InventoryItem p_IC, string p_Search){
+            return _context.Inventory.Where(IC => IC.Product.Name.Contains(p_Search) || IC.Product.Description.Contains(p_Search) || IC.Product.Category.Contains(p_Search) || IC.Store.Name.Contains(p_Search) || IC.Store.Address.Contains(p_Search)).ToList();
+        }
         public List<Product> Search(Product p_IC, string p_Search){
             return _context.Products.Where(IC => IC.Name.Contains(p_Search) || IC.Description.Contains(p_Search) || IC.Category.Contains(p_Search) || IC.Price.ToString().Contains(p_Search)).ToList();
         }
@@ -283,12 +309,13 @@ namespace DataAccessLogic
         //Search all
         public ArrayList SearchAll(string p_Search){
             ArrayList list = new ArrayList();
-            list.Add(Search(new Customer(), p_Search));
-            list.Add(Search(new Store(), p_Search));
-            list.Add(Search(new Order(), p_Search));
-            list.Add(Search(new LineItem(), p_Search));
-            list.Add(Search(new Product(), p_Search));
-            list.Add(Search(new User(), p_Search));
+            
+            foreach(var item in Search(new Customer(), p_Search)){list.Add(item.ToStringList());}
+            foreach(var item in Search(new Store(), p_Search)){list.Add(item.ToStringList());}
+            foreach(var item in Search(new Order(), p_Search)){list.Add(item.ToStringList());}
+            foreach(var item in Search(new Product(), p_Search)){list.Add(item.ToStringList());}
+            foreach(var item in Search(new User(), p_Search)){list.Add(item.ToStringList());}
+
             return list;
         }
     }
