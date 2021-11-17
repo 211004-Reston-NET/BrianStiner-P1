@@ -199,7 +199,7 @@ namespace BusinessLogic
         public void Add(Store p_IC){
             _repo.Add(p_IC);       
         }
-    public List<Store> GetAll(Store p_IC){
+        public List<Store> GetAll(Store p_IC){
             return _repo.GetAll(p_IC);
         }
         public void Delete(Store p_IC){

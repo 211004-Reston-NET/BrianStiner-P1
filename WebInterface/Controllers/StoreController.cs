@@ -96,7 +96,6 @@ namespace WebInterface.Controllers
             return RedirectToAction("Select", "Store", new { Id = p_inventoryItem.StoreId });
         }
 
-
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

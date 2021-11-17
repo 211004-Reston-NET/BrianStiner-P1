@@ -11,7 +11,6 @@ COPY DataAccessLogic/*.csproj DataAccessLogic/
 COPY Models/*.csproj Models/
 COPY UnitTests/*.csproj UnitTests/
 COPY WebInterface/*.csproj WebInterface/
-COPY Toolbox/*.csproj Toolbox/
 
 RUN cd WebInterface && dotnet restore
 

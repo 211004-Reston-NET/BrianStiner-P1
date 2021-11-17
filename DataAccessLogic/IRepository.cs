@@ -72,6 +72,7 @@ namespace DataAccessLogic
         void Update(M.Product p_IC);
         void Update(M.User p_IC);
 
+
         /// <summary>
         /// These will return all Classes that match the search criteria
         /// </summary>
