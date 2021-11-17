@@ -1,14 +1,15 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using Models;
+using Xunit;
 
 namespace UnitTests{
     [TestClass]
     public class OrderIdentifiesAsOrder{
-        [TestMethod]
+        [Fact]
         public void Order_Equals_Order(){
             Order order = new Order();
-            Assert.AreEqual(order.Identify(), "Order");
+            Xunit.Assert.Equal(order.Identify(), "Order");
         }
     }
 }

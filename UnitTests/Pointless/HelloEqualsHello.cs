@@ -1,15 +1,16 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using Xunit;
 
 namespace UnitTests
 {
     [TestClass]
     public class HelloEqualsHello
     {
-        [TestMethod]
+        [Fact]
         public void HelloEqualsHelloTest()
         {
-            Assert.AreEqual("Hello", "Hello");
+            Xunit.Assert.Equal("Hello", "Hello");
         }
     }
 }

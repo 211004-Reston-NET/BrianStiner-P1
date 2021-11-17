@@ -1,15 +1,16 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using Xunit;
 
 namespace UnitTests
 {
     [TestClass]
     public class TwoEqualsTwo
     {
-        [TestMethod]
+        [Fact]
         public void TwoEqualsTwoTest()
         {
-            Assert.AreEqual(2, 2);
+            Xunit.Assert.Equal(2, 2);
         }
     }
 }

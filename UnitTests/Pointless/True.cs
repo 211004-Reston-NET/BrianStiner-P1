@@ -1,15 +1,16 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using Xunit;
 
 namespace UnitTests
 {
     [TestClass]
     public class True
     {
-        [TestMethod]
+        [Fact]
         public void TrueTest()
         {
-            Assert.IsTrue(true);
+            Xunit.Assert.True(true);
         }
     }
 }

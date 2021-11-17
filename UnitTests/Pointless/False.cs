@@ -1,15 +1,16 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using Xunit;
 
 namespace UnitTests
 {
     [TestClass]
     public class False
     {
-        [TestMethod]
+        [Fact]
         public void FalseTest()
         {
-            Assert.IsFalse(false);
+            Xunit.Assert.False(false);
         }
     }
 }

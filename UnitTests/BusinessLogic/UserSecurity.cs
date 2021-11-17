@@ -85,7 +85,7 @@ namespace UnitTests
                 // Assert
                 Xunit.Assert.False(result);
                 Xunit.Assert.False(result2);
-                Xunit.Assert.True(result2);
+                Xunit.Assert.True(result3);
         }
 
 

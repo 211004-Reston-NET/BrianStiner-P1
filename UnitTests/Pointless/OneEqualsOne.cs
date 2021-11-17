@@ -1,13 +1,14 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using Models;
+using Xunit;
 
 namespace UnitTests{
     [TestClass]
     public class OneEqualsOne{
-        [TestMethod]
+        [Fact]
         public void one_equals_one_true(){
-            Assert.AreEqual(1, 1);
+            Xunit.Assert.Equal(1, 1);
         }
     }
 }

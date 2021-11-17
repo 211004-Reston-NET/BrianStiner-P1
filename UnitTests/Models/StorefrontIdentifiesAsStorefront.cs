@@ -1,14 +1,15 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using Models;
+using Xunit;
 
 namespace UnitTests{
     [TestClass]
     public class StorefrontIdentifiesAsStorefront{
-        [TestMethod]
+        [Fact]
         public void Storefront_Equals_Storefront(){
             Store store = new Store();
-            Assert.AreEqual(store.Identify(), "Storefront");
+            Xunit.Assert.Equal(store.Identify(), "Store");
         }
     }
 }

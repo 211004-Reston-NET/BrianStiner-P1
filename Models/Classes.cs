@@ -128,7 +128,7 @@ namespace Models
         public Store(string p_name, string p_address, decimal p_expenses, decimal p_revenue, List<InventoryItem> p_Inventory, int p_id):this(p_name, p_address, p_expenses, p_revenue, p_Inventory){this.Id = p_id;}
        
         //Interface --------------------------------------------------------------------------------
-        public string Identify() { return "Storefront"; }
+        public string Identify() { return "Store"; }
         public List<string> ToStringList(){
             List<string> stringlist = new List<string>() {
             $"{Id}",

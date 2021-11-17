@@ -146,10 +146,10 @@ namespace DataAccessLogic
                               Address = s.Address,
                               Revenue = s.Revenue,
                               Expenses = s.Expenses,
-                              Inventory = (from i in _context.Inventory
-                                           where i.StoreId == s.Id
-                                           select new InventoryItem
-                                           {
+                              Inventory = ( from i in _context.Inventory
+                                            where i.StoreId == s.Id
+                                            select new InventoryItem
+                                            {
                                                 Id = i.Id,
                                                 StoreId = s.Id,
                                                 ProductId = i.ProductId,
@@ -176,24 +176,24 @@ namespace DataAccessLogic
                                 CustomerId = o.CustomerId,
                                 Address = o.Address,
                                 Active = o.Active,
-                                LineItems = (from li in _context.LineItems
-                                              where li.OrderId == o.Id
-                                              select new LineItem
-                                              {
-                                                   Id = li.Id,
-                                                   OrderId = o.Id,
-                                                   ProductId = li.ProductId,
-                                                   Quantity = li.Quantity,
-                                                   Product = (from p in _context.Products
-                                                              where p.Id == li.ProductId
-                                                              select new Product
-                                                              {
-                                                                   Id = p.Id,
-                                                                   Name = p.Name,
-                                                                   Description = p.Description,
-                                                                   Category = p.Category,
-                                                                   Price = p.Price,
-                                                              }).FirstOrDefault()
+                                LineItems = (   from li in _context.LineItems
+                                                where li.OrderId == o.Id
+                                                select new LineItem
+                                                {
+                                                    Id = li.Id,
+                                                    OrderId = o.Id,
+                                                    ProductId = li.ProductId,
+                                                    Quantity = li.Quantity,
+                                                    Product = ( from p in _context.Products
+                                                                where p.Id == li.ProductId
+                                                                select new Product
+                                                                {
+                                                                    Id = p.Id,
+                                                                    Name = p.Name,
+                                                                    Description = p.Description,
+                                                                    Category = p.Category,
+                                                                    Price = p.Price,
+                                                                }).FirstOrDefault()
                                               }).ToList()
                             }).ToList();
             return orders;

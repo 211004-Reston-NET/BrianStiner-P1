@@ -1,14 +1,15 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using Models;
+using Xunit;
 
 namespace UnitTests{
     [TestClass]
     public class LineItemIdentifiesAsLineItem{
-        [TestMethod]
+        [Fact]
         public void LineItem_Equals_LineItem(){
             LineItem li = new LineItem();
-            Assert.AreEqual(li.Identify(), "LineItem");
+            Xunit.Assert.Equal(li.Identify(), "LineItem");
         }
     }
 }
